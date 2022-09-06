@@ -1,6 +1,6 @@
-package build.source.meta.source.jdbc;
+package build.source.meta.jdbc;
 
-import build.source.meta.source.BuildSource;
+import build.source.meta.BuildSource;
 import lombok.Getter;
 import lombok.Setter;
 

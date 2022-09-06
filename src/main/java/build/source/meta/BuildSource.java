@@ -1,4 +1,4 @@
-package build.source.meta.source;
+package build.source.meta;
 
 /**
  * 构建数据源

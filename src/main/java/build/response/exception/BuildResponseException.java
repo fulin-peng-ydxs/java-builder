@@ -1,4 +1,4 @@
-package build.response.meta;
+package build.response.exception;
 
 /**
  * 构建响应异常

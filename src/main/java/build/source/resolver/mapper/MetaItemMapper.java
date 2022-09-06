@@ -1,4 +1,4 @@
-package build.source.meta.resolver.mapper;
+package build.source.resolver.mapper;
 
 import build.source.data.enums.NullType;
 import build.source.data.enums.PrimaryKey;

@@ -1,5 +1,4 @@
-package build.source.meta.source.jdbc;
-import lombok.AllArgsConstructor;
+package build.source.meta.jdbc;
 import lombok.Getter;
 import lombok.Setter;
 import java.sql.Driver;

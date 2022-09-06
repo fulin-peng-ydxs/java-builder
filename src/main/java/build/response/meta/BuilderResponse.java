@@ -1,9 +1,8 @@
 package build.response.meta;
 
-import build.builder.meta.BuildResult;
-
+import build.builder.data.BuildResult;
+import build.response.exception.BuildResponseException;
 import java.io.OutputStream;
-
 /**
  * 构建处理器
  *
@@ -16,7 +15,7 @@ public abstract class BuilderResponse {
      * 2022/9/5 0005-09:56
      * @author pengfulin
     */
-    public  void buildResponse(BuildResult buildResult) throws BuildResponseException{
+    public  void buildResponse(BuildResult buildResult) throws BuildResponseException {
         throw new BuildResponseException("Override this method");
     };
 

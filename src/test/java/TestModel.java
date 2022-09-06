@@ -1,7 +1,7 @@
 import build.source.data.BuildMeta;
-import build.source.meta.resolver.exception.BuildSourceResolverException;
-import build.source.meta.resolver.jdbc.JdbcBuildSourceResolver;
-import build.source.meta.source.jdbc.JdbcBuildFileSource;
+import build.source.resolver.exception.BuildSourceResolverException;
+import build.source.resolver.jdbc.JdbcBuildSourceResolver;
+import build.source.meta.jdbc.JdbcBuildFileSource;
 import com.mysql.jdbc.Driver;
 import org.junit.Test;
 

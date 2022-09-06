@@ -1,6 +1,5 @@
-package build.source.meta.source.jdbc;
+package build.source.meta.jdbc;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import javax.sql.DataSource;

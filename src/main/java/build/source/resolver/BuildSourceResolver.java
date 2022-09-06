@@ -1,9 +1,9 @@
-package build.source.meta.resolver;
+package build.source.resolver;
 
 import build.source.data.BuildMeta;
-import build.source.meta.resolver.exception.BuildSourceResolverException;
-import build.source.meta.resolver.mapper.MetaItemMapper;
-import build.source.meta.source.BuildSource;
+import build.source.resolver.exception.BuildSourceResolverException;
+import build.source.resolver.mapper.MetaItemMapper;
+import build.source.meta.BuildSource;
 import java.util.Map;
 /**构建源解析器
  *

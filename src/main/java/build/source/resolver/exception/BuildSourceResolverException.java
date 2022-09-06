@@ -1,4 +1,4 @@
-package build.source.meta.resolver.exception;
+package build.source.resolver.exception;
 
 /**
  * 构建源解析异常

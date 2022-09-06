@@ -1,16 +1,16 @@
-package build.source.meta.resolver.jdbc;
+package build.source.resolver.jdbc;
 
 import build.source.data.BuildMeta;
 import build.source.data.BuildMetaItem;
 import build.source.data.enums.NullType;
 import build.source.data.enums.PrimaryKey;
-import build.source.meta.resolver.exception.BuildSourceResolverException;
-import build.source.meta.resolver.exception.JdbcBuildSourceResolverException;
-import build.source.meta.source.BuildSource;
-import build.source.meta.resolver.BuildSourceResolver;
-import build.source.meta.source.jdbc.JdbcBuildDataSource;
-import build.source.meta.source.jdbc.JdbcBuildFileSource;
-import build.source.meta.source.jdbc.JdbcBuildSource;
+import build.source.resolver.exception.BuildSourceResolverException;
+import build.source.resolver.exception.JdbcBuildSourceResolverException;
+import build.source.meta.BuildSource;
+import build.source.resolver.BuildSourceResolver;
+import build.source.meta.jdbc.JdbcBuildDataSource;
+import build.source.meta.jdbc.JdbcBuildFileSource;
+import build.source.meta.jdbc.JdbcBuildSource;
 import com.mysql.jdbc.MySQLConnection;
 import lombok.AllArgsConstructor;
 import java.sql.*;

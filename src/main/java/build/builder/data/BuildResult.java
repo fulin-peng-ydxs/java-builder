@@ -1,4 +1,4 @@
-package build.builder.meta;
+package build.builder.data;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
