@@ -1,5 +1,8 @@
-package build.builder.source;
-import lombok.Data;
+package build.builder.meta;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.io.OutputStream;
 import java.util.List;
 
@@ -7,7 +10,9 @@ import java.util.List;
  * @author peng_fu_lin
  * 2022-09-05 09:46
  */
-@Data
+@Setter
+@Getter
+@AllArgsConstructor
 public class BuildResult {
 
     private List<Byte[]> buildBytes;

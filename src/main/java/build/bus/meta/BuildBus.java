@@ -1,9 +1,9 @@
-package build.bus.source;
+package build.bus.meta;
 
-import build.builder.source.BuildResult;
-import build.builder.source.BuilderCoder;
-import build.datasource.source.BuildDataSource;
-import build.response.source.BuilderResponse;
+import build.builder.meta.BuildResult;
+import build.builder.meta.BuildCoder;
+import build.source.meta.source.BuildSource;
+import build.response.meta.BuilderResponse;
 import java.io.OutputStream;
 import java.util.List;
 /**
@@ -12,19 +12,19 @@ import java.util.List;
  * @author peng_fu_lin
  * 2022-09-02 15:58
  */
-public abstract class BuildBus {
+public class BuildBus {
 
-    private final List<BuilderCoder> builderCoders;
+    private final List<BuildCoder> buildCoders;
     private final List<BuilderResponse> builderResponses;
-    private final BuildDataSource builderDataSource;
+    private final BuildSource builderDataSource;
 
     /**初始化构建总线
      * 2022/9/2 0002-16:14
      * @author pengfulin
     */
-    public BuildBus(BuildDataSource builderDataSource,
-                      List<BuilderCoder> builderCoders, List<BuilderResponse> builderResponses){
-        this.builderCoders = builderCoders;
+    public BuildBus(BuildSource builderDataSource,
+                    List<BuildCoder> buildCoders, List<BuilderResponse> builderResponses){
+        this.buildCoders = buildCoders;
         this.builderResponses =builderResponses;
         this.builderDataSource=builderDataSource;
     }
@@ -32,19 +32,16 @@ public abstract class BuildBus {
     /**构建总线方法
      * 2022/9/2 0002-16:14
      * @author pengfulin
-     * @param builderClass 构建器
-     * @param builderDataSource 构建数据源
-     * @param outputStream 构建响应流
     */
-    public final void build(Class<? extends BuilderCoder> builderClass,
-                            BuildDataSource builderDataSource, OutputStream outputStream) throws BuildBusException {
+    public final void build(Class<? extends BuildCoder> builderClass,
+                            BuildSource builderDataSource, OutputStream outputStream) throws BuildBusException {
         try {
             if(builderDataSource==null)
                 builderDataSource=this.builderDataSource;
             //获取构建器
-            BuilderCoder builderCoder = getBuilderCoder(builderClass,builderDataSource);
+            BuildCoder buildCoder = getBuildCoder(builderClass,builderDataSource);
             //执行构建
-            BuildResult buildResult = builderCoder.buildCode(builderDataSource);
+            BuildResult buildResult = buildCoder.buildCode(builderDataSource);
             //获取构建处理器
             BuilderResponse builderResponse = getBuilderResponse(outputStream, buildResult);
             if(outputStream==null)
@@ -59,16 +56,14 @@ public abstract class BuildBus {
     /**获取适配的构建器
      * 2022/9/2 0002-16:45
      * @author pengfulin
-     * @param builderClass 构建器类型
-     * @param builderDataSource 构建数据源
     */
-    protected BuilderCoder getBuilderCoder(Class<? extends BuilderCoder> builderClass, BuildDataSource builderDataSource) throws BuildBusException{
-        for (BuilderCoder builderCoder : this.builderCoders) {
-            boolean isFind = builderClass == builderCoder.getClass();
-            if(isFind && builderCoder.isSupported(builderDataSource))
-                return builderCoder;
+    protected BuildCoder getBuildCoder(Class<? extends BuildCoder> builderClass, BuildSource buildSource) throws BuildBusException{
+        for (BuildCoder buildCoder : this.buildCoders) {
+            boolean isFind = builderClass == buildCoder.getClass();
+//            if(isFind && builderCoder.isSupported(builderDataSource))
+                return buildCoder;
         }
-        throw new BuildBusException("The builderCoder was not found or is not supported："+builderClass.getName());
+        throw new BuildBusException("The buildCoder was not found or is not supported："+builderClass.getName());
     }
 
     /**获取适配的构建响应器

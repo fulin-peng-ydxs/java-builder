@@ -1,6 +1,6 @@
-package build.response.source;
+package build.response.meta;
 
-import build.builder.source.BuildResult;
+import build.builder.meta.BuildResult;
 
 import java.io.OutputStream;
 
@@ -22,7 +22,6 @@ public abstract class BuilderResponse {
 
     /**响应方法：用于处理为字节数组的构建结果
      * 2022/9/5 0005-09:57
-     * @param outputStream 写入构建结果的响应流
      * @author pengfulin
     */
     public void buildResponse(BuildResult buildResult,OutputStream outputStream) throws BuildResponseException {
@@ -32,8 +31,6 @@ public abstract class BuilderResponse {
     /**是否支持处理此输出流的响应
      * 2022/9/5 0005-09:57
      * @author pengfulin
-     * @param outputStream 写入构建结果的响应流
-     * @param buildResult 构建的结果集
     */
     public abstract boolean  isSupported(OutputStream outputStream,BuildResult buildResult);
 }

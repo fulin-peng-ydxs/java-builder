@@ -1,4 +1,4 @@
-package build.datasource;
+package build.source.util;
 
 /**
  * 构建源工具
@@ -6,12 +6,6 @@ package build.datasource;
  * @author peng_fu_lin
  * 2022-09-05 11:13
  */
-public class BuildDataSourceUtil {
-
-
-
-
-
-
+public class BuildSourceUtil {
 
 }

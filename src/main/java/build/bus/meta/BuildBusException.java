@@ -1,4 +1,4 @@
-package build.bus.source;
+package build.bus.meta;
 
 /**
  * 构建总线异常

@@ -1,4 +1,4 @@
-package build.datasource.source;
+package build.source.meta.source;
 
 /**
  * 构建数据源
@@ -6,5 +6,4 @@ package build.datasource.source;
  * @author peng_fu_lin
  * 2022-09-02 16:00
  */
-public interface BuildDataSource {
-}
+public interface BuildSource { }
