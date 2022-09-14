@@ -6,12 +6,13 @@ package build.builder.meta.exception;
  * @author peng_fu_lin
  * 2022-09-06 15:35
  */
-public class BuildCoderException extends Exception{
-    public BuildCoderException(String message) {
+public class BuilderException extends Exception{
+
+    public BuilderException(String message) {
         super(message);
     }
 
-    public BuildCoderException(String message, Throwable cause) {
+    public BuilderException(String message, Throwable cause) {
         super(message, cause);
     }
 }

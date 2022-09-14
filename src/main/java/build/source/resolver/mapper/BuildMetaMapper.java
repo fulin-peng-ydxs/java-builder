@@ -4,12 +4,12 @@ import build.source.data.enums.NullType;
 import build.source.data.enums.PrimaryKey;
 
 /**
- * 元信息项模型映射
+ * BuildMeta信息映射
  *
  * @author peng_fu_lin
  * 2022-09-05 17:58
  */
-public interface MetaItemMapper {
+public interface BuildMetaMapper {
 
     String defaultTowMapperKey="YES";
 

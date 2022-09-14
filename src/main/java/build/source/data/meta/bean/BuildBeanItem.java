@@ -1,4 +1,4 @@
-package build.source.data;
+package build.source.data.meta.bean;
 
 import build.source.data.enums.NullType;
 import build.source.data.enums.PrimaryKey;
@@ -6,13 +6,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
-/**构建元数据项
+/**实体项数据模型
  * 2022/9/5 0005-14:36
  * @author pengfulin
 */
 @Setter
 @Getter
-public class BuildMetaItem {
+public class BuildBeanItem {
     /** 项名称*/
     private String fieldName;
     /** 项类型*/

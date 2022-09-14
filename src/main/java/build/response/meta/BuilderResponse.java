@@ -3,6 +3,8 @@ package build.response.meta;
 import build.builder.data.BuildResult;
 import build.response.exception.BuildResponseException;
 import java.io.OutputStream;
+import java.util.List;
+
 /**
  * 构建处理器
  *
@@ -11,25 +13,15 @@ import java.io.OutputStream;
  */
 public abstract class BuilderResponse {
 
-    /**响应方法：用于处理为输出流的构建结果
+    /**响应构建流数据
      * 2022/9/5 0005-09:56
      * @author pengfulin
     */
-    public  void buildResponse(BuildResult buildResult) throws BuildResponseException {
-        throw new BuildResponseException("Override this method");
-    };
-
-    /**响应方法：用于处理为字节数组的构建结果
-     * 2022/9/5 0005-09:57
-     * @author pengfulin
-    */
-    public void buildResponse(BuildResult buildResult,OutputStream outputStream) throws BuildResponseException {
-        buildResponse(buildResult);
-    };
+    public abstract void buildResponse(OutputStream outputStream,List<BuildResult> buildResults) throws BuildResponseException;
 
     /**是否支持处理此输出流的响应
      * 2022/9/5 0005-09:57
      * @author pengfulin
     */
-    public abstract boolean  isSupported(OutputStream outputStream,BuildResult buildResult);
+    public abstract boolean  isSupported(OutputStream outputStream);
 }
