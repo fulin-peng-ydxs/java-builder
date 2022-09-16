@@ -24,9 +24,9 @@ public class MethodMeta {
     /**方法参数*/
     private List<ParamMeta> methodParams;
     /**方法权限*/
-    private PermissionType methodPermission;
+    private PermissionType methodPermission=PermissionType.PUBLIC;
     /**方法类型*/
-    private MethodType methodType;
+    private MethodType methodType=MethodType.BASIS;
     /**方法内容*/
     private String methodContent;
     /**方法注释*/

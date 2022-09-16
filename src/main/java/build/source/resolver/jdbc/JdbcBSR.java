@@ -12,7 +12,7 @@ import java.sql.*;
  * @author peng_fu_lin
  * 2022-09-05 14:47
  */
-public abstract class JdbcBuildSourceResolver<T> extends BuildSourceResolver<T> {
+public abstract class JdbcBSR<T> extends BuildSourceResolver<T> {
 
     @Override
     public boolean isSupported(BuildSource builderDataSource,Class<?> resolverType) {

@@ -1,5 +1,6 @@
 package build.builder.util;
 
+import build.builder.data.classes.enums.ClassStructure;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.LinkedList;
@@ -27,5 +28,31 @@ public class ClassUtil{
             }
         }
         return paramTypes;
+    }
+
+
+    /**生成命名
+     * 2022/9/15 0015-15:49
+     * @author pengfulin
+    */
+    public static String getClassStructureName(String structureValue,String splitValue,
+                                               ClassStructure classStructure){
+        StringBuilder builder = new StringBuilder();
+        String[] split = structureValue.split(splitValue);
+        boolean isContinue=true;
+        for (int i = 0; i < split.length; i++) {
+            split[i]=split[i].trim();
+            if(classStructure!=ClassStructure.CLASS_DECLARE &&isContinue){
+                String lowerCase = split[i].toLowerCase();
+                split[i]= lowerCase;
+                isContinue=false;
+                builder.append(split[i]);
+                continue;
+            }
+            String lowerCase = split[i].toLowerCase();
+            split[i]= lowerCase.substring(0,1).toUpperCase()+lowerCase.substring(1);
+            builder.append(split[i]);
+        }
+        return builder.toString();
     }
 }

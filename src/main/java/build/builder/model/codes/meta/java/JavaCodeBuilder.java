@@ -2,11 +2,12 @@ package build.builder.model.codes.meta.java;
 
 import build.builder.data.classes.enums.CommentType;
 import build.builder.data.classes.enums.MethodType;
+import build.builder.data.classes.enums.PermissionType;
 import build.builder.data.classes.meta.*;
 import build.builder.model.codes.meta.CodeBuilder;
 import build.builder.util.StringUtil;
-import com.mysql.fabric.xmlrpc.base.Param;
-
+import lombok.Getter;
+import lombok.Setter;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -16,7 +17,12 @@ import java.util.Set;
  * @author peng_fu_lin
  * 2022-09-09 10:20
  */
+@Getter
+@Setter
 public abstract class JavaCodeBuilder<T> extends CodeBuilder<T> {
+
+    /**包声明配置*/
+    protected String packageStatement;
 
     /**生成包声明
      * 2022/9/8 0008-15:29
@@ -142,7 +148,6 @@ public abstract class JavaCodeBuilder<T> extends CodeBuilder<T> {
         });
         return builder.toString();
     }
-
 
     /**生成类属性
      * 2022/9/14 0014-15:34

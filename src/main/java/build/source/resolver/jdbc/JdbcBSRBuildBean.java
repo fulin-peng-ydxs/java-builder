@@ -8,7 +8,7 @@ import build.source.meta.BuildSource;
 import build.source.meta.jdbc.JdbcBuildSource;
 import build.source.resolver.exception.BuildSourceResolverException;
 import build.source.resolver.exception.JdbcBuildSourceResolverException;
-import build.source.resolver.mapper.BuildMetaMapper;
+import build.source.resolver.mapper.BuildBeanMapper;
 import com.mysql.jdbc.MySQLConnection;
 import lombok.AllArgsConstructor;
 import java.sql.Connection;
@@ -23,8 +23,8 @@ import java.util.List;
  * @author peng_fu_lin
  * 2022-09-07 14:52
  */
-public class JdbcBuildSourceResolverBuildMeta extends JdbcBuildSourceResolver<List<BuildBean>>
-      implements BuildMetaMapper {
+public class JdbcBSRBuildBean extends JdbcBSR<List<BuildBean>>
+      implements BuildBeanMapper {
 
     @Override
     public boolean isSupported(BuildSource builderDataSource, Class<?> resolverType) {
@@ -32,7 +32,7 @@ public class JdbcBuildSourceResolverBuildMeta extends JdbcBuildSourceResolver<Li
     }
 
     @Override
-    public final List<BuildBean> resolver(BuildSource builderSource) throws BuildSourceResolverException {
+    public final List<BuildBean> resolve(BuildSource builderSource) throws BuildSourceResolverException {
         try {
             //获取连接
             Connection resolverConnection = getResolverConnection(builderSource);

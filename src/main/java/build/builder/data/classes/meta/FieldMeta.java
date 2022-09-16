@@ -1,5 +1,6 @@
 package build.builder.data.classes.meta;
 
+import build.builder.data.classes.enums.CommentType;
 import build.builder.data.classes.enums.FieldType;
 import build.builder.data.classes.enums.PermissionType;
 import lombok.Getter;
@@ -22,11 +23,12 @@ public class FieldMeta {
     /**字段值*/
     private String fieldValue;
     /**字段权限*/
-    private PermissionType fieldPermission;
+    private PermissionType fieldPermission=PermissionType.PRIVATE;
     /**字段注解*/
     private Map<Class<? extends Annotation>, AnnotationMeta> fieldAnnotations;
     /**字段注释*/
-    private CommentMeta fieldComment;
+    private CommentMeta fieldComment= new CommentMeta(CommentType.ONE,
+          null, null);
     /**字段泛型*/
     private List<Class<?>> genericParams;
     /**是否静态*/

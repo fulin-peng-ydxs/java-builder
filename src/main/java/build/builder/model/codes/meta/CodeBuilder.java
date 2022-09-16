@@ -4,8 +4,6 @@ import build.builder.data.BuildResult;
 import build.builder.meta.BuildCoder;
 import build.builder.meta.exception.BuilderException;
 import build.builder.util.StringUtil;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import java.nio.charset.StandardCharsets;
 /**
  * 代码构建器
@@ -54,8 +52,6 @@ public abstract class CodeBuilder<T> extends BuildCoder<T> {
      */
     protected abstract BuildResult convertBuildResult(T model,byte[] bytes);
 
-    @NoArgsConstructor
-    @AllArgsConstructor
     public static class CodeBuildStyle{
         //代码间的间隙
         public int space=1;
@@ -63,7 +59,6 @@ public abstract class CodeBuilder<T> extends BuildCoder<T> {
         public int modelPrefixLine=2;
         //代码模块间后间行
         public int modelAfterLine=2;
-
         //代码结构区域外的缩进
         public int structureExternalSpace=4;
         //代码结构区域内的缩进

@@ -1,4 +1,5 @@
 package build.builder.model.codes.meta.java.classes;
+import build.builder.data.BuildResult;
 import build.builder.data.classes.meta.ClassMetaStatement;
 import build.builder.data.classes.model.ClassModel;
 import build.builder.model.codes.meta.java.JavaCodeBuilder;
@@ -15,7 +16,7 @@ public abstract class ClassBuilder extends JavaCodeBuilder<ClassModel> {
     protected String convertCode(ClassModel model) {
         StringBuilder builder = new StringBuilder();
         builder.append(toClassPackageStatement(model))
-                .append( modelClearanceLineStyle());
+                .append(modelClearanceLineStyle());
         String classImports = toClassImports(model);
         if(classImports!=null){
             builder.append(classImports)
@@ -36,6 +37,11 @@ public abstract class ClassBuilder extends JavaCodeBuilder<ClassModel> {
         return builder.toString();
     }
 
+    @Override
+    protected BuildResult convertBuildResult(ClassModel model, byte[] bytes) {
+        String className = model.getClassMetaStatement().getClassName();
+        return new BuildResult(String.format("%s.java",className), bytes);
+    }
 
     /**生成类包声明
      * 2022/9/8 0008-15:29

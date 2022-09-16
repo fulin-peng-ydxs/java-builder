@@ -12,8 +12,10 @@ import java.util.List;
 @Setter
 @Getter
 public class BuildBean extends BuildResolverModel {
-    /**元数据名：一般为表名*/
+    /**实体名*/
     private String name;
-    /**元数据项集合：一般表的字段项集合*/
+    /**实体描述*/
+    private String description;
+    /**元数据项集合*/
     private List<BuildBeanItem> dataItems;
 }
