@@ -2,9 +2,12 @@ package build.bus.meta;
 
 import build.builder.data.BuildResult;
 import build.builder.meta.BuildCoder;
+import build.builder.model.codes.meta.java.classes.bean.SimpleBeanBuilder;
 import build.bus.exception.BuildBusException;
+import build.response.meta.file.FileBuildResponder;
 import build.source.meta.BuildSource;
-import build.response.meta.BuilderResponse;
+import build.response.meta.BuildResponder;
+import build.source.resolver.jdbc.JdbcBSRBuildBean;
 import build.source.resolver.meta.BuildSourceResolver;
 import java.io.OutputStream;
 import java.util.Collections;
@@ -18,19 +21,41 @@ import java.util.List;
  */
 public abstract class BuildBus {
 
-    private final List<BuildCoder<?>> buildCoders;
-    private final List<BuilderResponse> builderResponses;
-    private final List<BuildSourceResolver<?>> buildSourceResolvers;
+    private final List<BuildCoder<?>> buildCoders=new LinkedList<>();
+    private final List<BuildResponder> buildResponders=new LinkedList<>();
+    private final List<BuildSourceResolver<?>> buildSourceResolvers=new LinkedList<>();
 
-    /**初始化构建总线
+    /**外部初始化构建总线
      * 2022/9/2 0002-16:14
      * @author pengfulin
     */
-    public BuildBus(List< BuildCoder<?>> buildCoders, List<BuilderResponse> builderResponses,
+    public BuildBus(List< BuildCoder<?>> buildCoders, List<BuildResponder> buildResponders,
                     List< BuildSourceResolver<?>> buildSourceResolvers){
-        this.buildCoders = buildCoders;
-        this.builderResponses =builderResponses;
-        this.buildSourceResolvers=buildSourceResolvers;
+        this.buildCoders.addAll(buildCoders);
+        this.buildResponders.addAll(buildResponders);
+        this.buildSourceResolvers.addAll(buildSourceResolvers);
+        init();
+    }
+
+    /**默认初始化构建总线
+     * 2022/9/19 0019-12:05
+     * @author pengfulin
+    */
+    public BuildBus(){
+        init();
+    }
+
+    /**初始化默认的组件
+     * 2022/9/19 0019-12:01
+     * @author pengfulin
+    */
+    protected void init(){
+        //初始化构建器
+        buildCoders.add(new SimpleBeanBuilder());
+        //初始化响应器
+        buildResponders.add(new FileBuildResponder());
+        //初始化解析器
+        buildSourceResolvers.add(new JdbcBSRBuildBean());
     }
 
     /**构建总线方法:适用单体构建
@@ -65,9 +90,9 @@ public abstract class BuildBus {
             }else
                 buildResults= Collections.singletonList(buildCoder.buildCode(buildDataModel));
             //获取构建处理器
-            BuilderResponse builderResponse = getBuilderResponse(outputStream);
+            BuildResponder buildResponder = getBuilderResponse(outputStream);
             //响应构建结果
-            builderResponse.buildResponse(outputStream,buildResults);
+            buildResponder.buildResponse(outputStream,buildResults);
         } catch (Exception e) {
             throw new BuildBusException("The buildBus run exception",e);
         }
@@ -90,10 +115,10 @@ public abstract class BuildBus {
      * 2022/9/2 0002-17:25
      * @author pengfulin
     */
-    protected BuilderResponse getBuilderResponse(OutputStream outputStream) throws BuildBusException{
-        for (BuilderResponse builderResponse : builderResponses) {
-            if(builderResponse.isSupported(outputStream))
-                return builderResponse;
+    protected BuildResponder getBuilderResponse(OutputStream outputStream) throws BuildBusException{
+        for (BuildResponder buildResponder : buildResponders) {
+            if(buildResponder.isSupported(outputStream))
+                return buildResponder;
         }
         throw new BuildBusException("The outputStream is not supported by these responder："+outputStream.getClass().getName());
     }

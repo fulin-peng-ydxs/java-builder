@@ -28,7 +28,7 @@ public abstract class CodeBuilder<T> extends BuildCoder<T> {
             //生成构建结果对象
             return convertBuildResult(buildModel,bytes);
         } catch (Exception e) {
-            throw new BuilderException("the builder run exception",e);
+            throw new BuilderException("The codeBuilder run exception",e);
         }
     }
 

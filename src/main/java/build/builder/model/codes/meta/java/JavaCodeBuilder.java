@@ -2,12 +2,13 @@ package build.builder.model.codes.meta.java;
 
 import build.builder.data.classes.enums.CommentType;
 import build.builder.data.classes.enums.MethodType;
-import build.builder.data.classes.enums.PermissionType;
 import build.builder.data.classes.meta.*;
 import build.builder.model.codes.meta.CodeBuilder;
+import build.builder.util.ClassUtil;
 import build.builder.util.StringUtil;
 import lombok.Getter;
 import lombok.Setter;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -125,6 +126,7 @@ public abstract class JavaCodeBuilder<T> extends CodeBuilder<T> {
         String methodContent = methodMeta.getMethodContent();
         if(methodContent==null) //方法内容为空，结束
             return builder.append("{}").append("\n").toString();
+        builder.append("{\n");
         builder.append(methodContent);
         //结束
         builder.append(structureExternalIndentation()).append("}").append("\n");
@@ -155,6 +157,10 @@ public abstract class JavaCodeBuilder<T> extends CodeBuilder<T> {
      */
     protected String doGetAttribute(FieldMeta fieldMeta){
         StringBuilder builder = new StringBuilder();
+        //注释
+        CommentMeta fieldComment = fieldMeta.getFieldComment();
+        if(fieldComment!=null)
+            builder.append(doGetComment(fieldComment, codeBuildStyle.structureExternalSpace));
         builder.append(structureExternalIndentation());
         //权限
         builder.append(fieldMeta.getFieldPermission())
@@ -166,13 +172,12 @@ public abstract class JavaCodeBuilder<T> extends CodeBuilder<T> {
         builder.append(fieldMeta.getFieldType())
                 .append(codeSpaceStyle());
         //名称
-        builder.append(fieldMeta.getFieldName())
-                .append(codeSpaceStyle());
+        builder.append(fieldMeta.getFieldName());
         //赋值
         String fieldValue = fieldMeta.getFieldValue();
         if(fieldValue!=null)
-            builder.append("=").append(fieldValue).append(";")
-                    .append(codeSpaceStyle()).append("\n");
+            builder.append(codeSpaceStyle()).append("=").append(codeSpaceStyle()).append(fieldValue);
+        builder.append(";").append("\n");
         return  builder.toString();
     }
 
@@ -241,14 +246,18 @@ public abstract class JavaCodeBuilder<T> extends CodeBuilder<T> {
     */
     protected String getManyComment(CommentMeta commentMeta, int spaceNum){
         StringBuilder builder = new StringBuilder();
-        builder.append(String.format("%s/**%s\n",indentationStyle(spaceNum),commentMeta.getDescription()));
+        builder.append(String.format("%s/**%s\n",indentationStyle(spaceNum),StringUtil.clearChar(
+                commentMeta.getDescription(),'\n', StringUtil.ClearCharType.ALL,-1)));
         String template="%s * %s %s\n";
-        commentMeta.getLabels().forEach((key,value)->{
-            builder.append(String.format(
-                    template,indentationStyle(spaceNum),key,value)
-            );}
-        );
-        builder.append(String.format("%s*/",indentationStyle(spaceNum)));
+        Map<String, String> labels = commentMeta.getLabels();
+        if(labels!=null){
+            commentMeta.getLabels().forEach((key,value)->{
+                builder.append(String.format(
+                        template,indentationStyle(spaceNum),key,value)
+                );}
+            );
+        }
+        builder.append(String.format("%s*/\n",indentationStyle(spaceNum)));
         return builder.toString();
     }
     
@@ -286,5 +295,45 @@ public abstract class JavaCodeBuilder<T> extends CodeBuilder<T> {
             return String.format(template, classType.getSimpleName(), paramValue);
         }
         return classType.getSimpleName();
+    }
+
+
+
+    /**类声明中的类导入信息
+     * 2022/9/19 0019-14:52
+     * @author pengfulin
+    */
+    protected Set<Class<?>> resolveClassStatementImports(ClassMetaStatement classMetaStatement){
+        Set<Class<?>> classImports = new LinkedHashSet<>();
+        ExtendsMeta classExtends = classMetaStatement.getClassExtends();
+        if(classExtends!=null){
+            Class<?> extendsType = classExtends.getExtendsType();
+            if(!ClassUtil.ignoreImportClass(extendsType))
+                classImports.add(extendsType);
+        }
+        Map<Class<?>, ImplementsMeta> classImplements = classMetaStatement.getClassImplements();
+        if(classImplements!=null){
+            classImplements.forEach((key,value)->{
+                if (!ClassUtil.ignoreImportClass(key)) {
+                    classImports.add(key);
+                }
+            });
+        }
+        return classImports;
+    }
+
+    /**属性中的类导入信息
+     * 2022/9/19 0019-14:57
+     * @author pengfulin
+    */
+    protected Set<Class<?>> resolveAttributeImports(Map<String, FieldMeta> attributes){
+        Set<Class<?>> classImports = new LinkedHashSet<>();
+        attributes.forEach((key,value)->{
+            Class<?> java = value.getFieldType().java;
+            if (!ClassUtil.ignoreImportClass(java)) {
+                classImports.add(java);
+            }
+        });
+        return classImports;
     }
 }

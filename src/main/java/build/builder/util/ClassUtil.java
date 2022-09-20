@@ -55,4 +55,12 @@ public class ClassUtil{
         }
         return builder.toString();
     }
+
+    /**可忽略的包导入
+     * 2022/9/19 0019-14:06
+     * @author pengfulin
+     */
+    public static boolean ignoreImportClass(Class<?> clazz){
+        return clazz.getName().startsWith("java.lang");
+    }
 }

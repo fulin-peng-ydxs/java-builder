@@ -9,7 +9,21 @@ package build.builder.util;
 public class StringUtil {
 
 
-    /**循环拼接字符
+    /**是否为空
+     * 2022/9/20 0020-13:48
+     * @author pengfulin
+    */
+    public static boolean isEmpty(String value,boolean isNotTrim){
+        if (value==null)
+            return true;
+        return isNotTrim ? value.isEmpty() : value.trim().isEmpty();
+    }
+
+    public static boolean isEmpty(String value){
+       return isEmpty(value,true);
+    }
+
+    /**循环拼接字符串
      * 2022/9/8 0008-17:22
      * @author pengfulin
      * @param str 待拼接的字符
@@ -22,7 +36,6 @@ public class StringUtil {
             builder.append(str);
         return builder.toString();
     }
-
 
     /**清除指定字符
      * 2022/9/9 0009-15:47
@@ -75,7 +88,60 @@ public class StringUtil {
         return builder.toString();
     }
 
+    /**清除多个字符
+     * 2022/9/19 0019-16:25
+     * @author pengfulin
+    */
+    public static String clearChars(String value, ClearCharType clearCharType, int clearCount, char ...charValue){
+        for (char c : charValue) {
+            value=clearChar(value, c, clearCharType, clearCount);
+        }
+        return value;
+    }
+
     public enum ClearCharType {
+        ALL,
+        START,
+        END,
+        NO_MIDDLE;
+    }
+
+    /**统计指定字符
+     * 2022/9/19 0019-16:28
+     * @author pengfulin
+     * @param value 待统计的字符串
+     * @param charValue 待统计的字符
+     * @param totalCharType 统计类型
+     * @return 返回指定字符在字符串中的数量
+    */
+    public static int totalChar(String value, char charValue, TotalCharType totalCharType){
+        int count=0;
+        if(totalCharType == TotalCharType.ALL){
+            for (int i = 0; i < value.length(); i++) {
+                if(value.charAt(i)==charValue)
+                    count++;
+            }
+        }
+        if(totalCharType == TotalCharType.START|| totalCharType == TotalCharType.NO_MIDDLE) {
+            for (int i = 0; i < value.length(); i++) {
+                if (value.charAt(i) == charValue)
+                    count++;
+                else
+                    break;
+            }
+        }
+        if(totalCharType == TotalCharType.END|| totalCharType == TotalCharType.NO_MIDDLE) {
+            for (int length = value.length()-1; length > 0; length--) {
+                if(value.charAt(length)==charValue)
+                    count++;
+                else
+                    break;
+            }
+        }
+        return count;
+    }
+
+    public enum TotalCharType {
         ALL,
         START,
         END,

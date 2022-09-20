@@ -11,7 +11,7 @@ import java.util.List;
  * @author peng_fu_lin
  * 2022-09-02 16:00
  */
-public abstract class BuilderResponse {
+public abstract class BuildResponder {
 
     /**响应构建流数据
      * 2022/9/5 0005-09:56

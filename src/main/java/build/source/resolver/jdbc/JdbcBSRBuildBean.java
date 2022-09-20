@@ -40,7 +40,7 @@ public class JdbcBSRBuildBean extends JdbcBSR<List<BuildBean>>
             JdbcResolverSQL resolverSQL = getResolverSQL(resolverConnection);
             //获取元数据
             JdbcBuildSource jdbcBuildSource = (JdbcBuildSource) builderSource;
-            return getBuildMetas(jdbcBuildSource.getTableNames(),jdbcBuildSource.getDataBaseName(), resolverSQL,resolverConnection);
+            return getBuildBeans(jdbcBuildSource.getTableNames(), jdbcBuildSource.getDataBaseName(), resolverSQL, resolverConnection);
         } catch (Exception e) {
             throw new JdbcBuildSourceResolverException("JDBC resolution builds source exceptions",e);
         }
@@ -53,20 +53,20 @@ public class JdbcBSRBuildBean extends JdbcBSR<List<BuildBean>>
     }
 
 
-    protected  List<BuildBean> getBuildMetas
+    protected  List<BuildBean> getBuildBeans
             (List<String> tableNames,String databaseName,JdbcResolverSQL resolverSQL,Connection resolverConnection) throws SQLException {
         List<BuildBean> buildBeans =new LinkedList<>();
         if(tableNames==null||tableNames.isEmpty()){
             List<ResultSet> resultSets = getResultSets(null,databaseName ,resolverSQL, resolverConnection);
             for (ResultSet resultSet : resultSets) {
-                BuildBean buildBean = getBuildMeta(resultSet);
+                BuildBean buildBean = getBuildBean(resultSet);
                 buildBeans.add(buildBean);
             }
         }
         else{
             for (String tableName : tableNames) {
                 List<ResultSet> resultSets = getResultSets(tableName,databaseName,resolverSQL, resolverConnection);
-                BuildBean buildBean = getBuildMeta(resultSets.get(0));
+                BuildBean buildBean = getBuildBean(resultSets.get(0));
                 buildBeans.add(buildBean);
             }
         }
@@ -86,13 +86,15 @@ public class JdbcBSRBuildBean extends JdbcBSR<List<BuildBean>>
     }
 
 
-    private BuildBean getBuildMeta(ResultSet resultSet) throws SQLException {
+    private BuildBean getBuildBean(ResultSet resultSet) throws SQLException {
         List<BuildBeanItem> buildBeanItems = new LinkedList<>();
         boolean continues=true;
-        BuildBean buildBean = new BuildBean();
+        BuildBean buildBean = null;
         while (resultSet.next()) {
-            if(continues)
+            if(continues){
+                buildBean=new BuildBean();
                 buildBean.setName(resultSet.getString("tableName"));
+            }
             //封装BuildMetaItem
             BuildBeanItem buildBeanItem = new BuildBeanItem();
             String fieldName = resultSet.getString("columnName");
@@ -110,6 +112,8 @@ public class JdbcBSRBuildBean extends JdbcBSR<List<BuildBean>>
             buildBeanItems.add(buildBeanItem);
             continues=false;
         }
+        if(buildBean==null)
+            throw new SQLException("There is no data to build");
         buildBean.setDataItems(buildBeanItems);
         return buildBean;
     }

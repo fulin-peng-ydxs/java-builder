@@ -1,21 +1,15 @@
 package build.builder.model.codes.meta.java.classes.bean;
 
 import build.builder.data.classes.enums.ClassStructure;
-import build.builder.data.classes.enums.CommentType;
-import build.builder.data.classes.enums.PermissionType;
-import build.builder.data.classes.meta.ClassMetaStatement;
-import build.builder.data.classes.meta.CommentMeta;
-import build.builder.data.classes.meta.FieldMeta;
-import build.builder.data.classes.meta.MethodMeta;
+import build.builder.data.classes.enums.FieldType;
+import build.builder.data.classes.meta.*;
 import build.builder.data.classes.model.ClassModel;
 import build.builder.model.codes.meta.java.classes.ClassBuilder;
 import build.builder.util.ClassUtil;
+import build.builder.util.StringUtil;
 import build.source.data.meta.bean.BuildBean;
 import build.source.data.meta.bean.BuildBeanItem;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**Bean构建器
  * @author peng_fu_lin
@@ -69,8 +63,10 @@ public abstract class BeanBuilder extends ClassBuilder {
         ClassMetaStatement classMetaStatement = new ClassMetaStatement();
         classMetaStatement.setClassName(ClassUtil.getClassStructureName(buildBean.getName(),"_", ClassStructure.CLASS_DECLARE));
         String description = buildBean.getDescription();
-        if(description!=null){
+        if(!StringUtil.isEmpty(description)){
             classMetaStatement.getClassComment().setDescription(description);
+        }else{
+            classMetaStatement.setClassComment(null);
         }
         return classMetaStatement;
     }
@@ -80,12 +76,16 @@ public abstract class BeanBuilder extends ClassBuilder {
      * @author pengfulin
      */
     protected Set<Class<?>> getClassImports(ClassModel classModel){
-
-
-
-
-        return null;
+        Set<Class<?>> classImports = new LinkedHashSet<>();
+        classImports.addAll(resolveClassStatementImports(
+                classModel.getClassMetaStatement()
+        ));
+        classImports.addAll(resolveAttributeImports(
+                classModel.getAttributes()
+        ));
+        return classImports;
     }
+
     /**获取属性
      * 2022/9/15 0015-15:25
      * @author pengfulin
@@ -96,7 +96,13 @@ public abstract class BeanBuilder extends ClassBuilder {
             FieldMeta fieldMeta = new FieldMeta();
             fieldMeta.setFieldName(ClassUtil.getClassStructureName(value.getFieldName(),
                     "_",ClassStructure.CLASS_ATTRIBUTE));
-            fieldMeta.getFieldComment().setDescription(value.getItemConfig().getFieldComment());
+            String fieldComment = value.getItemConfig().getFieldComment();
+            if(!StringUtil.isEmpty(fieldComment)){
+                fieldMeta.getFieldComment().setDescription(fieldComment);
+            }else{
+                fieldMeta.setFieldComment(null);
+            }
+            fieldMeta.setFieldType(FieldType.supportType(value.getFieldType()));
             attributes.put(fieldMeta.getFieldName(),fieldMeta);
         });
         return attributes;

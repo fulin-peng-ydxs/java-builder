@@ -2,13 +2,11 @@ package build.bus.meta;
 
 import build.builder.meta.BuildCoder;
 import build.bus.exception.BuildBusException;
-import build.response.meta.BuilderResponse;
+import build.response.meta.BuildResponder;
 import build.source.meta.BuildSource;
 import build.source.resolver.meta.BuildSourceResolver;
-
 import java.io.OutputStream;
 import java.util.List;
-
 /**
  * 模式构建总线
  *
@@ -22,8 +20,8 @@ public abstract class SchemaBuildBus extends BuildBus {
      * 2022/9/2 0002-16:14
      * @author pengfulin
      */
-    public SchemaBuildBus(List<BuildCoder<?>> buildCoders, List<BuilderResponse> builderResponses, List<BuildSourceResolver<?>> buildSourceResolvers) {
-        super(buildCoders, builderResponses, buildSourceResolvers);
+    public SchemaBuildBus(List<BuildCoder<?>> buildCoders, List<BuildResponder> buildResponders, List<BuildSourceResolver<?>> buildSourceResolvers) {
+        super(buildCoders,buildResponders, buildSourceResolvers);
     }
 
     /**构建总线方法：适合模式化构建

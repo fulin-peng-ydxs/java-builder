@@ -11,9 +11,6 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class BuildResult {
-
     private String buildName;
-
     private byte[] buildData;
-
 }
