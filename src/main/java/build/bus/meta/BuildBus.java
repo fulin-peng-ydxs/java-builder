@@ -21,9 +21,9 @@ import java.util.List;
  */
 public abstract class BuildBus {
 
-    private final List<BuildCoder<?>> buildCoders=new LinkedList<>();
-    private final List<BuildResponder> buildResponders=new LinkedList<>();
-    private final List<BuildSourceResolver<?>> buildSourceResolvers=new LinkedList<>();
+    protected final List<BuildCoder<?>> buildCoders=new LinkedList<>();
+    protected final List<BuildResponder> buildResponders=new LinkedList<>();
+    protected final List<BuildSourceResolver<?>> buildSourceResolvers=new LinkedList<>();
 
     /**外部初始化构建总线
      * 2022/9/2 0002-16:14
@@ -50,8 +50,6 @@ public abstract class BuildBus {
      * @author pengfulin
     */
     protected void init(){
-        //初始化构建器
-        buildCoders.add(new SimpleBeanBuilder());
         //初始化响应器
         buildResponders.add(new FileBuildResponder());
         //初始化解析器

@@ -10,7 +10,6 @@ import build.builder.util.StringUtil;
 import build.source.data.meta.bean.BuildBean;
 import build.source.data.meta.bean.BuildBeanItem;
 import java.util.*;
-
 /**Bean构建器
  * @author peng_fu_lin
  * 2022-09-09 10:26
@@ -112,5 +111,5 @@ public abstract class BeanBuilder extends ClassBuilder {
      * 2022/9/15 0015-15:31
      * @author pengfulin
     */
-    protected abstract Map<String,MethodMeta> getAttributeMethods(Map<String, FieldMeta> fields, Set<Class<?>> importClasses);
+    protected  Map<String,MethodMeta> getAttributeMethods(Map<String, FieldMeta> fields, Set<Class<?>> importClasses){return null;}
 }

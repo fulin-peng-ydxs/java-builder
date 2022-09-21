@@ -1,8 +1,11 @@
 package build.builder.model.codes.meta.java.classes;
 import build.builder.data.BuildResult;
 import build.builder.data.classes.meta.ClassMetaStatement;
+import build.builder.data.classes.meta.FieldMeta;
+import build.builder.data.classes.meta.MethodMeta;
 import build.builder.data.classes.model.ClassModel;
 import build.builder.model.codes.meta.java.JavaCodeBuilder;
+import java.util.Map;
 import java.util.Set;
 /**
  * 类构建器
@@ -34,7 +37,7 @@ public abstract class ClassBuilder extends JavaCodeBuilder<ClassModel> {
             builder.append(classMethods)
                     .append(modelClearanceLineStyle());
         }
-        return builder.toString();
+        return toClassLast(builder.toString());
     }
 
     @Override
@@ -74,7 +77,10 @@ public abstract class ClassBuilder extends JavaCodeBuilder<ClassModel> {
      * @author pengfulin
      */
     protected String toClassAttributes(ClassModel classModel){
-        return doGetAttributes(classModel.getAttributes());
+        Map<String, FieldMeta> attributes = classModel.getAttributes();
+        if(attributes==null)
+            return null;
+        return doGetAttributes(attributes);
     }
 
     /**生成类方法
@@ -82,6 +88,16 @@ public abstract class ClassBuilder extends JavaCodeBuilder<ClassModel> {
      * @author pengfulin
      */
     protected String toClassMethods(ClassModel classModel){
-        return doGetMethods(classModel.getMethods());
+        Map<String, MethodMeta> methods = classModel.getMethods();
+        if(methods==null) return null;
+        return doGetMethods(methods);
+    }
+
+    /**尾部处理
+     * 2022/9/21 0021-16:54
+     * @author pengfulin
+    */
+    protected String toClassLast(String value){
+        return value + "}";
     }
 }

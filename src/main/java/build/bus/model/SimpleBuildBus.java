@@ -1,6 +1,10 @@
 package build.bus.model;
 
+import build.builder.meta.BuildCoder;
+import build.builder.model.codes.meta.java.classes.bean.LombokBeanBuilder;
+import build.builder.model.codes.meta.java.classes.bean.SimpleBeanBuilder;
 import build.bus.meta.BuildBus;
+import java.util.Arrays;
 /**
  * 简单的构建总线
  *
@@ -9,4 +13,19 @@ import build.bus.meta.BuildBus;
  */
 public class SimpleBuildBus extends BuildBus {
 
+    @Override
+    protected void init() {
+        initBuildCoder();
+        super.init();
+    }
+
+    /**初始化构建器
+     * 2022/9/21 0021-16:25
+     * @author pengfulin
+    */
+    private void initBuildCoder(){
+        BuildCoder<?>[] buildCoders = {new SimpleBeanBuilder(),
+                new LombokBeanBuilder()};
+        this.buildCoders.addAll(Arrays.asList(buildCoders));
+    }
 }
