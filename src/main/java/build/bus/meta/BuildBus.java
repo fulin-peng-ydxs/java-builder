@@ -2,7 +2,6 @@ package build.bus.meta;
 
 import build.builder.data.BuildResult;
 import build.builder.meta.BuildCoder;
-import build.builder.model.codes.meta.java.classes.bean.SimpleBeanBuilder;
 import build.bus.exception.BuildBusException;
 import build.response.meta.file.FileBuildResponder;
 import build.source.meta.BuildSource;

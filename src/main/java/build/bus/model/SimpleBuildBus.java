@@ -1,8 +1,8 @@
 package build.bus.model;
 
 import build.builder.meta.BuildCoder;
-import build.builder.model.codes.meta.java.classes.bean.LombokBeanBuilder;
-import build.builder.model.codes.meta.java.classes.bean.SimpleBeanBuilder;
+import build.builder.meta.codes.java.classes.bean.LombokBeanBuilder;
+import build.builder.meta.codes.java.classes.bean.SimpleBeanBuilder;
 import build.bus.meta.BuildBus;
 import java.util.Arrays;
 /**

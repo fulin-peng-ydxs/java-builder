@@ -1,9 +1,9 @@
-package build.builder.model.codes.meta.java;
+package build.builder.meta.codes.java;
 
 import build.builder.data.classes.enums.CommentType;
 import build.builder.data.classes.enums.MethodType;
 import build.builder.data.classes.meta.*;
-import build.builder.model.codes.meta.CodeBuilder;
+import build.builder.meta.codes.CodeBuilder;
 import build.builder.util.ClassUtil;
 import build.builder.util.StringUtil;
 import lombok.Getter;

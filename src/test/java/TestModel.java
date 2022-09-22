@@ -1,5 +1,5 @@
-import build.builder.model.codes.meta.java.classes.bean.LombokBeanBuilder;
-import build.builder.model.codes.meta.java.classes.bean.SimpleBeanBuilder;
+import build.builder.meta.codes.java.classes.bean.LombokBeanBuilder;
+import build.builder.meta.codes.java.classes.bean.SimpleBeanBuilder;
 import build.bus.exception.BuildBusException;
 import build.bus.model.SimpleBuildBus;
 import build.source.meta.jdbc.JdbcBuildFileSource;

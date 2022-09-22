@@ -1,6 +1,6 @@
-package build.builder.model.codes.meta.java.enums;
+package build.builder.meta.codes.java.enums;
 
-import build.builder.model.codes.meta.CodeBuilder;
+import build.builder.meta.codes.CodeBuilder;
 
 /**
  * 枚举构建器

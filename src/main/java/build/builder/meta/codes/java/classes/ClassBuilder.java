@@ -1,10 +1,11 @@
-package build.builder.model.codes.meta.java.classes;
+package build.builder.meta.codes.java.classes;
+
 import build.builder.data.BuildResult;
 import build.builder.data.classes.meta.ClassMetaStatement;
 import build.builder.data.classes.meta.FieldMeta;
 import build.builder.data.classes.meta.MethodMeta;
 import build.builder.data.classes.model.ClassModel;
-import build.builder.model.codes.meta.java.JavaCodeBuilder;
+import build.builder.meta.codes.java.JavaCodeBuilder;
 import java.util.Map;
 import java.util.Set;
 /**

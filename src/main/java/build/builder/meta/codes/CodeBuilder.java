@@ -1,4 +1,4 @@
-package build.builder.model.codes.meta;
+package build.builder.meta.codes;
 
 import build.builder.data.BuildResult;
 import build.builder.meta.BuildCoder;
@@ -76,6 +76,7 @@ public abstract class CodeBuilder<T> extends BuildCoder<T> {
     protected String clearanceLineStyle(int num){
         return  StringUtil.cycleAppend("\n",num);
     }
+    
     /**缩进风格实现
      * 2022/9/8 0008-17:38
      * @author pengfulin

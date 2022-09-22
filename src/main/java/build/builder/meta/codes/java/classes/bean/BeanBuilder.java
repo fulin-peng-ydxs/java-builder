@@ -1,10 +1,10 @@
-package build.builder.model.codes.meta.java.classes.bean;
+package build.builder.meta.codes.java.classes.bean;
 
 import build.builder.data.classes.enums.ClassStructure;
 import build.builder.data.classes.enums.FieldType;
 import build.builder.data.classes.meta.*;
 import build.builder.data.classes.model.ClassModel;
-import build.builder.model.codes.meta.java.classes.ClassBuilder;
+import build.builder.meta.codes.java.classes.ClassBuilder;
 import build.builder.util.ClassUtil;
 import build.builder.util.StringUtil;
 import build.source.data.meta.bean.BuildBean;
@@ -60,7 +60,9 @@ public abstract class BeanBuilder extends ClassBuilder {
      */
     protected ClassMetaStatement getClassMetaStatement(BuildBean buildBean){
         ClassMetaStatement classMetaStatement = new ClassMetaStatement();
+        //类名
         classMetaStatement.setClassName(ClassUtil.getClassStructureName(buildBean.getName(),"_", ClassStructure.CLASS_DECLARE));
+        //类注释
         String description = buildBean.getDescription();
         if(!StringUtil.isEmpty(description)){
             classMetaStatement.getClassComment().setDescription(description);

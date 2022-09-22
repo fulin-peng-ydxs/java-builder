@@ -1,4 +1,4 @@
-package build.builder.model.codes.meta.java.interfaces;
+package build.builder.meta.codes.java.interfaces;
 /**
  * 接口构建器
  *

@@ -1,4 +1,4 @@
-package build.builder.model.codes.meta.java.classes.bean;
+package build.builder.meta.codes.java.classes.bean;
 
 import build.builder.data.classes.enums.ClassStructure;
 import build.builder.data.classes.meta.FieldMeta;
