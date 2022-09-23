@@ -2,6 +2,7 @@ package build.builder.meta.codes;
 
 import build.builder.data.BuildResult;
 import build.builder.meta.BuildCoder;
+import build.builder.meta.codes.persist.PersistCodeBuilder;
 import build.builder.meta.exception.BuilderException;
 import build.builder.util.StringUtil;
 import java.nio.charset.StandardCharsets;
@@ -11,25 +12,52 @@ import java.nio.charset.StandardCharsets;
  * @author peng_fu_lin
  * 2022-09-07 14:10
  */
-public abstract class CodeBuilder<T> extends BuildCoder<T> {
+public abstract class CodeBuilder<T> extends BuildCoder<T> implements PersistCodeBuilder<T> {
 
     /**代码构建风格*/
     protected CodeBuildStyle codeBuildStyle=new CodeBuildStyle();
 
     @Override
-    public final BuildResult buildCode(Object buildDataModel) throws BuilderException {
+    public final BuildResult buildCode(Object buildDataModel,Object persistDataModel) throws BuilderException {
         try {
             //获取构建模型
-            T buildModel = getBuildModel(buildDataModel);
-            //将构建模型转换成代码
-            String code = convertCode(buildModel);
-            //将代码转换成构建字节结果集
-            byte[] bytes = convertBuildBytes(code);
-            //生成构建结果对象
-            return convertBuildResult(buildModel,bytes);
+            T buildModel=convertBuildModel(buildDataModel,persistDataModel);
+            //执行构建
+            return doBuildResult(buildModel);
         } catch (Exception e) {
             throw new BuilderException("The codeBuilder run exception",e);
         }
+    }
+
+    /**将数据模型转化为构建模型
+     * 2022/9/23 0023-11:19
+     * @author pengfulin
+     */
+    protected final T convertBuildModel(Object buildDataModel,Object persistDataModel){
+        T buildModel = getBuildModel(buildDataModel);
+        if(persistDataModel==null)
+            return buildModel;
+        return mergePersistBuildModel(buildModel,resolvePersistSource(persistDataModel));
+    }
+    /**将构建模型合并成持续集成构建模型
+     * 2022/9/23 0023-14:43
+     * @author pengfulin
+     */
+    protected T mergePersistBuildModel(T newBuildModel,T oldBuildModel) {
+        throw new RuntimeException("an unsupported method");
+    }
+
+    /**执行构建
+     * 2022/9/23 0023-15:35
+     * @author pengfulin
+    */
+    protected BuildResult doBuildResult(T buildModel){
+        //将构建模型转换成代码
+        String code = convertCode(buildModel);
+        //将代码转换成构建字节结果集
+        byte[] bytes = convertBuildBytes(code);
+        //生成构建结果对象
+        return convertBuildResult(buildModel,bytes);
     }
 
     /**将构建模型转化为代码

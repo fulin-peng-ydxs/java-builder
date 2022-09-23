@@ -1,4 +1,4 @@
-package build.bus.model;
+package build.bus.model.simple;
 
 import build.builder.meta.BuildCoder;
 import build.builder.meta.codes.java.classes.bean.LombokBeanBuilder;
@@ -24,8 +24,7 @@ public class SimpleBuildBus extends BuildBus {
      * @author pengfulin
     */
     private void initBuildCoder(){
-        BuildCoder<?>[] buildCoders = {new SimpleBeanBuilder(),
-                new LombokBeanBuilder()};
+        BuildCoder<?>[] buildCoders = {new SimpleBeanBuilder(), new LombokBeanBuilder()};
         this.buildCoders.addAll(Arrays.asList(buildCoders));
     }
 }

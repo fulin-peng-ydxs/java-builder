@@ -2,6 +2,7 @@ package build.bus.meta;
 
 import build.builder.data.BuildResult;
 import build.builder.meta.BuildCoder;
+import build.builder.meta.codes.persist.PersistCodeBuilder;
 import build.bus.exception.BuildBusException;
 import build.response.meta.file.FileBuildResponder;
 import build.source.meta.BuildSource;
@@ -60,18 +61,18 @@ public abstract class BuildBus {
      * @author pengfulin
     */
     public final void build(Class<? extends BuildCoder<?>> builderClass,
-                            BuildSource buildSource, OutputStream outputStream) throws BuildBusException {
+                            BuildSource buildSource,Object persistSource,OutputStream outputStream) throws BuildBusException {
         //获取构建器
-        BuildCoder<?> buildCoder = getBuildCoder(builderClass);
+        BuildCoder<?> buildCoder = getBuildCoder(builderClass,persistSource);
         //执行构建
-        build(buildCoder,buildSource,outputStream);
+        build(buildCoder,buildSource,persistSource,outputStream);
     }
 
     /**构建总线方法：自定义选择构建器
      * 2022/9/7 0007-11:32
      * @author pengfulin
     */
-    public final void build(BuildCoder<?> buildCoder, BuildSource buildSource, OutputStream outputStream) throws BuildBusException {
+    public final void build(BuildCoder<?> buildCoder, BuildSource buildSource,Object persistSource,OutputStream outputStream) throws BuildBusException {
         try {
             //获取解析器
             BuildSourceResolver<?> buildSourceResolver = getBuildSourceResolver(buildSource,buildCoder.supportedBuildSource());
@@ -82,10 +83,10 @@ public abstract class BuildBus {
             if (buildDataModel instanceof List){
                 buildResults=new LinkedList<>();
                 for (Object resolverObj : (List<?>) buildDataModel) {
-                    buildResults.add(buildCoder.buildCode(resolverObj));
+                    buildResults.add(buildCoder.buildCode(resolverObj,persistSource));
                 }
             }else
-                buildResults= Collections.singletonList(buildCoder.buildCode(buildDataModel));
+                buildResults= Collections.singletonList(buildCoder.buildCode(buildDataModel,persistSource));
             //获取构建处理器
             BuildResponder buildResponder = getBuilderResponse(outputStream);
             //响应构建结果
@@ -100,10 +101,14 @@ public abstract class BuildBus {
      * 2022/9/2 0002-16:45
      * @author pengfulin
     */
-    protected BuildCoder<?> getBuildCoder(Class<? extends BuildCoder<?>> builderClass) throws BuildBusException{
+    protected BuildCoder<?> getBuildCoder(Class<? extends BuildCoder<?>> builderClass,Object persistSource) throws BuildBusException{
         for (BuildCoder<?> buildCoder : this.buildCoders) {
-            if (builderClass == buildCoder.getClass())
+            if (builderClass == buildCoder.getClass()){
+                if(persistSource!=null &&buildCoder instanceof PersistCodeBuilder)
+                  if(((PersistCodeBuilder<?>)buildCoder).analysable()!=persistSource.getClass())
+                      continue;
                 return buildCoder;
+            }
         }
         throw new BuildBusException("The buildCoder was not found："+builderClass.getName());
     }

@@ -6,6 +6,8 @@ import build.builder.data.classes.meta.FieldMeta;
 import build.builder.data.classes.meta.MethodMeta;
 import build.builder.data.classes.model.ClassModel;
 import build.builder.meta.codes.java.JavaCodeBuilder;
+import build.builder.meta.codes.persist.PersistCodeBuilder;
+
 import java.util.Map;
 import java.util.Set;
 /**
@@ -14,7 +16,7 @@ import java.util.Set;
  * @author peng_fu_lin
  * 2022-09-06 17:55
  */
-public abstract class ClassBuilder extends JavaCodeBuilder<ClassModel> {
+public abstract class ClassBuilder extends JavaCodeBuilder<ClassModel>{
 
     @Override
     protected String convertCode(ClassModel model) {

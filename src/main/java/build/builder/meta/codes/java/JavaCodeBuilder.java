@@ -142,15 +142,6 @@ public abstract class JavaCodeBuilder<T> extends CodeBuilder<T> {
         return builder.toString();
     }
 
-    protected String doGetAttributes(Map<String, FieldMeta> fieldMetas){
-        StringBuilder builder = new StringBuilder();
-        fieldMetas.forEach((key,value)->{
-            builder.append(doGetAttribute(value))
-                    .append(structureClearanceLineStyle());
-        });
-        return builder.toString();
-    }
-
     /**生成类属性
      * 2022/9/14 0014-15:34
      * @author pengfulin
@@ -180,6 +171,16 @@ public abstract class JavaCodeBuilder<T> extends CodeBuilder<T> {
         builder.append(";").append("\n");
         return  builder.toString();
     }
+
+    protected String doGetAttributes(Map<String, FieldMeta> fieldMetas){
+        StringBuilder builder = new StringBuilder();
+        fieldMetas.forEach((key,value)->{
+            builder.append(doGetAttribute(value))
+                    .append(structureClearanceLineStyle());
+        });
+        return builder.toString();
+    }
+
 
     /**代码间隙风格
      * 2022/9/9 0009-16:26

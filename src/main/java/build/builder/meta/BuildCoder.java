@@ -14,7 +14,7 @@ public abstract class BuildCoder<T> {
      * 2022/9/6 0006-15:31
      * @author pengfulin
     */
-    public abstract BuildResult buildCode(Object buildDataModel) throws BuilderException;
+    public abstract BuildResult buildCode(Object buildDataModel, Object persistDataModel) throws BuilderException;
 
     /**可支持的构建模型
      * 2022/9/7 0007-15:30

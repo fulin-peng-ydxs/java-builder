@@ -1,7 +1,7 @@
 import build.builder.meta.codes.java.classes.bean.LombokBeanBuilder;
 import build.builder.meta.codes.java.classes.bean.SimpleBeanBuilder;
 import build.bus.exception.BuildBusException;
-import build.bus.model.SimpleBuildBus;
+import build.bus.model.simple.SimpleBuildBus;
 import build.source.meta.jdbc.JdbcBuildFileSource;
 import com.mysql.jdbc.Driver;
 import org.junit.Before;
@@ -41,7 +41,7 @@ public class TestModel {
         //构建总线
         SimpleBuildBus simpleBuildBus = new SimpleBuildBus();
         //执行构建
-        simpleBuildBus.build(SimpleBeanBuilder.class, jdbcBuildFileSource,null);
+        simpleBuildBus.build(SimpleBeanBuilder.class, jdbcBuildFileSource,null,null);
     }
 
     @Test
@@ -49,6 +49,6 @@ public class TestModel {
         //构建总线
         SimpleBuildBus simpleBuildBus = new SimpleBuildBus();
         //执行构建
-        simpleBuildBus.build(LombokBeanBuilder.class, jdbcBuildFileSource,null);
+        simpleBuildBus.build(LombokBeanBuilder.class, jdbcBuildFileSource,null,null);
     }
 }

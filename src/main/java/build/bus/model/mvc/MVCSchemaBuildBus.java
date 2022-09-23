@@ -1,4 +1,4 @@
-package build.bus.model;
+package build.bus.model.mvc;
 
 /**
  * Mvc模式构建总线
@@ -6,8 +6,5 @@ package build.bus.model;
  * @author peng_fu_lin
  * 2022-09-07 16:58
  */
-public class MVCBuildBus {
-
-
-
+public class MVCSchemaBuildBus {
 }
