@@ -18,5 +18,5 @@ public interface  PersistCodeBuilder<T> {
      * 2022/9/23 0023-15:28
      * @author pengfulin
     */
-     default T resolvePersistSource(Object persist) {throw new RuntimeException("an unsupported method");}
+     default T resolvePersistSource(Object persistSource) {throw new RuntimeException("an unsupported method");}
 }
