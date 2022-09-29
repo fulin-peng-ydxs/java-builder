@@ -4,7 +4,7 @@ import build.builder.data.classes.enums.ClassStructure;
 import build.builder.data.classes.meta.FieldMeta;
 import build.builder.data.classes.meta.MethodMeta;
 import build.builder.data.classes.meta.ParamMeta;
-import build.builder.util.ClassUtil;
+import build.builder.util.ClassBuildUtil;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -24,7 +24,7 @@ public class SimpleBeanBuilder extends BeanBuilder{
         fields.forEach((key,value)->{
             //Get方法
             MethodMeta getMethodMeta = new MethodMeta();
-            getMethodMeta.setMethodName(ClassUtil.getClassStructureName("get"+"_"+
+            getMethodMeta.setMethodName(ClassBuildUtil.getClassStructureName("get"+"_"+
                     value.getFieldName(),"_", ClassStructure.CLASS_METHOD));
             getMethodMeta.setMethodReturn(value.getFieldType().java);
             String getMethodTemplate="%sreturn%s%s;\n";
@@ -33,7 +33,7 @@ public class SimpleBeanBuilder extends BeanBuilder{
             getMethodMeta.setMethodContent(methodContent);
             //Set方法
             MethodMeta setMethodMeta = new MethodMeta();
-            setMethodMeta.setMethodName(ClassUtil.getClassStructureName("set"+"_"+
+            setMethodMeta.setMethodName(ClassBuildUtil.getClassStructureName("set"+"_"+
                     value.getFieldName(),"_", ClassStructure.CLASS_METHOD));
             setMethodMeta.setMethodReturn(void.class);
             String setMethodTemplate="%sthis.%s%s=%s%s;\n";

@@ -1,12 +1,12 @@
 package build.builder.data.classes.model;
 
 
+import build.builder.data.BuildModel;
 import build.builder.data.classes.meta.*;
 import lombok.Getter;
 import lombok.Setter;
 import java.util.Map;
 import java.util.Set;
-
 /**类构建模型
  *
  * 2022/9/7 0007-13:47
@@ -14,15 +14,15 @@ import java.util.Set;
 */
 @Getter
 @Setter
-public class ClassModel {
+public class ClassModel extends BuildModel {
     //包声明
-    private String classPackage;
+    protected String classPackage;
     //类导入
-    private Set<Class<?>> classImports;
+    protected Set<Class<?>> classImports;
     //类声明
-    private ClassMetaStatement classMetaStatement;
+    protected ClassMetaStatement classMetaStatement;
     //所含属性
-    private Map<String, FieldMeta> attributes;
+    protected Map<String, FieldMeta> attributes;
     //所含方法
-    private Map<String, MethodMeta> methods;
+    protected Map<String, MethodMeta> methods;
 }

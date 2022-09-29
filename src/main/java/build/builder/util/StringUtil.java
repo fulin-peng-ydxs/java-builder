@@ -1,5 +1,10 @@
 package build.builder.util;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.Reader;
+import java.util.LinkedList;
+import java.util.List;
 /**
  * String字符串工具类
  *
@@ -146,5 +151,102 @@ public class StringUtil {
         START,
         END,
         NO_MIDDLE;
+    }
+
+    /**提取字符串
+     * 2022/9/26 0026-16:00
+     * @param value 待提取字符串值
+     * @param start 开始位置
+     * @param end 结束位置
+     * @param isContain 是否包含开始/结束
+     * @param isStartIndex  是否为从前开始，否则将从尾部开始
+     * @param isLast 结束位置是否为最后结尾位置，如果不是，则直接返回
+     * @author pengfulin
+     */
+    public static String substring(String value,String start,String end,boolean isContain,
+                                   boolean isStartIndex,boolean isLast){
+        //如果start&&end为空
+        if(StringUtil.isEmpty(start,true)&&
+                StringUtil.isEmpty(end,true))
+            return null;
+        //如果结束位置不为字符串最后的位置，则直接返回
+        if(isLast&&StringUtil.isEmpty(start,true))
+            if(value.length()!=index(value,end,false,true, false))
+                return value;
+        //如果start||end为空
+        if(StringUtil.isEmpty(start,true)||StringUtil.isEmpty(end,true)){
+            int index;
+            if(StringUtil.isEmpty(start,true)){  //开始点为null
+                index=index(value, end, isStartIndex, isContain,false);
+                if(index<0) return null;
+                return value.substring(0,index);
+            }else{  //结束点为null
+                index = index(value, start, isStartIndex, isContain,true);
+                if(index<0) return null;
+                return value.substring(index);
+            }
+        }
+        //如果start&&end都不为空
+        int startIndex=index(value, start, isStartIndex, isContain,true);
+        int endIndex=index(value, end, isStartIndex, isContain,false);
+        if(startIndex<0||endIndex<0)
+            return null;
+        if(startIndex>endIndex)
+            return null;
+        return value.substring(startIndex, endIndex);
+    }
+
+    /**获取指定字符串的索引位置
+     * 2022/9/26 0026-16:14
+     * @author pengfulin
+     * @param value 源字符串
+     * @param indexValue 指定字符串
+     * @param isStartIndex 是否为从前开始，否则将从尾部开始
+     * @param isContain 是否为包含位置
+     * @param isPrefix 指定字符串是否在前缀
+     * @return 返回指定字符串位置的索引
+     */
+    private static int index(String value,String indexValue,boolean isStartIndex,boolean isContain, boolean isPrefix){
+        int index;
+        if(isStartIndex){
+            index=value.indexOf(indexValue);
+        }else{
+            index=value.lastIndexOf(indexValue);
+        }
+        if(index<0) return index;
+        if(isPrefix)
+            index=isContain?index:index+1;
+        else
+            index=isContain?index+1:index;
+        return index;
+    }
+
+
+    /**文件转字符串
+     * 2022/9/26 0026-15:43
+     * @param reader 读取字符流
+     * @param isClearSpacing 是否清除空格
+     * @param isClearBlankLines 是否清除空行
+     * @param codeBr 换行符
+     * @author pengfulin
+     */
+    public static List<String> fileToLines(Reader reader, boolean isClearSpacing , boolean isClearBlankLines, String codeBr) throws IOException {
+        LinkedList<String> lines = new LinkedList<>();
+        BufferedReader bufferedReader = new BufferedReader(reader);
+        String lineTemp;
+        while ((lineTemp = bufferedReader.readLine()) != null) {
+            StringBuilder builderLine = new StringBuilder();
+            if (isClearSpacing)
+                lineTemp = lineTemp.trim();
+            if(isClearBlankLines){
+                if (!(lineTemp.trim().length()>0))
+                    continue; //去除空行
+            }
+            builderLine.append(lineTemp);
+            if(codeBr!=null)
+                builderLine.append(codeBr);
+            lines.add(builderLine.toString());
+        }
+        return lines;
     }
 }

@@ -4,7 +4,8 @@ import build.builder.data.classes.enums.CommentType;
 import build.builder.data.classes.enums.MethodType;
 import build.builder.data.classes.meta.*;
 import build.builder.meta.codes.CodeBuilder;
-import build.builder.util.ClassUtil;
+import build.builder.meta.codes.persist.PersistResolverException;
+import build.builder.util.ClassBuildUtil;
 import build.builder.util.StringUtil;
 import lombok.Getter;
 import lombok.Setter;
@@ -298,8 +299,6 @@ public abstract class JavaCodeBuilder<T> extends CodeBuilder<T> {
         return classType.getSimpleName();
     }
 
-
-
     /**类声明中的类导入信息
      * 2022/9/19 0019-14:52
      * @author pengfulin
@@ -309,13 +308,13 @@ public abstract class JavaCodeBuilder<T> extends CodeBuilder<T> {
         ExtendsMeta classExtends = classMetaStatement.getClassExtends();
         if(classExtends!=null){
             Class<?> extendsType = classExtends.getExtendsType();
-            if(!ClassUtil.ignoreImportClass(extendsType))
+            if(!ClassBuildUtil.ignoreImportClass(extendsType))
                 classImports.add(extendsType);
         }
         Map<Class<?>, ImplementsMeta> classImplements = classMetaStatement.getClassImplements();
         if(classImplements!=null){
             classImplements.forEach((key,value)->{
-                if (!ClassUtil.ignoreImportClass(key)) {
+                if (!ClassBuildUtil.ignoreImportClass(key)) {
                     classImports.add(key);
                 }
             });
@@ -331,10 +330,32 @@ public abstract class JavaCodeBuilder<T> extends CodeBuilder<T> {
         Set<Class<?>> classImports = new LinkedHashSet<>();
         attributes.forEach((key,value)->{
             Class<?> java = value.getFieldType().java;
-            if (!ClassUtil.ignoreImportClass(java)) {
+            if (!ClassBuildUtil.ignoreImportClass(java)) {
                 classImports.add(java);
             }
         });
         return classImports;
     }
+
+    @Override
+    public Class<?> analysable() {return String.class;}
+
+    @Override
+    public T resolvePersistSource(Object persistSource) throws PersistResolverException {
+        if(persistSource instanceof String){
+            try {
+                Class<?> aClass = Class.forName((String) persistSource);
+                return resolvePersistSource(aClass);
+            } catch (ClassNotFoundException e) {
+                throw new PersistResolverException("Failed to parse the data source",e);
+            }
+        }
+        return null;
+    }
+    
+    /**解析持续集成源
+     * 2022/9/29 0029-14:56
+     * @author pengfulin
+    */
+    protected T resolvePersistSource( Class<?> aClass){ throw new RuntimeException("An unsupported method");}
 }

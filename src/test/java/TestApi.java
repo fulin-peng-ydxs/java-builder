@@ -1,3 +1,5 @@
+import build.builder.data.BuildModel;
+import jdk.internal.org.objectweb.asm.ClassWriter;
 import org.junit.Test;
 
 /**
@@ -12,4 +14,11 @@ public class TestApi {
     public void test01(){
         System.out.println(null instanceof String);
     }
+
+    @Test
+    public void test02(){
+        System.out.println( BuildModel.class.getResource("").getFile());
+    }
+
+
 }

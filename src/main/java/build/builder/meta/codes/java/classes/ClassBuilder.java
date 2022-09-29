@@ -1,12 +1,11 @@
 package build.builder.meta.codes.java.classes;
-
 import build.builder.data.BuildResult;
 import build.builder.data.classes.meta.ClassMetaStatement;
 import build.builder.data.classes.meta.FieldMeta;
 import build.builder.data.classes.meta.MethodMeta;
 import build.builder.data.classes.model.ClassModel;
 import build.builder.meta.codes.java.JavaCodeBuilder;
-import build.builder.meta.codes.persist.PersistCodeBuilder;
+import build.builder.util.ClassBuildUtil;
 
 import java.util.Map;
 import java.util.Set;
@@ -16,7 +15,7 @@ import java.util.Set;
  * @author peng_fu_lin
  * 2022-09-06 17:55
  */
-public abstract class ClassBuilder extends JavaCodeBuilder<ClassModel>{
+public abstract class ClassBuilder extends JavaCodeBuilder<ClassModel> {
 
     @Override
     protected String convertCode(ClassModel model) {
@@ -46,7 +45,12 @@ public abstract class ClassBuilder extends JavaCodeBuilder<ClassModel>{
     @Override
     protected BuildResult convertBuildResult(ClassModel model, byte[] bytes) {
         String className = model.getClassMetaStatement().getClassName();
-        return new BuildResult(String.format("%s.java",className), bytes);
+        return new BuildResult(String.format("%s.java",className), bytes,null);
+    }
+
+    @Override
+    protected ClassModel resolvePersistSource(Class<?> aClass) {
+        return ClassBuildUtil.resolveClassModel(aClass);
     }
 
     /**生成类包声明

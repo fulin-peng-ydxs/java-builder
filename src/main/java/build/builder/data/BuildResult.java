@@ -11,6 +11,10 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class BuildResult {
+    /**构建名*/
     private String buildName;
+    /**构建数据*/
     private byte[] buildData;
+    /**构建地址*/
+    private String buildTarget;
 }

@@ -2,7 +2,7 @@ package build.builder.meta.codes;
 
 import build.builder.data.BuildResult;
 import build.builder.meta.BuildCoder;
-import build.builder.meta.codes.persist.PersistCodeBuilder;
+import build.builder.meta.codes.persist.PersistResolver;
 import build.builder.meta.exception.BuilderException;
 import build.builder.util.StringUtil;
 import java.nio.charset.StandardCharsets;
@@ -12,7 +12,7 @@ import java.nio.charset.StandardCharsets;
  * @author peng_fu_lin
  * 2022-09-07 14:10
  */
-public abstract class CodeBuilder<T> extends BuildCoder<T> implements PersistCodeBuilder<T> {
+public abstract class CodeBuilder<T> extends BuildCoder<T> implements PersistResolver<T> {
 
     /**代码构建风格*/
     protected CodeBuildStyle codeBuildStyle=new CodeBuildStyle();
@@ -33,18 +33,23 @@ public abstract class CodeBuilder<T> extends BuildCoder<T> implements PersistCod
      * 2022/9/23 0023-11:19
      * @author pengfulin
      */
-    protected final T convertBuildModel(Object buildDataModel,Object persistDataModel){
-        T buildModel = getBuildModel(buildDataModel);
-        if(persistDataModel==null)
-            return buildModel;
-        return mergePersistBuildModel(buildModel,resolvePersistSource(persistDataModel));
+    protected final T convertBuildModel(Object buildDataModel,Object persistDataModel) throws BuilderException {
+        try {
+            T buildModel = getBuildModel(buildDataModel);
+            if(persistDataModel==null)
+                return buildModel;
+            return mergePersistBuildModel(buildModel,resolvePersistSource(persistDataModel));
+        } catch (Exception e) {
+             throw new BuilderException("The data model transformation failed",e);
+        }
     }
+
     /**将构建模型合并成持续集成构建模型
      * 2022/9/23 0023-14:43
      * @author pengfulin
      */
     protected T mergePersistBuildModel(T newBuildModel,T oldBuildModel) {
-        throw new RuntimeException("an unsupported method");
+        throw new RuntimeException("An unsupported method");
     }
 
     /**执行构建

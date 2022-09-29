@@ -1,18 +1,18 @@
 package build.builder.util;
 
 import build.builder.data.classes.enums.ClassStructure;
+import build.builder.data.classes.model.ClassModel;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.LinkedList;
 import java.util.List;
-
 /**
- * Class反射工具类
+ * Class构建工具类
  *
  * @author peng_fu_lin
  * 2022-09-07 15:17
  */
-public class ClassUtil{
+public class ClassBuildUtil {
 
     /**获取泛型
      * 2022/9/7 0007-15:17
@@ -29,7 +29,6 @@ public class ClassUtil{
         }
         return paramTypes;
     }
-
 
     /**生成命名
      * 2022/9/15 0015-15:49
@@ -62,5 +61,24 @@ public class ClassUtil{
      */
     public static boolean ignoreImportClass(Class<?> clazz){
         return clazz.getName().startsWith("java.lang");
+    }
+
+    /**通过Class解析ClassModel
+     * 2022/9/29 0029-15:06
+     * @author pengfulin
+    */
+    public static ClassModel resolveClassModel(Class<?> clazz){
+        int modifiers = clazz.getModifiers();
+//        //获取构建地址
+//        URL resource = clazz.getResource("");
+//        if(resource!=null)
+//            classModel.setTarget(resource.getPath());
+//        //包声明
+//        classModel.setClassPackage(clazz.getPackage().getName());
+//        //类声明
+//        ClassMetaStatement classMetaStatement = new ClassMetaStatement();
+        //类属性
+        //类方法
+        return null;
     }
 }

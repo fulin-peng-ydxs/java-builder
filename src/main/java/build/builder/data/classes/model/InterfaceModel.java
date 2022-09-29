@@ -6,5 +6,4 @@ package build.builder.data.classes.model;
  * @author peng_fu_lin
  * 2022-09-07 14:02
  */
-public class InterfaceModel {
-}
+public class InterfaceModel  extends ClassModel{ }

@@ -5,7 +5,7 @@ import build.builder.data.classes.enums.FieldType;
 import build.builder.data.classes.meta.*;
 import build.builder.data.classes.model.ClassModel;
 import build.builder.meta.codes.java.classes.ClassBuilder;
-import build.builder.util.ClassUtil;
+import build.builder.util.ClassBuildUtil;
 import build.builder.util.StringUtil;
 import build.source.data.meta.bean.BuildBean;
 import build.source.data.meta.bean.BuildBeanItem;
@@ -61,7 +61,7 @@ public abstract class BeanBuilder extends ClassBuilder {
     protected ClassMetaStatement getClassMetaStatement(BuildBean buildBean){
         ClassMetaStatement classMetaStatement = new ClassMetaStatement();
         //类名
-        classMetaStatement.setClassName(ClassUtil.getClassStructureName(buildBean.getName(),"_", ClassStructure.CLASS_DECLARE));
+        classMetaStatement.setClassName(ClassBuildUtil.getClassStructureName(buildBean.getName(),"_", ClassStructure.CLASS_DECLARE));
         //类注释
         String description = buildBean.getDescription();
         if(!StringUtil.isEmpty(description)){
@@ -95,7 +95,7 @@ public abstract class BeanBuilder extends ClassBuilder {
         Map<String, FieldMeta> attributes = new LinkedHashMap<>();
         dataItems.forEach(value->{
             FieldMeta fieldMeta = new FieldMeta();
-            fieldMeta.setFieldName(ClassUtil.getClassStructureName(value.getFieldName(),
+            fieldMeta.setFieldName(ClassBuildUtil.getClassStructureName(value.getFieldName(),
                     "_",ClassStructure.CLASS_ATTRIBUTE));
             String fieldComment = value.getItemConfig().getFieldComment();
             if(!StringUtil.isEmpty(fieldComment)){

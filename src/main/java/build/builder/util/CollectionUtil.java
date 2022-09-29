@@ -1,5 +1,6 @@
 package build.builder.util;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -10,12 +11,23 @@ import java.util.List;
  */
 public class CollectionUtil {
 
-
     /**强制转换泛型集合
      * 2022/9/7 0007-16:00
      * @author pengfulin
     */
     public static  <T>  List<T> getTargetList(Object object, Class<T> target){
         return (List<T>)object;
+    }
+
+    /**是否为空
+     * 2022/9/29 0029-14:00
+     * @author pengfulin
+    */
+    public static boolean isEmpty(Collection<?> collection){
+        return collection==null||collection.isEmpty();
+    }
+
+    public static boolean isNotEmpty(Collection<?> collection){
+        return !isEmpty(collection);
     }
 }

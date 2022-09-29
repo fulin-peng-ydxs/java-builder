@@ -42,7 +42,7 @@ public class JdbcBSRBuildBean extends JdbcBSR<List<BuildBean>>
             JdbcBuildSource jdbcBuildSource = (JdbcBuildSource) builderSource;
             return getBuildBeans(jdbcBuildSource.getTableNames(), jdbcBuildSource.getDataBaseName(), resolverSQL, resolverConnection);
         } catch (Exception e) {
-            throw new JdbcBuildSourceResolverException("JDBC resolution builds source exceptions",e);
+            throw new JdbcBuildSourceResolverException("failed to resolve the data source",e);
         }
     }
 

@@ -2,7 +2,7 @@ package build.bus.meta;
 
 import build.builder.data.BuildResult;
 import build.builder.meta.BuildCoder;
-import build.builder.meta.codes.persist.PersistCodeBuilder;
+import build.builder.meta.codes.persist.PersistResolver;
 import build.bus.exception.BuildBusException;
 import build.response.meta.file.FileBuildResponder;
 import build.source.meta.BuildSource;
@@ -104,13 +104,13 @@ public abstract class BuildBus {
     protected BuildCoder<?> getBuildCoder(Class<? extends BuildCoder<?>> builderClass,Object persistSource) throws BuildBusException{
         for (BuildCoder<?> buildCoder : this.buildCoders) {
             if (builderClass == buildCoder.getClass()){
-                if(persistSource!=null &&buildCoder instanceof PersistCodeBuilder)
-                  if(((PersistCodeBuilder<?>)buildCoder).analysable()!=persistSource.getClass())
+                if(persistSource!=null &&buildCoder instanceof PersistResolver)
+                  if(persistSource.getClass().isAssignableFrom(((PersistResolver<?>)buildCoder).analysable()))
                       continue;
                 return buildCoder;
             }
         }
-        throw new BuildBusException("The buildCoder was not found："+builderClass.getName());
+        throw new BuildBusException("The buildCoder was not found or is not supported："+builderClass.getName());
     }
 
     /**获取适配的构建响应器
