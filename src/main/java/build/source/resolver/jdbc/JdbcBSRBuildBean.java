@@ -18,7 +18,7 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 /**
- * Jdbc解析器-BuildMeta
+ * Jdbc解析器-BuildBean
  *
  * @author peng_fu_lin
  * 2022-09-07 14:52

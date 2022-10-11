@@ -1,6 +1,7 @@
 package build.response.meta.file;
 
 import build.builder.data.BuildResult;
+import build.builder.util.StringBuildUtil;
 import build.response.exception.BuildResponseException;
 import build.response.meta.BuildResponder;
 import javax.swing.filechooser.FileSystemView;
@@ -23,12 +24,14 @@ public class FileBuildResponder extends BuildResponder {
     @Override
     public void buildResponse(OutputStream outputStream, List<BuildResult> buildResults) throws BuildResponseException {
         try {
-            for (BuildResult buildResult : buildResults) {
-                if(outputStream==null)
-                    outputStream = new FileOutputStream(defaultBuildPath + File.separator +
-                            buildResult.getBuildName());
-                response(outputStream,buildResult);
-                outputStream.close();
+            if(outputStream==null){
+                for (BuildResult buildResult : buildResults) {
+                    String path= StringBuildUtil.isEmpty(buildResult.getBuildTarget())? defaultBuildPath + File.separator + buildResult.getBuildName()
+                            :buildResult.getBuildTarget()+ File.separator + buildResult.getBuildName();
+                    outputStream = new FileOutputStream(path);
+                    response(outputStream,buildResult);
+                    outputStream.close();
+                }
             }
         } catch (Exception e) {
             if(outputStream!=null) {

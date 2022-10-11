@@ -6,7 +6,6 @@ import build.builder.data.classes.meta.MethodMeta;
 import build.builder.data.classes.model.ClassModel;
 import build.builder.meta.codes.java.JavaCodeBuilder;
 import build.builder.util.ClassBuildUtil;
-
 import java.util.Map;
 import java.util.Set;
 /**
@@ -45,7 +44,7 @@ public abstract class ClassBuilder extends JavaCodeBuilder<ClassModel> {
     @Override
     protected BuildResult convertBuildResult(ClassModel model, byte[] bytes) {
         String className = model.getClassMetaStatement().getClassName();
-        return new BuildResult(String.format("%s.java",className), bytes,null);
+        return new BuildResult(String.format("%s.java",className), bytes,model.getTarget());
     }
 
     @Override

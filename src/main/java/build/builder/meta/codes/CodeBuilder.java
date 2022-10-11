@@ -4,7 +4,7 @@ import build.builder.data.BuildResult;
 import build.builder.meta.BuildCoder;
 import build.builder.meta.codes.persist.PersistResolver;
 import build.builder.meta.exception.BuilderException;
-import build.builder.util.StringUtil;
+import build.builder.util.StringBuildUtil;
 import java.nio.charset.StandardCharsets;
 /**
  * 代码构建器
@@ -29,6 +29,8 @@ public abstract class CodeBuilder<T> extends BuildCoder<T> implements PersistRes
         }
     }
 
+
+
     /**将数据模型转化为构建模型
      * 2022/9/23 0023-11:19
      * @author pengfulin
@@ -52,18 +54,10 @@ public abstract class CodeBuilder<T> extends BuildCoder<T> implements PersistRes
         throw new RuntimeException("An unsupported method");
     }
 
-    /**执行构建
-     * 2022/9/23 0023-15:35
-     * @author pengfulin
-    */
-    protected BuildResult doBuildResult(T buildModel){
-        //将构建模型转换成代码
-        String code = convertCode(buildModel);
-        //将代码转换成构建字节结果集
-        byte[] bytes = convertBuildBytes(code);
-        //生成构建结果对象
-        return convertBuildResult(buildModel,bytes);
-    }
+
+
+
+
 
     /**将构建模型转化为代码
      * 2022/9/7 0007-14:26
@@ -84,6 +78,20 @@ public abstract class CodeBuilder<T> extends BuildCoder<T> implements PersistRes
      * @author pengfulin
      */
     protected abstract BuildResult convertBuildResult(T model,byte[] bytes);
+
+    /**执行构建
+     * 2022/9/23 0023-15:35
+     * @author pengfulin
+     */
+    protected BuildResult doBuildResult(T buildModel){
+        //将构建模型转换成代码
+        String code = convertCode(buildModel);
+        //将代码转换成构建字节结果集
+        byte[] bytes = convertBuildBytes(code);
+        //生成构建结果对象
+        return convertBuildResult(buildModel,bytes);
+    }
+
 
     public static class CodeBuildStyle{
         //代码间的间隙
@@ -107,7 +115,7 @@ public abstract class CodeBuilder<T> extends BuildCoder<T> implements PersistRes
      * @author pengfulin
      */
     protected String clearanceLineStyle(int num){
-        return  StringUtil.cycleAppend("\n",num);
+        return  StringBuildUtil.cycleAppend("\n",num);
     }
     
     /**缩进风格实现
@@ -115,6 +123,6 @@ public abstract class CodeBuilder<T> extends BuildCoder<T> implements PersistRes
      * @author pengfulin
      */
     protected String indentationStyle(int num){
-        return StringUtil.cycleAppend(" ",num);
+        return StringBuildUtil.cycleAppend(" ",num);
     }
 }

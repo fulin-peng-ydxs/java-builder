@@ -11,8 +11,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * 简单的Bean构建器
- * <p>：构建传统的bean</p>
+ * 简单的Bean构建器：构建传统的bean
  * @author peng_fu_lin
  * 2022-09-15 10:31
  */

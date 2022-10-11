@@ -11,7 +11,7 @@ import java.util.List;
  * @author peng_fu_lin
  * 2022-09-08 16:23
  */
-public class StringUtil {
+public class StringBuildUtil {
 
 
     /**是否为空
@@ -166,17 +166,17 @@ public class StringUtil {
     public static String substring(String value,String start,String end,boolean isContain,
                                    boolean isStartIndex,boolean isLast){
         //如果start&&end为空
-        if(StringUtil.isEmpty(start,true)&&
-                StringUtil.isEmpty(end,true))
+        if(StringBuildUtil.isEmpty(start,true)&&
+                StringBuildUtil.isEmpty(end,true))
             return null;
         //如果结束位置不为字符串最后的位置，则直接返回
-        if(isLast&&StringUtil.isEmpty(start,true))
+        if(isLast&& StringBuildUtil.isEmpty(start,true))
             if(value.length()!=index(value,end,false,true, false))
                 return value;
         //如果start||end为空
-        if(StringUtil.isEmpty(start,true)||StringUtil.isEmpty(end,true)){
+        if(StringBuildUtil.isEmpty(start,true)|| StringBuildUtil.isEmpty(end,true)){
             int index;
-            if(StringUtil.isEmpty(start,true)){  //开始点为null
+            if(StringBuildUtil.isEmpty(start,true)){  //开始点为null
                 index=index(value, end, isStartIndex, isContain,false);
                 if(index<0) return null;
                 return value.substring(0,index);
@@ -222,7 +222,7 @@ public class StringUtil {
     }
 
 
-    /**文件转字符串
+    /**文件转字符集
      * 2022/9/26 0026-15:43
      * @param reader 读取字符流
      * @param isClearSpacing 是否清除空格
@@ -248,5 +248,17 @@ public class StringUtil {
             lines.add(builderLine.toString());
         }
         return lines;
+    }
+
+    /**文件转字符串
+     * 2022/10/10 0010-14:30
+     * @author pengfulin
+    */
+    public static String fileToString(Reader reader, boolean isClearSpacing , boolean isClearBlankLines, String codeBr) throws IOException {
+        List<String> fileToLines = fileToLines(reader, isClearSpacing, isClearBlankLines, codeBr);
+        StringBuilder builder = new StringBuilder();
+        for (String fileToLine : fileToLines)
+            builder.append(fileToLine);
+        return builder.toString();
     }
 }

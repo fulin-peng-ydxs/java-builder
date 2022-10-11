@@ -6,7 +6,7 @@ import build.builder.data.classes.meta.*;
 import build.builder.meta.codes.CodeBuilder;
 import build.builder.meta.codes.persist.PersistResolverException;
 import build.builder.util.ClassBuildUtil;
-import build.builder.util.StringUtil;
+import build.builder.util.StringBuildUtil;
 import lombok.Getter;
 import lombok.Setter;
 import java.util.LinkedHashSet;
@@ -74,7 +74,7 @@ public abstract class JavaCodeBuilder<T> extends CodeBuilder<T> {
                 implBuilder.append(doGetImpl(value))
                         .append(",");
             });
-            builder.append(StringUtil.clearChar(implBuilder.toString(),',', StringUtil.ClearCharType.END,-1))
+            builder.append(StringBuildUtil.clearChar(implBuilder.toString(),',', StringBuildUtil.ClearCharType.END,-1))
                     .append(codeSpaceStyle());
         }
         builder.append("{");
@@ -116,8 +116,8 @@ public abstract class JavaCodeBuilder<T> extends CodeBuilder<T> {
                         .append(codeSpaceStyle())
                         .append(value.getParamName()).append(",");
             });
-            builder.append(StringUtil.clearChar(paramsBuilder.toString(),',',
-                    StringUtil.ClearCharType.END,-1));
+            builder.append(StringBuildUtil.clearChar(paramsBuilder.toString(),',',
+                    StringBuildUtil.ClearCharType.END,-1));
         }
         builder.append(")");
         //抽象方法结束
@@ -248,8 +248,8 @@ public abstract class JavaCodeBuilder<T> extends CodeBuilder<T> {
     */
     protected String getManyComment(CommentMeta commentMeta, int spaceNum){
         StringBuilder builder = new StringBuilder();
-        builder.append(String.format("%s/**%s\n",indentationStyle(spaceNum),StringUtil.clearChar(
-                commentMeta.getDescription(),'\n', StringUtil.ClearCharType.ALL,-1)));
+        builder.append(String.format("%s/**%s\n",indentationStyle(spaceNum), StringBuildUtil.clearChar(
+                commentMeta.getDescription(),'\n', StringBuildUtil.ClearCharType.ALL,-1)));
         String template="%s * %s %s\n";
         Map<String, String> labels = commentMeta.getLabels();
         if(labels!=null){
@@ -293,7 +293,7 @@ public abstract class JavaCodeBuilder<T> extends CodeBuilder<T> {
                 builder.append(value.getSimpleName()).append(",");
             });
             String paramValue = builder.toString();
-            paramValue= StringUtil.clearChar(paramValue,',',StringUtil.ClearCharType.END, -1);
+            paramValue= StringBuildUtil.clearChar(paramValue,',', StringBuildUtil.ClearCharType.END, -1);
             return String.format(template, classType.getSimpleName(), paramValue);
         }
         return classType.getSimpleName();
@@ -357,5 +357,5 @@ public abstract class JavaCodeBuilder<T> extends CodeBuilder<T> {
      * 2022/9/29 0029-14:56
      * @author pengfulin
     */
-    protected T resolvePersistSource( Class<?> aClass){ throw new RuntimeException("An unsupported method");}
+    protected T resolvePersistSource(Class<?> aClass){ throw new RuntimeException("An unsupported method");}
 }

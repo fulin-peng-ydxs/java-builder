@@ -34,8 +34,7 @@ public class ClassBuildUtil {
      * 2022/9/15 0015-15:49
      * @author pengfulin
     */
-    public static String getClassStructureName(String structureValue,String splitValue,
-                                               ClassStructure classStructure){
+    public static String getClassStructureName(String structureValue,String splitValue, ClassStructure classStructure){
         StringBuilder builder = new StringBuilder();
         String[] split = structureValue.split(splitValue);
         boolean isContinue=true;
@@ -67,18 +66,8 @@ public class ClassBuildUtil {
      * 2022/9/29 0029-15:06
      * @author pengfulin
     */
+    //TODO 待后续实现
     public static ClassModel resolveClassModel(Class<?> clazz){
-        int modifiers = clazz.getModifiers();
-//        //获取构建地址
-//        URL resource = clazz.getResource("");
-//        if(resource!=null)
-//            classModel.setTarget(resource.getPath());
-//        //包声明
-//        classModel.setClassPackage(clazz.getPackage().getName());
-//        //类声明
-//        ClassMetaStatement classMetaStatement = new ClassMetaStatement();
-        //类属性
-        //类方法
         return null;
     }
 }
