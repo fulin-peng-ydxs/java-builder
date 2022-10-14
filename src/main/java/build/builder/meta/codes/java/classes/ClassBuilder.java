@@ -43,8 +43,11 @@ public abstract class ClassBuilder extends JavaCodeBuilder<ClassModel> {
 
     @Override
     protected BuildResult convertBuildResult(ClassModel model, byte[] bytes) {
+        BuildResult buildResult = super.convertBuildResult(model, bytes);
         String className = model.getClassMetaStatement().getClassName();
-        return new BuildResult(String.format("%s.java",className), bytes,model.getTarget());
+        buildResult.setBuildName(String.format(buildResult.getBuildName(),className));
+        buildResult.setBuildTarget(model.getTarget());
+        return buildResult;
     }
 
     @Override

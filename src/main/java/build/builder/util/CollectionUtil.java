@@ -1,7 +1,9 @@
 package build.builder.util;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 集合工具类
@@ -29,5 +31,21 @@ public class CollectionUtil {
 
     public static boolean isNotEmpty(Collection<?> collection){
         return !isEmpty(collection);
+    }
+    
+    
+    /**生成集合
+     * 2022/10/14 0014-10:27
+     * @param a 待加入集合的可变数组，会忽略为null的元素
+     * @author pengfulin
+    */
+    public static <T> List<T> asList(T... a){
+        T[] array = Objects.requireNonNull(a);
+        List<T> list = new ArrayList<>();
+        for (T t : array) {
+            if(t!=null)
+                list.add(t);
+        }
+        return list;
     }
 }

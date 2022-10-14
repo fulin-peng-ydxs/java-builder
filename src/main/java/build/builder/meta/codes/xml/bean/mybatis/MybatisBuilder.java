@@ -53,8 +53,7 @@ public abstract class MybatisBuilder extends XmlCodeBuilder<MybatisBeanModel> {
      * @author pengfulin
      */
     protected String getNameSpace(MybatisBuildBean mybatisBuildBean){
-        ClassModel beanModel = mybatisBuildBean.getBeanModel();
-        return beanModel.getClassPackage() + "." + beanModel.getClassMetaStatement().getClassName();
+        return mybatisBuildBean.getBeanInfo().getBeanName();
     }
 
     /**获取映射名
@@ -62,7 +61,7 @@ public abstract class MybatisBuilder extends XmlCodeBuilder<MybatisBeanModel> {
      * @author pengfulin
      */
     protected String getMappingName(MybatisBuildBean mybatisBuildBea){
-        return mybatisBuildBea.getBeanModel().getClassMetaStatement().getClassName();
+        return mybatisBuildBea.getBeanInfo().getBeanSimpleName()+"Mapper";
     }
 
     /**获取sql元素模型
@@ -82,10 +81,12 @@ public abstract class MybatisBuilder extends XmlCodeBuilder<MybatisBeanModel> {
     */
     protected  List<XmlElement> getOtherElements(MybatisBuildBean mybatisBuildBean){return null;}
 
-
     @Override
     protected BuildResult convertBuildResult(MybatisBeanModel model, byte[] bytes) {
-        return new BuildResult(model.getMappingName(),bytes,model.getTarget());
+        BuildResult buildResult = super.convertBuildResult(model, bytes);
+        buildResult.setBuildName(String.format(buildResult.getBuildName(),model.getMappingName()));
+        buildResult.setBuildTarget(model.getTarget());
+        return buildResult;
     }
 
     @Override

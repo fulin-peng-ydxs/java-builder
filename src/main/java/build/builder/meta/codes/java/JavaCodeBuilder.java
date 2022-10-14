@@ -1,5 +1,6 @@
 package build.builder.meta.codes.java;
 
+import build.builder.data.BuildResult;
 import build.builder.data.classes.enums.CommentType;
 import build.builder.data.classes.enums.MethodType;
 import build.builder.data.classes.meta.*;
@@ -25,6 +26,14 @@ public abstract class JavaCodeBuilder<T> extends CodeBuilder<T> {
 
     /**包声明配置*/
     protected String packageStatement;
+
+
+
+
+    @Override
+    protected BuildResult convertBuildResult(T model, byte[] bytes) {
+        return new BuildResult("%s.java",bytes,null);
+    }
 
     /**生成包声明
      * 2022/9/8 0008-15:29

@@ -1,5 +1,7 @@
 package build.builder.meta.codes.xml;
 
+import build.builder.data.BuildResult;
+import build.builder.data.xmls.bean.mybatis.MybatisBeanModel;
 import build.builder.data.xmls.meta.XmlElement;
 import build.builder.meta.codes.CodeBuilder;
 import build.builder.util.StringBuildUtil;
@@ -13,6 +15,13 @@ import java.util.Map;
  */
 public abstract class XmlCodeBuilder<T> extends CodeBuilder<T> {
 
+
+
+    @Override
+    protected BuildResult convertBuildResult(T model, byte[] bytes) {
+        return new BuildResult("%s.xml",bytes,null);
+    }
+
     /**生成元素
      * 2022/10/11 0011-15:35
      * @author pengfulin
@@ -23,7 +32,8 @@ public abstract class XmlCodeBuilder<T> extends CodeBuilder<T> {
                 .append(elementCodeSpaceStyle()).append("id=").append(element.getId());
         if(element.getAttributes()!=null)
             builder.append(elementCodeSpaceStyle()).append(doGetElementAttributes(element.getAttributes()));
-        builder.append(">").append("\n").append(element.getContent()).append("<").append(element.getName()).append("/>").append("\n");
+        builder.append(">").append(elementClearanceLineStyle()).append(element.getContent()).append(elementExternalIndentation())
+                .append("<").append(element.getName()).append("/>").append(elementClearanceLineStyle());
         return builder.toString();
     }
 
@@ -38,8 +48,6 @@ public abstract class XmlCodeBuilder<T> extends CodeBuilder<T> {
         });
         return StringBuildUtil.clearChar(builder.toString(),' ', StringBuildUtil.ClearCharType.END,-1);
     }
-
-
 
 
     /**元素模块间行风格

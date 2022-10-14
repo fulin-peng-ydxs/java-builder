@@ -3,8 +3,8 @@ package build.bus.model.simple;
 import build.builder.meta.BuildCoder;
 import build.builder.meta.codes.java.classes.bean.LombokBeanBuilder;
 import build.builder.meta.codes.java.classes.bean.SimpleBeanBuilder;
+import build.builder.util.CollectionUtil;
 import build.bus.meta.BuildBus;
-import java.util.Arrays;
 /**
  * 简单的构建总线
  *
@@ -25,6 +25,6 @@ public class SimpleBuildBus extends BuildBus {
     */
     private void initBuildCoder(){
         BuildCoder<?>[] buildCoders = {new SimpleBeanBuilder(), new LombokBeanBuilder()};
-        this.buildCoders.addAll(Arrays.asList(buildCoders));
+        this.buildCoders.addAll(CollectionUtil.asList(buildCoders));
     }
 }

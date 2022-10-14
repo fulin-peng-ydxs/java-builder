@@ -21,6 +21,4 @@ public class  XmlElement {
     private Map<String,String> attributes;
     /**元素内容*/
     private String content;
-    /**元素子集*/
-    private List<XmlElement> childrenXmlElements;
 }
