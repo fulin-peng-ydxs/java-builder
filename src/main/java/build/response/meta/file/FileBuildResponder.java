@@ -19,7 +19,7 @@ import java.util.List;
 public class FileBuildResponder extends BuildResponder {
 
     /**默认的构建路径:系统的桌面路径*/
-    protected String defaultBuildPath=FileSystemView.getFileSystemView().getHomeDirectory().getAbsolutePath();
+    protected String defaultBuildPath=FileSystemView.getFileSystemView().getHomeDirectory().getAbsolutePath()+File.separator +"JavaBuilds";
 
     @Override
     public void buildResponse(OutputStream outputStream, List<BuildResult> buildResults) throws BuildResponseException {

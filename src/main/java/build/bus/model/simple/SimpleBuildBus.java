@@ -5,6 +5,7 @@ import build.builder.meta.codes.java.classes.bean.LombokBeanBuilder;
 import build.builder.meta.codes.java.classes.bean.SimpleBeanBuilder;
 import build.builder.util.CollectionUtil;
 import build.bus.meta.BuildBus;
+import java.util.List;
 /**
  * 简单的构建总线
  *
@@ -14,8 +15,8 @@ import build.bus.meta.BuildBus;
 public class SimpleBuildBus extends BuildBus {
 
     @Override
-    protected void init() {
-        initBuildCoder();
+    protected final void init() {
+        this.buildCoders.addAll(initBuildCoder());
         super.init();
     }
 
@@ -23,8 +24,8 @@ public class SimpleBuildBus extends BuildBus {
      * 2022/9/21 0021-16:25
      * @author pengfulin
     */
-    private void initBuildCoder(){
+    protected List<BuildCoder<?>> initBuildCoder(){
         BuildCoder<?>[] buildCoders = {new SimpleBeanBuilder(), new LombokBeanBuilder()};
-        this.buildCoders.addAll(CollectionUtil.asList(buildCoders));
+        return CollectionUtil.asList(buildCoders);
     }
 }

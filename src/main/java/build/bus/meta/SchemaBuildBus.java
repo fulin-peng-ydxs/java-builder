@@ -20,17 +20,16 @@ public abstract class SchemaBuildBus extends BuildBus {
      * 2022/9/2 0002-16:14
      * @author pengfulin
      */
-    public SchemaBuildBus(List<BuildCoder<?>> buildCoders, List<BuildResponder> buildResponders, List<BuildSourceResolver<?>> buildSourceResolvers) {
+    public SchemaBuildBus(List<BuildCoder<?>> buildCoders,List<BuildResponder> buildResponders, List<BuildSourceResolver<?>> buildSourceResolvers) {
         super(buildCoders,buildResponders, buildSourceResolvers);
     }
 
-    /**构建总线方法：适合模式化构建
+    /**构建总线方法：适用模式化构建
      * 2022/9/6 0006-16:47
      * @author pengfulin
      */
     public abstract void build(List<Class<BuildCoder<?>> > builderClasses,
-                               BuildSource buildSource, OutputStream outputStream) throws BuildBusException;
+                               BuildSource buildSource, OutputStream outputStream,List<Object> persistSources) throws BuildBusException;
 
-    public abstract void build(BuildSource buildSource, OutputStream outputStream,
-                               BuildCoder<?>...buildCoders) throws BuildBusException;
+    public abstract void build(BuildSource buildSource, OutputStream outputStream, List<Object> persistSources) throws BuildBusException;
 }

@@ -1,12 +1,11 @@
 package build.builder.meta.codes.xml.bean.mybatis;
 
 import build.builder.data.BuildResult;
-import build.builder.data.classes.model.ClassModel;
 import build.builder.data.xmls.bean.mybatis.MybatisBeanModel;
 import build.builder.data.xmls.meta.XmlElement;
 import build.builder.meta.codes.xml.XmlCodeBuilder;
 import build.builder.util.TemplateCacheUtil;
-import build.source.data.meta.bean.mybatis.MybatisBuildBean;
+import build.source.data.meta.mybatis.MybatisBuildBean;
 import java.io.IOException;
 import java.util.List;
 /**

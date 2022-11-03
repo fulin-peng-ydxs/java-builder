@@ -31,10 +31,10 @@ public abstract class BuildBus {
     */
     public BuildBus(List< BuildCoder<?>> buildCoders, List<BuildResponder> buildResponders,
                     List< BuildSourceResolver<?>> buildSourceResolvers){
+        init();
         this.buildCoders.addAll(buildCoders);
         this.buildResponders.addAll(buildResponders);
         this.buildSourceResolvers.addAll(buildSourceResolvers);
-        init();
     }
 
     /**默认初始化构建总线
@@ -50,10 +50,8 @@ public abstract class BuildBus {
      * @author pengfulin
     */
     protected void init(){
-        //初始化响应器
-        buildResponders.add(new FileBuildResponder());
-        //初始化解析器
-        buildSourceResolvers.add(new JdbcBSRBuildBean());
+        buildResponders.add(new FileBuildResponder()); //初始化响应器
+        buildSourceResolvers.add(new JdbcBSRBuildBean());  //初始化解析器
     }
 
     /**构建总线方法:适用单体构建

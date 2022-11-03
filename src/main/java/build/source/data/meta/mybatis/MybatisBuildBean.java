@@ -1,4 +1,4 @@
-package build.source.data.meta.bean.mybatis;
+package build.source.data.meta.mybatis;
 
 import build.source.data.meta.BuildResolverModel;
 import lombok.AllArgsConstructor;

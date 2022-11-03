@@ -2,7 +2,7 @@ package build.builder.meta.codes.xml.bean.mybatis;
 
 import build.builder.data.xmls.meta.XmlElement;
 import build.builder.util.CollectionUtil;
-import build.source.data.meta.bean.mybatis.MybatisBuildBean;
+import build.source.data.meta.mybatis.MybatisBuildBean;
 import java.util.*;
 /**
  * 简单的Mybatis实体构建器
