@@ -24,11 +24,17 @@ public class TestModel {
     public void before(){
         //数据源
         jdbcBuildFileSource = new JdbcBuildFileSource();
-        jdbcBuildFileSource.setUrl("jdbc:mysql://130.120.2.219:3306/fullres_test_prod");
-        jdbcBuildFileSource.setDataBaseName("fullres_test_prod");
-        jdbcBuildFileSource.setTableNames(Collections.singletonList("sharing_special"));
-        jdbcBuildFileSource.setUserName("fullres");
-        jdbcBuildFileSource.setPassword("123456");
+//        jdbcBuildFileSource.setUrl("jdbc:mysql://130.120.2.219:3306");
+//        jdbcBuildFileSource.setDataBaseName("fullres_test_prod");
+//        jdbcBuildFileSource.setTableNames(Collections.singletonList("sharing_special"));
+//        jdbcBuildFileSource.setUserName("fullres");
+//        jdbcBuildFileSource.setPassword("123456");
+//        jdbcBuildFileSource.setDriverClass(Driver.class);
+        jdbcBuildFileSource.setUrl("jdbc:mysql://130.120.3.158:3306/");
+        jdbcBuildFileSource.setDataBaseName("gxts");
+        jdbcBuildFileSource.setTableNames(Collections.singletonList("process_data_share_coordinate"));
+        jdbcBuildFileSource.setUserName("gxts");
+        jdbcBuildFileSource.setPassword("gxts");
         jdbcBuildFileSource.setDriverClass(Driver.class);
     }
 

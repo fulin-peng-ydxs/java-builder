@@ -5,16 +5,16 @@ import lombok.Getter;
 import lombok.Setter;
 import java.util.List;
 
-/**实体数据模型
+/**元实体数据模型
  * 2022/9/5 0005-14:28
  * @author pengfulin
 */
 @Setter
 @Getter
 public class BuildBean extends BuildResolverModel {
-    /**实体名*/
+    /**元实体名*/
     private String name;
-    /**实体描述*/
+    /**元实体描述*/
     private String description;
     /**元数据项集合*/
     private List<BuildBeanItem> dataItems;

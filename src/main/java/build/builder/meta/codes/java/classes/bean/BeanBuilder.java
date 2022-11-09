@@ -35,9 +35,7 @@ public abstract class BeanBuilder extends ClassBuilder {
      * @author pengfulin
     */
     protected ClassModel doGetBeanModel(BuildBean buildBean){
-        ClassModel classModel = new ClassModel();
-        //包声明
-        classModel.setClassPackage(packageStatement);
+        ClassModel classModel = defaultClassModel();
         //类声明
         ClassMetaStatement classMetaStatement = getClassMetaStatement(buildBean);
         classModel.setClassMetaStatement(classMetaStatement);
@@ -64,11 +62,9 @@ public abstract class BeanBuilder extends ClassBuilder {
         classMetaStatement.setClassName(ClassBuildUtil.getClassStructureName(buildBean.getName(),"_", ClassStructure.CLASS_DECLARE));
         //类注释
         String description = buildBean.getDescription();
-        if(!StringBuildUtil.isEmpty(description)){
-            classMetaStatement.getClassComment().setDescription(description);
-        }else{
-            classMetaStatement.setClassComment(null);
-        }
+        if(StringBuildUtil.isEmpty(description))
+            description=buildBean.getName()+"表实体";
+        classMetaStatement.getClassComment().setDescription(description);
         return classMetaStatement;
     }
 

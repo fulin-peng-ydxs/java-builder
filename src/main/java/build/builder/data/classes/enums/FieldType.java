@@ -6,7 +6,7 @@ public enum FieldType {
 
     STRING(String.class,"char,varchar"),
     DATE(Date.class,"datetime,date,timestamp"),
-    INT(int.class,"int,bigint");
+    INT(Integer.class,"int,bigint");
 
     public final Class<?> java;
     public final String basis;

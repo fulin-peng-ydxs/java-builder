@@ -6,7 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
-/**实体项数据模型
+/**元实体项数据模型
  * 2022/9/5 0005-14:36
  * @author pengfulin
 */

@@ -109,4 +109,15 @@ public abstract class ClassBuilder extends JavaCodeBuilder<ClassModel> {
     protected String toClassLast(String value){
         return value + "}";
     }
+
+    /**生成默认的ClassModel
+     * 2022/11/4 0004-14:46
+     * @author pengfulin
+    */
+    protected ClassModel defaultClassModel(){
+        ClassModel classModel = new ClassModel();
+        //包声明
+        classModel.setClassPackage(packageStatement);
+        return classModel;
+    }
 }

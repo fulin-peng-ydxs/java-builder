@@ -10,6 +10,9 @@ import build.builder.util.ClassBuildUtil;
 import build.builder.util.StringBuildUtil;
 import lombok.Getter;
 import lombok.Setter;
+
+import javax.validation.Valid;
+import java.lang.annotation.Annotation;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -40,7 +43,7 @@ public abstract class JavaCodeBuilder<T> extends CodeBuilder<T> {
      * @author pengfulin
      */
     protected String doGetPackageStatement(String packageStatement){
-        String template="package %s\n";
+        String template="package %s;\n";
         return String.format(template,packageStatement);
     }
     
@@ -66,12 +69,22 @@ public abstract class JavaCodeBuilder<T> extends CodeBuilder<T> {
         CommentMeta classComment = metaStatement.getClassComment();
         if(classComment!=null)
             builder.append(doGetComment(classComment,0));
+        //注解
+        Map<Class<? extends Annotation>, AnnotationMeta> classAnnotations = metaStatement.getClassAnnotations();
+        if(classAnnotations!=null){
+            String template1="@%s\n";
+            String template2="@%s(%s)\n";
+            classAnnotations.forEach((key, value)->{
+                builder.append(String.format(template1,key.getSimpleName()));
+            });
+        }
         //权限
         builder.append(metaStatement.getClassPermission().value).append(codeSpaceStyle())
+                .append("class").append(codeSpaceStyle())
                 //名称
                 .append(metaStatement.getClassName()).append(codeSpaceStyle());
-        ExtendsMeta classExtends = metaStatement.getClassExtends();
         //继承
+        ExtendsMeta classExtends = metaStatement.getClassExtends();
         if(classExtends!=null)
             builder.append("extends").append(codeSpaceStyle())
                     .append(doGetExtends(classExtends)).append(codeSpaceStyle());
@@ -86,7 +99,7 @@ public abstract class JavaCodeBuilder<T> extends CodeBuilder<T> {
             builder.append(StringBuildUtil.clearChar(implBuilder.toString(),',', StringBuildUtil.ClearCharType.END,-1))
                     .append(codeSpaceStyle());
         }
-        builder.append("{");
+        builder.append("{\n");
         return builder.toString();
     }
 
@@ -314,18 +327,27 @@ public abstract class JavaCodeBuilder<T> extends CodeBuilder<T> {
     */
     protected Set<Class<?>> resolveClassStatementImports(ClassMetaStatement classMetaStatement){
         Set<Class<?>> classImports = new LinkedHashSet<>();
+        //继承
         ExtendsMeta classExtends = classMetaStatement.getClassExtends();
         if(classExtends!=null){
             Class<?> extendsType = classExtends.getExtendsType();
             if(!ClassBuildUtil.ignoreImportClass(extendsType))
                 classImports.add(extendsType);
         }
+        //实现
         Map<Class<?>, ImplementsMeta> classImplements = classMetaStatement.getClassImplements();
         if(classImplements!=null){
             classImplements.forEach((key,value)->{
                 if (!ClassBuildUtil.ignoreImportClass(key)) {
                     classImports.add(key);
                 }
+            });
+        }
+        //注解
+        Map<Class<? extends Annotation>, AnnotationMeta> classAnnotations = classMetaStatement.getClassAnnotations();
+        if(classAnnotations!=null){
+            classAnnotations.forEach((key,value)->{
+                classImports.add(key);
             });
         }
         return classImports;

@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.file.Files;
 import java.util.List;
 /**
  * 文件构建处理器
@@ -26,9 +27,11 @@ public class FileBuildResponder extends BuildResponder {
         try {
             if(outputStream==null){
                 for (BuildResult buildResult : buildResults) {
-                    String path= StringBuildUtil.isEmpty(buildResult.getBuildTarget())? defaultBuildPath + File.separator + buildResult.getBuildName()
-                            :buildResult.getBuildTarget()+ File.separator + buildResult.getBuildName();
-                    outputStream = new FileOutputStream(path);
+                    String mkdir= StringBuildUtil.isEmpty(buildResult.getBuildTarget())? defaultBuildPath :buildResult.getBuildTarget();
+                    File file = new File(mkdir);
+                    if (!file.exists())
+                        file.mkdirs();
+                    outputStream = new FileOutputStream(mkdir+ File.separator+ buildResult.getBuildName());
                     response(outputStream,buildResult);
                     outputStream.close();
                 }
