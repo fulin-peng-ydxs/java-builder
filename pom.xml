@@ -2,11 +2,22 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+   <!--spring boot项目-->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.5.10</version>
+        <relativePath />
+    </parent>
     <modelVersion>4.0.0</modelVersion>
-    <groupId>S1897.java.utils</groupId>
+    <groupId>S1897.java.utils.builder</groupId>
     <artifactId>java-builder</artifactId>
+    <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
-
+    <modules>
+        <module>builder-core</module>
+        <module>builder-web</module>
+    </modules>
     <dependencies>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -28,11 +39,6 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>5.1.49</version>
-        </dependency>
-        <dependency>
-            <groupId>dom4j</groupId>
-            <artifactId>dom4j</artifactId>
-            <version>1.6.1</version>
         </dependency>
     </dependencies>
 </project>
