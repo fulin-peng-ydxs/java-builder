@@ -8,5 +8,4 @@ import build.builder.meta.codes.CodeBuilder;
  * @author peng_fu_lin
  * 2022-09-07 17:25
  */
-public abstract class EnumBuilder extends CodeBuilder<Object> {
-}
+public abstract class EnumBuilder extends CodeBuilder<Object> { }

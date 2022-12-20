@@ -35,8 +35,9 @@ public class StringBuildUtil {
      * @param  cycleNum 循环次数
     */
     public static String cycleAppend(String str,int cycleNum){
+        if(cycleNum<=0)
+            return "";
         StringBuilder builder = new StringBuilder();
-        cycleNum= Math.max(cycleNum, 1);
         for (int i = 0; i < cycleNum; i++)
             builder.append(str);
         return builder.toString();

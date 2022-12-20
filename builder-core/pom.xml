@@ -9,13 +9,4 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>builder-core</artifactId>
-
-    <dependencies>
-        <!--xml文件依赖解析-->
-        <dependency>
-            <groupId>dom4j</groupId>
-            <artifactId>dom4j</artifactId>
-            <version>1.6.1</version>
-        </dependency>
-    </dependencies>
 </project>

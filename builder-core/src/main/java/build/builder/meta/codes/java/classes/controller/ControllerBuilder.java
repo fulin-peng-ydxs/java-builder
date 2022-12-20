@@ -2,16 +2,14 @@ package build.builder.meta.codes.java.classes.controller;
 
 import build.builder.data.classes.enums.ClassStructure;
 import build.builder.data.classes.enums.FieldType;
-import build.builder.data.classes.meta.BusinessClass;
-import build.builder.data.classes.meta.ClassMetaStatement;
-import build.builder.data.classes.meta.FieldMeta;
-import build.builder.data.classes.meta.MethodMeta;
+import build.builder.data.classes.meta.*;
 import build.builder.data.classes.model.ClassModel;
 import build.builder.meta.codes.java.classes.ClassBuilder;
 import build.builder.util.ClassBuildUtil;
 import build.source.data.meta.business.AbstractBusinessModel;
 import build.source.data.meta.business.controller.ControllerBean;
 
+import java.lang.annotation.Annotation;
 import java.util.*;
 
 /**
@@ -77,6 +75,7 @@ public abstract class ControllerBuilder extends ClassBuilder {
      * @author pengfulin
     */
     protected  Map<String, FieldMeta> getAttribute(ControllerBean controllerBean){
+        //服务对象配置
         Map<String, FieldMeta> attributes = new HashMap<>();
         FieldMeta fieldMeta = new FieldMeta();
         ControllerBean.ServiceInfo serviceInfo = controllerBean.getServiceInfo();
@@ -87,6 +86,8 @@ public abstract class ControllerBuilder extends ClassBuilder {
         fieldMeta.getFieldComment().setDescription(serviceInfo.getDescription());
         fieldMeta.setBusinessClass(new BusinessClass(serviceInfo.getName(),
                 serviceInfo.getPackages()));
+        Map<Class<? extends Annotation>, AnnotationMeta> fieldAnnotations= new HashMap<>();
+
         attributes.put(serviceFieldName,fieldMeta);
         return attributes;
     }

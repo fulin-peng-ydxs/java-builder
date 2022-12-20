@@ -77,10 +77,9 @@ public class JdbcBSRBuildBean extends JdbcBSR<List<BuildBean>>
     @AllArgsConstructor
     protected enum JdbcResolverSQL{
         MYSQL( "select column_name columnName,table_name tableName,data_type dataType,is_nullable isNull,column_key isPrimaryKey,column_comment fieldComment,character_maximum_length fieldLength " +
-                "from information_schema.columns  " + "where table_name = ? and table_schema= ?",
+                "from information_schema.columns  " + "where table_name = ? and table_schema= ? order by ordinal_position",
 
                 "select table_name tableName  from information_schema.`TABLES` where table_schema= ?");
-
         public String fieldSql;
         public String tableSQL;
     }

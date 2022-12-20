@@ -70,11 +70,7 @@ public abstract class JavaCodeBuilder<T> extends CodeBuilder<T> {
         //注解
         Map<Class<? extends Annotation>, AnnotationMeta> classAnnotations = metaStatement.getClassAnnotations();
         if(classAnnotations!=null){
-            String template1="@%s\n";
-            String template2="@%s(%s)\n";
-            classAnnotations.forEach((key, value)->{
-                builder.append(String.format(template1,key.getSimpleName()));
-            });
+            builder.append(doGetAnnotation(classAnnotations,0));
         }
         //权限
         builder.append(metaStatement.getClassPermission().value).append(codeSpaceStyle())
