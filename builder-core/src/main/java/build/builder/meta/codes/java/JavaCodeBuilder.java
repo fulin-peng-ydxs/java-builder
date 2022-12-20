@@ -169,6 +169,9 @@ public abstract class JavaCodeBuilder<T> extends CodeBuilder<T> {
         CommentMeta fieldComment = fieldMeta.getFieldComment();
         if(fieldComment!=null)
             builder.append(doGetComment(fieldComment, codeBuildStyle.structureExternalSpace));
+        //注解
+        doGetAnnotation(fieldMeta.getFieldAnnotations(),0);
+
         builder.append(structureExternalIndentation());
         //权限
         builder.append(fieldMeta.getFieldPermission())
@@ -198,6 +201,99 @@ public abstract class JavaCodeBuilder<T> extends CodeBuilder<T> {
         return builder.toString();
     }
 
+    /**生成注解
+     * 2022/11/17 0017-14:01
+     * @author pengfulin
+    */
+    protected String doGetAnnotation(Map<Class<? extends Annotation>, AnnotationMeta>annotations,int spaceNum){
+        StringBuilder builder = new StringBuilder();
+        if(annotations!=null){
+            String template1="%s@%s\n";
+            String template2="%s@%s(%s)\n";
+            annotations.forEach((key, value)->{
+                builder.append(String.format(template1,indentationStyle(spaceNum),key.getSimpleName()));
+            });
+        }
+        return builder.toString();
+    }
+
+
+    /**生成注释
+     * 2022/9/9 0009-14:13
+     * @author pengfulin
+     */
+    protected String doGetComment(CommentMeta commentMeta,int spaceNum){
+        if(commentMeta.getCommentType()== CommentType.ONE)
+            return getOneComment(commentMeta,spaceNum);
+        return getManyComment(commentMeta,spaceNum);
+    }
+
+    /**获取单行注释
+     * 2022/9/9 0009-15:02
+     * @author pengfulin
+     */
+    protected String getOneComment(CommentMeta commentMeta,int spaceNum){
+        String template="%s//%s\n";
+        return String.format(template,indentationStyle(spaceNum),commentMeta.getDescription());
+    }
+
+    /**获取多行注释
+     * 2022/9/9 0009-15:02
+     * @author pengfulin
+     */
+    protected String getManyComment(CommentMeta commentMeta, int spaceNum){
+        StringBuilder builder = new StringBuilder();
+        builder.append(String.format("%s/**%s\n",indentationStyle(spaceNum), StringBuildUtil.clearChar(
+                commentMeta.getDescription(),'\n', StringBuildUtil.ClearCharType.ALL,-1)));
+        String template="%s * %s %s\n";
+        Map<String, String> labels = commentMeta.getLabels();
+        if(labels!=null){
+            commentMeta.getLabels().forEach((key,value)->{
+                builder.append(String.format(
+                        template,indentationStyle(spaceNum),key,value)
+                );}
+            );
+        }
+        builder.append(String.format("%s*/\n",indentationStyle(spaceNum)));
+        return builder.toString();
+    }
+
+    /**获取继承
+     * 2022/9/9 0009-16:01
+     * @author pengfulin
+     */
+    protected String doGetExtends(ExtendsMeta classExtends){
+        return doGetGeneric( classExtends.getExtendsType(),classExtends.getGenericParams());
+    }
+
+    /**获取实现
+     * 2022/9/9 0009-16:07
+     * @author pengfulin
+     */
+    protected String doGetImpl(ImplementsMeta implementsMeta){
+        return doGetGeneric( implementsMeta.getImplementsType(),implementsMeta.getGenericParams());
+    }
+
+    /**获取泛型
+     * 2022/9/9 0009-16:13
+     * @author pengfulin
+     */
+    private String doGetGeneric(Class<?> classType,List<Class<?>> paramTypes){
+        if (paramTypes != null) {
+            String template = "%s<%s>";
+            if (paramTypes.size() < 2)
+                return String.format(template, paramTypes.get(0).getSimpleName());
+            StringBuilder builder = new StringBuilder();
+            paramTypes.forEach(value -> {
+                builder.append(value.getSimpleName()).append(",");
+            });
+            String paramValue = builder.toString();
+            paramValue= StringBuildUtil.clearChar(paramValue,',', StringBuildUtil.ClearCharType.END, -1);
+            return String.format(template, classType.getSimpleName(), paramValue);
+        }
+        return classType.getSimpleName();
+    }
+
 
     /**代码间隙风格
      * 2022/9/9 0009-16:26
@@ -206,6 +302,7 @@ public abstract class JavaCodeBuilder<T> extends CodeBuilder<T> {
     protected String codeSpaceStyle(){
         return indentationStyle(codeBuildStyle.space);
     }
+
 
     /**代码模块间行风格
      * 2022/9/9 0009-16:20
@@ -239,81 +336,6 @@ public abstract class JavaCodeBuilder<T> extends CodeBuilder<T> {
         return indentationStyle(codeBuildStyle.structureInternalSpace);
     }
 
-    /**生成注释
-     * 2022/9/9 0009-14:13
-     * @author pengfulin
-    */
-    protected String doGetComment(CommentMeta commentMeta,int spaceNum){
-        if(commentMeta.getCommentType()== CommentType.ONE)
-            return getOneComment(commentMeta,spaceNum);
-        return getManyComment(commentMeta,spaceNum);
-    }
-
-    /**获取单行注释
-     * 2022/9/9 0009-15:02
-     * @author pengfulin
-    */
-    protected String getOneComment(CommentMeta commentMeta,int spaceNum){
-        String template="%s//%s\n";
-        return String.format(template,indentationStyle(spaceNum),commentMeta.getDescription());
-    }
-
-    /**获取多行注释
-     * 2022/9/9 0009-15:02
-     * @author pengfulin
-    */
-    protected String getManyComment(CommentMeta commentMeta, int spaceNum){
-        StringBuilder builder = new StringBuilder();
-        builder.append(String.format("%s/**%s\n",indentationStyle(spaceNum), StringBuildUtil.clearChar(
-                commentMeta.getDescription(),'\n', StringBuildUtil.ClearCharType.ALL,-1)));
-        String template="%s * %s %s\n";
-        Map<String, String> labels = commentMeta.getLabels();
-        if(labels!=null){
-            commentMeta.getLabels().forEach((key,value)->{
-                builder.append(String.format(
-                        template,indentationStyle(spaceNum),key,value)
-                );}
-            );
-        }
-        builder.append(String.format("%s*/\n",indentationStyle(spaceNum)));
-        return builder.toString();
-    }
-    
-    /**获取继承
-     * 2022/9/9 0009-16:01
-     * @author pengfulin
-    */
-    protected String doGetExtends(ExtendsMeta classExtends){
-        return doGetGeneric( classExtends.getExtendsType(),classExtends.getGenericParams());
-    }
-
-    /**获取实现
-     * 2022/9/9 0009-16:07
-     * @author pengfulin
-    */
-    protected String doGetImpl(ImplementsMeta implementsMeta){
-        return doGetGeneric( implementsMeta.getImplementsType(),implementsMeta.getGenericParams());
-    }
-
-    /**解析泛型
-     * 2022/9/9 0009-16:13
-     * @author pengfulin
-    */
-    private String doGetGeneric(Class<?> classType,List<Class<?>> paramTypes){
-        if (paramTypes != null) {
-            String template = "%s<%s>";
-            if (paramTypes.size() < 2)
-                return String.format(template, paramTypes.get(0).getSimpleName());
-            StringBuilder builder = new StringBuilder();
-            paramTypes.forEach(value -> {
-                builder.append(value.getSimpleName()).append(",");
-            });
-            String paramValue = builder.toString();
-            paramValue= StringBuildUtil.clearChar(paramValue,',', StringBuildUtil.ClearCharType.END, -1);
-            return String.format(template, classType.getSimpleName(), paramValue);
-        }
-        return classType.getSimpleName();
-    }
 
     /**类声明中的类导入信息
      * 2022/9/19 0019-14:52
