@@ -18,5 +18,5 @@ public class ImplementsMeta {
 
     private Class<?> implementsType;
 
-    private List<Class<?>> genericParams;
+    private List<GenericMeta> genericParams;
 }

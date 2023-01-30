@@ -1,8 +1,8 @@
-package build.builder.meta.codes.xml.bean.mybatis;
+package build.builder.meta.codes.xml.mybatis;
 
 import build.builder.data.xmls.meta.XmlElement;
 import build.builder.util.CollectionUtil;
-import build.source.data.meta.business.mybatis.MybatisBean;
+import build.source.data.business.rest.MybatisInfo;
 import java.util.*;
 /**
  * 简单的Mybatis实体构建器
@@ -20,12 +20,12 @@ public class SimpleMybatisBuilder extends MybatisBuilder {
     protected String ifTemplate="<if test=\"%s!=null\">\n%s\n</if>";
 
     @Override
-    protected List<XmlElement> getSqlElements(MybatisBean mybatisBean) {
+    protected List<XmlElement> getSqlElements(MybatisInfo mybatisInfo) {
         List<XmlElement> xmlElements = new LinkedList<>();
-        xmlElements.addAll(doGetSqlColumnElements(mybatisBean));
-        xmlElements.addAll(doGetSqlConditionElements(mybatisBean));
-        xmlElements.addAll(doGetSqlUpdateElements(mybatisBean));
-        xmlElements.addAll(doGetSqlResultElements(mybatisBean));
+        xmlElements.addAll(doGetSqlColumnElements(mybatisInfo));
+        xmlElements.addAll(doGetSqlConditionElements(mybatisInfo));
+        xmlElements.addAll(doGetSqlUpdateElements(mybatisInfo));
+        xmlElements.addAll(doGetSqlResultElements(mybatisInfo));
         return xmlElements;
     }
 
@@ -35,9 +35,9 @@ public class SimpleMybatisBuilder extends MybatisBuilder {
      *
      * @author pengfulin
      */
-    protected List<XmlElement> doGetSqlColumnElements(MybatisBean mybatisBean) {
+    protected List<XmlElement> doGetSqlColumnElements(MybatisInfo mybatisInfo) {
         List<XmlElement> xmlElements = new LinkedList<>();
-        Map<String, String> entityFields = mybatisBean.getEntityFields();
+        Map<String, String> entityFields = mybatisInfo.getEntityFields();
         //查询列元素
         xmlElements.add(doGetSelectColumnElement(entityFields));
         //插入列元素
@@ -129,11 +129,11 @@ public class SimpleMybatisBuilder extends MybatisBuilder {
      *
      * @author pengfulin
      */
-    protected List<XmlElement> doGetSqlConditionElements(MybatisBean mybatisBean) {
+    protected List<XmlElement> doGetSqlConditionElements(MybatisInfo mybatisInfo) {
         XmlElement element = getObjectSqlElement();
         element.setId("where_column");
         StringBuilder builder = new StringBuilder();
-        mybatisBean.getEntityFields().forEach((key, value)->{
+        mybatisInfo.getEntityFields().forEach((key, value)->{
             builder.append(elementInternalIndentation())
                     .append(String.format(ifTemplate,value,String.format(
                             eqTemplate,elementInternalIndentation()+elementExternalIndentation()+key,value))).append(elementClearanceLineStyle());
@@ -148,12 +148,12 @@ public class SimpleMybatisBuilder extends MybatisBuilder {
      *
      * @author pengfulin
      */
-    protected List<XmlElement> doGetSqlUpdateElements(MybatisBean mybatisBean) {
+    protected List<XmlElement> doGetSqlUpdateElements(MybatisInfo mybatisInfo) {
         XmlElement element = getObjectSqlElement();
         element.setId("update_column");
         StringBuilder builder = new StringBuilder();
-        mybatisBean.getEntityFields().forEach((key, value)->{
-            if (!key.equals(mybatisBean.getBuildBeanInfo().getPrimaryKey()))
+        mybatisInfo.getEntityFields().forEach((key, value)->{
+            if (!key.equals(mybatisInfo.getBuildBeanInfo().getPrimaryKey()))
                 builder.append(elementInternalIndentation())
                         .append(String.format(valuationTemplate,elementInternalIndentation()+elementExternalIndentation()+key,value))
                         .append(elementClearanceLineStyle());
@@ -168,16 +168,16 @@ public class SimpleMybatisBuilder extends MybatisBuilder {
      *
      * @author pengfulin
      */
-    protected List<XmlElement> doGetSqlResultElements(MybatisBean mybatisBean) {
+    protected List<XmlElement> doGetSqlResultElements(MybatisInfo mybatisInfo) {
         String idTemplate="<id property=\"%s\" column=\"%s\"/>";
         String resultTemplate="<result property=\"%s\" column=\"%s\"/>";
         XmlElement element = getObjectSqlElement();
         element.setId("result_mapper");
-        element.setAttributes(Collections.singletonMap("type", mybatisBean.getBeanInfo().getName()));
+        element.setAttributes(Collections.singletonMap("type", mybatisInfo.getBeanInfo().getName()));
         StringBuilder builder = new StringBuilder();
-        mybatisBean.getEntityFields().forEach((key, value)->{
+        mybatisInfo.getEntityFields().forEach((key, value)->{
             builder.append(elementInternalIndentation());
-            if(key.equals(mybatisBean.getBuildBeanInfo().getPrimaryKey())){
+            if(key.equals(mybatisInfo.getBuildBeanInfo().getPrimaryKey())){
                 builder.append(String.format(idTemplate,value,key));
             }else{
                 builder.append(String.format(resultTemplate, value,key));
@@ -191,16 +191,16 @@ public class SimpleMybatisBuilder extends MybatisBuilder {
 
 
     @Override
-    protected List<XmlElement> getBasicSqlElements(MybatisBean mybatisBean) {
+    protected List<XmlElement> getBasicSqlElements(MybatisInfo mybatisInfo) {
         List<XmlElement> xmlElements = new LinkedList<>();
         //基础新增元素
-        xmlElements.addAll(doGetInsertElement(mybatisBean));
+        xmlElements.addAll(doGetInsertElement(mybatisInfo));
         //基础删除元素
-        xmlElements.addAll(doGetDeleteElement(mybatisBean));
+        xmlElements.addAll(doGetDeleteElement(mybatisInfo));
         //基础更新元素
-        xmlElements.addAll(doGetUpdateElement(mybatisBean));
+        xmlElements.addAll(doGetUpdateElement(mybatisInfo));
         //基础查询元素
-        xmlElements.addAll(doGetSelectElement(mybatisBean));
+        xmlElements.addAll(doGetSelectElement(mybatisInfo));
         return xmlElements;
     }
 
@@ -208,21 +208,21 @@ public class SimpleMybatisBuilder extends MybatisBuilder {
      * 2022/10/13 0013-09:40
      * @author pengfulin
     */
-    protected List<XmlElement> doGetInsertElement(MybatisBean mybatisBean){
-        return CollectionUtil.asList(doGetSingletonInsertElement(mybatisBean),
-                doGetBatchInsertElement(mybatisBean));
+    protected List<XmlElement> doGetInsertElement(MybatisInfo mybatisInfo){
+        return CollectionUtil.asList(doGetSingletonInsertElement(mybatisInfo),
+                doGetBatchInsertElement(mybatisInfo));
     }
 
     /**生成单个新增元素
      * 2022/10/13 0013-13:43
      * @author pengfulin
     */
-    protected XmlElement doGetSingletonInsertElement(MybatisBean mybatisBean){
+    protected XmlElement doGetSingletonInsertElement(MybatisInfo mybatisInfo){
         String elementId="add%s";
         XmlElement element = getObjectElement("insert");
-        element.setId(String.format(elementId, mybatisBean.getBeanInfo().getName()));
+        element.setId(String.format(elementId, mybatisInfo.getBeanInfo().getName()));
         String builder = elementInternalIndentation() +
-                "insert into " + mybatisBean.getBuildBeanInfo().getName() +
+                "insert into " + mybatisInfo.getBuildBeanInfo().getName() +
                 elementClearanceLineStyle() + elementInternalIndentation() +
                 "<include refid=\"insert_column\"/>" +
                 elementClearanceLineStyle() + elementInternalIndentation() +
@@ -235,12 +235,12 @@ public class SimpleMybatisBuilder extends MybatisBuilder {
      * 2022/10/13 0013-13:44
      * @author pengfulin
     */
-    protected XmlElement doGetBatchInsertElement(MybatisBean mybatisBean){
+    protected XmlElement doGetBatchInsertElement(MybatisInfo mybatisInfo){
         String elementId="add%s";
         XmlElement element =  getObjectElement("insert");
-        element.setId(String.format(elementId, mybatisBean.getBeanInfo().getName()));
+        element.setId(String.format(elementId, mybatisInfo.getBeanInfo().getName()));
         String builder = elementInternalIndentation() +
-                "insert into " + mybatisBean.getBuildBeanInfo().getName() +
+                "insert into " + mybatisInfo.getBuildBeanInfo().getName() +
                 elementClearanceLineStyle() + elementInternalIndentation() +
                 "<include refid=\"insert_column\"/>" +
                 elementClearanceLineStyle() + elementInternalIndentation() +
@@ -258,23 +258,23 @@ public class SimpleMybatisBuilder extends MybatisBuilder {
      * 2022/10/13 0013-09:41
      * @author pengfulin
     */
-    protected List<XmlElement> doGetDeleteElement(MybatisBean mybatisBean){
-        return CollectionUtil.asList(doGetSingleDeleteElement(mybatisBean),
-                doGetBatchDeleteElement(mybatisBean));
+    protected List<XmlElement> doGetDeleteElement(MybatisInfo mybatisInfo){
+        return CollectionUtil.asList(doGetSingleDeleteElement(mybatisInfo),
+                doGetBatchDeleteElement(mybatisInfo));
     }
 
     /**生成删除单个元素
      * 2022/10/13 0013-14:14
      * @author pengfulin
     */
-    protected XmlElement doGetSingleDeleteElement(MybatisBean mybatisBean){
+    protected XmlElement doGetSingleDeleteElement(MybatisInfo mybatisInfo){
         String elementId = "delete%sBySid";
-        MybatisBean.BuildBeanInfo buildBeanInfo = mybatisBean.getBuildBeanInfo();
+        MybatisInfo.BuildBeanInfo buildBeanInfo = mybatisInfo.getBuildBeanInfo();
         XmlElement element = getObjectElement("delete");
-        element.setId(String.format(elementId, mybatisBean.getBeanInfo().getSimpleName()));
+        element.setId(String.format(elementId, mybatisInfo.getBeanInfo().getSimpleName()));
         String builder = elementInternalIndentation() + "delete from " + buildBeanInfo.getName() + elementClearanceLineStyle() +
                 elementInternalIndentation() +"where " + String.format(valuationTemplate,
-                buildBeanInfo.getName(), mybatisBean.getEntityFields().get(buildBeanInfo.getPrimaryKey()));
+                buildBeanInfo.getName(), mybatisInfo.getEntityFields().get(buildBeanInfo.getPrimaryKey()));
         element.setContent(builder);
         return element;
     }
@@ -283,11 +283,11 @@ public class SimpleMybatisBuilder extends MybatisBuilder {
      * 2022/10/13 0013-14:17
      * @author pengfulin
     */
-    protected XmlElement doGetBatchDeleteElement(MybatisBean mybatisBean){
+    protected XmlElement doGetBatchDeleteElement(MybatisInfo mybatisInfo){
         String elementId = "delete%";
-        MybatisBean.BuildBeanInfo buildBeanInfo = mybatisBean.getBuildBeanInfo();
+        MybatisInfo.BuildBeanInfo buildBeanInfo = mybatisInfo.getBuildBeanInfo();
         XmlElement element = getObjectElement("delete");
-        element.setId(String.format(elementId, mybatisBean.getBeanInfo().getSimpleName()));
+        element.setId(String.format(elementId, mybatisInfo.getBeanInfo().getSimpleName()));
         String builder = elementInternalIndentation() + "delete from " + buildBeanInfo.getName() + elementClearanceLineStyle()+
                 elementInternalIndentation()+"<where>"+elementClearanceLineStyle()+"<include refid=\"where_column\"/>"+ elementClearanceLineStyle()+
                 elementInternalIndentation()+"</where>"+elementClearanceLineStyle();
@@ -299,26 +299,26 @@ public class SimpleMybatisBuilder extends MybatisBuilder {
      * 2022/10/13 0013-09:41
      * @author pengfulin
     */
-    protected List<XmlElement> doGetUpdateElement(MybatisBean mybatisBean){
-        return CollectionUtil.asList(doGetSingleUpdateElement(mybatisBean),
-                doGetBatchUpdateElement(mybatisBean));
+    protected List<XmlElement> doGetUpdateElement(MybatisInfo mybatisInfo){
+        return CollectionUtil.asList(doGetSingleUpdateElement(mybatisInfo),
+                doGetBatchUpdateElement(mybatisInfo));
     }
 
     /**生成更新单个元素
      * 2022/10/14 0014-09:39
      * @author pengfulin
     */
-    protected XmlElement doGetSingleUpdateElement(MybatisBean mybatisBean){
+    protected XmlElement doGetSingleUpdateElement(MybatisInfo mybatisInfo){
         String elementId = "update%sBySid";
-        MybatisBean.BuildBeanInfo buildBeanInfo = mybatisBean.getBuildBeanInfo();
+        MybatisInfo.BuildBeanInfo buildBeanInfo = mybatisInfo.getBuildBeanInfo();
         XmlElement element = getObjectElement("update");
-        element.setId(String.format(elementId, mybatisBean.getBeanInfo().getSimpleName()));
+        element.setId(String.format(elementId, mybatisInfo.getBeanInfo().getSimpleName()));
         String builder = elementInternalIndentation() + "update " + buildBeanInfo.getName() + elementClearanceLineStyle() +
                 elementInternalIndentation()+"<set>"+elementClearanceLineStyle()+
                 elementInternalIndentation()+elementExternalIndentation()+"<include refid=\"update_column\"/>"+elementClearanceLineStyle()+
                 elementInternalIndentation()+"</set>"+elementClearanceLineStyle()+
                 elementInternalIndentation() +"where " + String.format(valuationTemplate,
-                buildBeanInfo.getName(), mybatisBean.getEntityFields().get(buildBeanInfo.getPrimaryKey()));
+                buildBeanInfo.getName(), mybatisInfo.getEntityFields().get(buildBeanInfo.getPrimaryKey()));
         element.setContent(builder);
         return element;
     }
@@ -327,11 +327,11 @@ public class SimpleMybatisBuilder extends MybatisBuilder {
      * 2022/10/14 0014-09:42
      * @author pengfulin
     */
-    protected XmlElement doGetBatchUpdateElement(MybatisBean mybatisBean){
+    protected XmlElement doGetBatchUpdateElement(MybatisInfo mybatisInfo){
         String elementId = "update%s";
-        MybatisBean.BuildBeanInfo buildBeanInfo = mybatisBean.getBuildBeanInfo();
+        MybatisInfo.BuildBeanInfo buildBeanInfo = mybatisInfo.getBuildBeanInfo();
         XmlElement element = getObjectElement("update");
-        element.setId(String.format(elementId, mybatisBean.getBeanInfo().getSimpleName()));
+        element.setId(String.format(elementId, mybatisInfo.getBeanInfo().getSimpleName()));
         String builder = elementInternalIndentation() + "update " + buildBeanInfo.getName() + elementClearanceLineStyle() +
                 elementInternalIndentation()+"<set>"+elementClearanceLineStyle()+
                 elementInternalIndentation()+elementExternalIndentation()+"<include refid=\"update_column\"/>"+elementClearanceLineStyle()+
@@ -346,25 +346,25 @@ public class SimpleMybatisBuilder extends MybatisBuilder {
      * 2022/10/13 0013-09:42
      * @author pengfulin
     */
-    protected List<XmlElement> doGetSelectElement(MybatisBean mybatisBean){
-        return CollectionUtil.asList(doGetSingleSelectElement(mybatisBean),
-                doGetBatchSelectElement(mybatisBean));
+    protected List<XmlElement> doGetSelectElement(MybatisInfo mybatisInfo){
+        return CollectionUtil.asList(doGetSingleSelectElement(mybatisInfo),
+                doGetBatchSelectElement(mybatisInfo));
     }
 
     /**生成查询单个元素
      * 2022/10/14 0014-09:56
      * @author pengfulin
     */
-    protected XmlElement doGetSingleSelectElement(MybatisBean mybatisBean){
+    protected XmlElement doGetSingleSelectElement(MybatisInfo mybatisInfo){
         String elementId = "find%sBySid";
-        MybatisBean.BuildBeanInfo buildBeanInfo = mybatisBean.getBuildBeanInfo();
+        MybatisInfo.BuildBeanInfo buildBeanInfo = mybatisInfo.getBuildBeanInfo();
         XmlElement element = getObjectElement("select");
         element.setAttributes(Collections.singletonMap("resultMap","result_mapper"));
-        element.setId(String.format(elementId, mybatisBean.getBeanInfo().getSimpleName()));
+        element.setId(String.format(elementId, mybatisInfo.getBeanInfo().getSimpleName()));
         String builder = elementInternalIndentation() + "select " +"<include refid=\"select_column\"/>" + elementClearanceLineStyle() +
                 elementInternalIndentation()+"from "+buildBeanInfo.getName()+elementClearanceLineStyle()+
                 elementInternalIndentation() +"where " + String.format("%s=#{%s}",
-                buildBeanInfo.getName(), mybatisBean.getEntityFields().get(buildBeanInfo.getPrimaryKey()));
+                buildBeanInfo.getName(), mybatisInfo.getEntityFields().get(buildBeanInfo.getPrimaryKey()));
         element.setContent(builder);
         return element;
     }
@@ -373,11 +373,11 @@ public class SimpleMybatisBuilder extends MybatisBuilder {
      * 2022/10/14 0014-10:12
      * @author pengfulin
     */
-    protected XmlElement doGetBatchSelectElement(MybatisBean mybatisBean){
+    protected XmlElement doGetBatchSelectElement(MybatisInfo mybatisInfo){
         String elementId = "find%s";
-        MybatisBean.BuildBeanInfo buildBeanInfo = mybatisBean.getBuildBeanInfo();
+        MybatisInfo.BuildBeanInfo buildBeanInfo = mybatisInfo.getBuildBeanInfo();
         XmlElement element = getObjectElement("select");
-        element.setId(String.format(elementId, mybatisBean.getBeanInfo().getSimpleName()));
+        element.setId(String.format(elementId, mybatisInfo.getBeanInfo().getSimpleName()));
         element.setAttributes(Collections.singletonMap("resultMap","result_mapper"));
         String builder = elementInternalIndentation() + "select " +"<include refid=\"select_column\"/>" + elementClearanceLineStyle() +
                 elementInternalIndentation()+"from "+buildBeanInfo.getName()+elementClearanceLineStyle()+

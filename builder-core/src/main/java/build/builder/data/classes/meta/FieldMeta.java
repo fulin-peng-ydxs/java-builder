@@ -31,7 +31,7 @@ public class FieldMeta {
     private CommentMeta fieldComment= new CommentMeta(CommentType.ONE,
           null, null);
     /**字段泛型*/
-    private List<Class<?>> genericParams;
+    private List<GenericMeta> genericParams;
     /**是否静态*/
     private boolean isStatic;
     /**是否包装：用于判定基本数据类型是否使用包装类*/

@@ -8,8 +8,6 @@ import build.builder.meta.codes.CodeBuilder;
 import build.builder.meta.codes.persist.PersistResolverException;
 import build.builder.util.ClassBuildUtil;
 import build.builder.util.StringBuildUtil;
-import lombok.Getter;
-import lombok.Setter;
 import java.lang.annotation.Annotation;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -21,14 +19,10 @@ import java.util.Set;
  * @author peng_fu_lin
  * 2022-09-09 10:20
  */
-@Getter
-@Setter
 public abstract class JavaCodeBuilder<T> extends CodeBuilder<T> {
 
     /**包声明配置*/
     protected String packageStatement;
-
-
 
 
     @Override
@@ -114,11 +108,11 @@ public abstract class JavaCodeBuilder<T> extends CodeBuilder<T> {
         builder.append(methodMeta.getMethodType())
                 .append(codeSpaceStyle());
         //返回值
-        Class<?> methodReturn = methodMeta.getMethodReturn();
-        if(methodReturn==void.class)
+        MethodMeta.ReturnMeta methodReturn = methodMeta.getMethodReturn();
+        if(methodReturn.getReturnType()==void.class)
             builder.append("void");
         else
-            builder.append(methodReturn.getSimpleName());
+            builder.append(methodReturn.getReturnType().getSimpleName());
         builder.append(codeSpaceStyle());
         //名称
         builder.append(methodMeta.getMethodName());
@@ -278,14 +272,14 @@ public abstract class JavaCodeBuilder<T> extends CodeBuilder<T> {
      * 2022/9/9 0009-16:13
      * @author pengfulin
      */
-    private String doGetGeneric(Class<?> classType,List<Class<?>> paramTypes){
+    private String doGetGeneric(Class<?> classType,List<GenericMeta> paramTypes){
         if (paramTypes != null) {
             String template = "%s<%s>";
             if (paramTypes.size() < 2)
-                return String.format(template, paramTypes.get(0).getSimpleName());
+                return String.format(template, paramTypes.get(0).getType());
             StringBuilder builder = new StringBuilder();
             paramTypes.forEach(value -> {
-                builder.append(value.getSimpleName()).append(",");
+                builder.append(value.getType()).append(",");
             });
             String paramValue = builder.toString();
             paramValue= StringBuildUtil.clearChar(paramValue,',', StringBuildUtil.ClearCharType.END, -1);
@@ -384,6 +378,16 @@ public abstract class JavaCodeBuilder<T> extends CodeBuilder<T> {
         return classImports;
     }
 
+    /**方法中的类导入信息
+     * 2022/12/20 0020-17:40
+     * @author pengfulin
+    */
+    protected Set<Class<?>> resolveMethodImports(Map<String, MethodMeta> methods){
+        Set<Class<?>> classImports = new LinkedHashSet<>();
+        return classImports;
+    }
+
+
     @Override
     public Class<?> analysable() {return String.class;}
 
@@ -399,7 +403,7 @@ public abstract class JavaCodeBuilder<T> extends CodeBuilder<T> {
         }
         return null;
     }
-    
+
     /**解析持续集成源
      * 2022/9/29 0029-14:56
      * @author pengfulin

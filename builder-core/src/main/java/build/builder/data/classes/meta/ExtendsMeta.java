@@ -17,5 +17,5 @@ public class ExtendsMeta {
     /**继承类型*/
     private Class<?> extendsType;
     /**继承泛型*/
-    private List<Class<?>> genericParams;
+    private List<GenericMeta> genericParams;
 }

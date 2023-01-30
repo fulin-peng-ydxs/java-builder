@@ -1,11 +1,13 @@
-package build.builder.meta.codes.xml.bean.mybatis;
+package build.builder.meta.codes.xml.mybatis;
 
 import build.builder.data.BuildResult;
 import build.builder.data.xmls.bean.mybatis.MybatisBeanModel;
 import build.builder.data.xmls.meta.XmlElement;
 import build.builder.meta.codes.xml.XmlCodeBuilder;
 import build.builder.util.TemplateCacheUtil;
-import build.source.data.meta.business.mybatis.MybatisBean;
+import build.source.data.business.rest.MybatisInfo;
+import build.source.data.business.rest.meta.RestBusiness;
+
 import java.io.IOException;
 import java.util.List;
 /**
@@ -18,13 +20,13 @@ public abstract class MybatisBuilder extends XmlCodeBuilder<MybatisBeanModel> {
 
     @Override
     public Class<?> supportedBuildSource() {
-        return MybatisBean.class;
+        return RestBusiness.class;
     }
 
     @Override
     protected MybatisBeanModel getBuildModel(Object buildDataModel) {
-        if(buildDataModel instanceof MybatisBean)
-            return doGetMybatisBeanModel((MybatisBean) buildDataModel);
+        if(buildDataModel instanceof MybatisInfo)
+            return doGetMybatisBeanModel((MybatisInfo) buildDataModel);
         return null;
     }
 
@@ -32,18 +34,18 @@ public abstract class MybatisBuilder extends XmlCodeBuilder<MybatisBeanModel> {
      * 2022/10/9 0009-16:27
      * @author pengfulin
      */
-    protected  MybatisBeanModel doGetMybatisBeanModel(MybatisBean mybatisBean){
+    protected  MybatisBeanModel doGetMybatisBeanModel(MybatisInfo mybatisInfo){
         MybatisBeanModel mybatisBeanModel = new MybatisBeanModel();
         //获取命名空间
-        mybatisBeanModel.setNameSpace(getNameSpace(mybatisBean));
+        mybatisBeanModel.setNameSpace(getNameSpace(mybatisInfo));
         //获取映射名
-        mybatisBeanModel.setMappingName(getMappingName(mybatisBean));
+        mybatisBeanModel.setMappingName(getMappingName(mybatisInfo));
         //获取sql元素
-        mybatisBeanModel.setSqlXmlElements(getSqlElements(mybatisBean));
+        mybatisBeanModel.setSqlXmlElements(getSqlElements(mybatisInfo));
         //获取基础元素
-        mybatisBeanModel.setBasicXmlElements(getBasicSqlElements(mybatisBean));
+        mybatisBeanModel.setBasicXmlElements(getBasicSqlElements(mybatisInfo));
         //获取其他元素
-        mybatisBeanModel.setOtherXmlElements(getOtherElements(mybatisBean));
+        mybatisBeanModel.setOtherXmlElements(getOtherElements(mybatisInfo));
         return mybatisBeanModel;
     }
 
@@ -51,15 +53,15 @@ public abstract class MybatisBuilder extends XmlCodeBuilder<MybatisBeanModel> {
      * 2022/10/9 0009-17:57
      * @author pengfulin
      */
-    protected String getNameSpace(MybatisBean mybatisBean){
-        return mybatisBean.getBeanInfo().getName();
+    protected String getNameSpace(MybatisInfo mybatisInfo){
+        return mybatisInfo.getBeanInfo().getName();
     }
 
     /**获取映射名
      * 2022/10/9 0009-18:05
      * @author pengfulin
      */
-    protected String getMappingName(MybatisBean mybatisBuildBea){
+    protected String getMappingName(MybatisInfo mybatisBuildBea){
         return mybatisBuildBea.getBeanInfo().getSimpleName()+"Mapper";
     }
 
@@ -67,18 +69,18 @@ public abstract class MybatisBuilder extends XmlCodeBuilder<MybatisBeanModel> {
      * 2022/10/10 0010-11:54
      * @author pengfulin
     */
-    protected abstract List<XmlElement> getSqlElements(MybatisBean mybatisBean);
+    protected abstract List<XmlElement> getSqlElements(MybatisInfo mybatisInfo);
     /**获取基础元素模型
      * 2022/10/10 0010-11:58
      * @author pengfulin
     */
-    protected abstract List<XmlElement> getBasicSqlElements(MybatisBean mybatisBean);
+    protected abstract List<XmlElement> getBasicSqlElements(MybatisInfo mybatisInfo);
 
     /**获取其他元素模型
      * 2022/10/10 0010-11:58
      * @author pengfulin
     */
-    protected  List<XmlElement> getOtherElements(MybatisBean mybatisBean){return null;}
+    protected  List<XmlElement> getOtherElements(MybatisInfo mybatisInfo){return null;}
 
     @Override
     protected BuildResult convertBuildResult(MybatisBeanModel model, byte[] bytes) {

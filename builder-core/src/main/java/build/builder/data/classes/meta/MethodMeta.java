@@ -3,6 +3,7 @@ package build.builder.data.classes.meta;
 
 import build.builder.data.classes.enums.MethodType;
 import build.builder.data.classes.enums.PermissionType;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import java.lang.annotation.Annotation;
@@ -20,7 +21,7 @@ public class MethodMeta {
     /**方法名称*/
     private String methodName;
     /**方法返回值*/
-    private Class<?> methodReturn;
+    private ReturnMeta methodReturn;
     /**方法参数*/
     private List<ParamMeta> methodParams;
     /**方法权限*/
@@ -33,4 +34,23 @@ public class MethodMeta {
     private CommentMeta methodComment;
     /**方法注解*/
     private Map<Class<? extends Annotation>,AnnotationMeta> methodAnnotations;
+
+
+    /**
+     * 方法返回值元信息
+     *
+     * @author peng_fu_lin
+     * 2022-12-26 16:44
+     */
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    public static class ReturnMeta {
+        /**返回值类型*/
+        private Class<?> returnType;
+        /**返回值类型泛型*/
+        private List<GenericMeta> genericParams;
+        /**业务类型：用于传递构建中的类型*/
+        private BusinessClass businessClass;
+    }
 }

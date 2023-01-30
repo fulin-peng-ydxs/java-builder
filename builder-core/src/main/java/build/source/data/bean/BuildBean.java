@@ -1,4 +1,4 @@
-package build.source.data.meta.bean;
+package build.source.data.bean;
 
 import build.source.data.meta.BuildResolverModel;
 import lombok.Getter;

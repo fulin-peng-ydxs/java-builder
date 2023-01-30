@@ -1,9 +1,6 @@
 package build.builder.util;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * 集合工具类
@@ -39,6 +36,7 @@ public class CollectionUtil {
      * @param a 待加入集合的可变数组，会忽略为null的元素
      * @author pengfulin
     */
+    @SafeVarargs
     public static <T> List<T> asList(T... a){
         T[] array = Objects.requireNonNull(a);
         List<T> list = new ArrayList<>();
@@ -47,5 +45,45 @@ public class CollectionUtil {
                 list.add(t);
         }
         return list;
+    }
+
+
+    /**生成任何类型List的集合：仅无参构造
+     * 2023/1/13 0013-10:51
+     * @author pengfulin
+     * @param target 要生成的集合类型
+     * @param source 集合源，如果不为null，则直接返回该对象
+    */
+    public static <T,B> List<B> doGetAnyList(Class<T> target,Class<B> targetParam,List<B> source){
+        try {
+            if (target.isAssignableFrom(List.class))
+                throw new RuntimeException("类型不匹配");
+            if(source!=null)
+                return source;
+            else return (List<B>)target.newInstance();
+        } catch (Exception e) {
+            throw new RuntimeException("生成任何类型List集合异常",e);
+        }
+    }
+
+
+    /**生成任何类型Map：仅无参构造
+     * 2023/1/13 0013-14:00
+     * @param target 要生成的Map类型
+     * @param targetKey 要生成的Map键类型
+     * @param targetValue 要生成的Map值类型
+     * @param source 集合源，如果不为null，则直接返回该对象
+     * @author pengfulin
+    */
+    public static <A,B,C> Map<A,B> doGetAnyMap(Class<C> target,Class<A> targetKey,Class<B> targetValue,Map<A,B> source){
+        try {
+            if (target.isAssignableFrom(Map.class))
+                throw new RuntimeException("类型不匹配");
+            if(source!=null)
+                return source;
+            else return (Map<A, B>)target.newInstance();
+        } catch (Exception e) {
+            throw new RuntimeException("生成任何类型Map异常",e);
+        }
     }
 }

@@ -6,7 +6,6 @@ import build.builder.data.classes.meta.MethodMeta;
 import build.builder.data.classes.model.ClassModel;
 import build.builder.meta.codes.java.JavaCodeBuilder;
 import build.builder.util.ClassBuildUtil;
-
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
@@ -124,6 +123,9 @@ public abstract class ClassBuilder extends JavaCodeBuilder<ClassModel> {
         classImports.addAll(resolveAttributeImports(
                 classModel.getAttributes()
         ));
+        classImports.addAll(resolveMethodImports(
+                classModel.getMethods()
+        ));
         return classImports;
     }
 
@@ -134,8 +136,7 @@ public abstract class ClassBuilder extends JavaCodeBuilder<ClassModel> {
     */
     protected ClassModel defaultClassModel(){
         ClassModel classModel = new ClassModel();
-        //包声明
-        classModel.setClassPackage(packageStatement);
+        classModel.setClassPackage(packageStatement);//包声明
         return classModel;
     }
 }

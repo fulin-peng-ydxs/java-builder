@@ -25,7 +25,7 @@ public class SimpleBeanBuilder extends BeanBuilder{
             MethodMeta getMethodMeta = new MethodMeta();
             getMethodMeta.setMethodName(ClassBuildUtil.getClassStructureName("get"+"_"+
                     value.getFieldName(),"_", ClassStructure.CLASS_METHOD));
-            getMethodMeta.setMethodReturn(value.getFieldType().java);
+            getMethodMeta.setMethodReturn(new MethodMeta.ReturnMeta(value.getFieldType().java,null,null));
             String getMethodTemplate="%sreturn%s%s;\n";
             String methodContent = String.format(getMethodTemplate, structureInternalIndentation(), codeSpaceStyle()
                     ,key);
@@ -34,7 +34,7 @@ public class SimpleBeanBuilder extends BeanBuilder{
             MethodMeta setMethodMeta = new MethodMeta();
             setMethodMeta.setMethodName(ClassBuildUtil.getClassStructureName("set"+"_"+
                     value.getFieldName(),"_", ClassStructure.CLASS_METHOD));
-            setMethodMeta.setMethodReturn(void.class);
+            setMethodMeta.setMethodReturn(new MethodMeta.ReturnMeta(void.class,null,null));
             String setMethodTemplate="%sthis.%s%s=%s%s;\n";
             String setMethodContent = String.format(setMethodTemplate, structureInternalIndentation(),
                     key,codeSpaceStyle(),codeSpaceStyle(),key);

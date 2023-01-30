@@ -2,7 +2,7 @@ package build.builder.meta.codes.java.classes.bean;
 
 import build.builder.data.classes.meta.AnnotationMeta;
 import build.builder.data.classes.meta.ClassMetaStatement;
-import build.source.data.meta.bean.BuildBean;
+import build.source.data.bean.BuildBean;
 import lombok.Data;
 import java.lang.annotation.Annotation;
 import java.util.HashMap;

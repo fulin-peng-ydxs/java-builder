@@ -2,8 +2,8 @@ package build.source.resolver.jdbc;
 
 import build.source.data.enums.NullType;
 import build.source.data.enums.PrimaryKey;
-import build.source.data.meta.bean.BuildBean;
-import build.source.data.meta.bean.BuildBeanItem;
+import build.source.data.bean.BuildBean;
+import build.source.data.bean.BuildBeanItem;
 import build.source.meta.BuildSource;
 import build.source.meta.jdbc.JdbcBuildSource;
 import build.source.resolver.exception.BuildSourceResolverException;

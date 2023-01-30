@@ -7,6 +7,8 @@ import org.junit.Before;
 import org.junit.Test;
 import java.sql.Driver;
 import java.util.Arrays;
+import java.util.Collections;
+
 /**
  * 构建总线测试
  *
@@ -18,7 +20,7 @@ public class TestModel {
     JdbcBuildFileSource jdbcBuildFileSource=null;
 
 
-    @Before
+//    @Before
     public void before(){
         //数据源
         jdbcBuildFileSource = new JdbcBuildFileSource();
@@ -34,6 +36,18 @@ public class TestModel {
                 Arrays.asList("process_data_resource_provide_demand", "process_data_resource_provide_demand_audit"));
         jdbcBuildFileSource.setUserName("gxts");
         jdbcBuildFileSource.setPassword("gxts");
+        jdbcBuildFileSource.setDriverClass(Driver.class);
+    }
+
+    @Before
+    public void tduckBefore(){
+        jdbcBuildFileSource = new JdbcBuildFileSource();
+        jdbcBuildFileSource.setUrl("jdbc:mysql://10.100.100.199:3306/");
+        jdbcBuildFileSource.setDataBaseName("tduck_pre");
+        jdbcBuildFileSource.setTableNames(
+                Collections.singletonList("py_population_from"));
+        jdbcBuildFileSource.setUserName("root");
+        jdbcBuildFileSource.setPassword("pyzwzx@2022EmS,10");
         jdbcBuildFileSource.setDriverClass(Driver.class);
     }
 

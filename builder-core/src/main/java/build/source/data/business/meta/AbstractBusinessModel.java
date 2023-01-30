@@ -1,4 +1,4 @@
-package build.source.data.meta.business;
+package build.source.data.business.meta;
 
 import build.source.data.meta.BuildResolverModel;
 import lombok.Getter;
@@ -19,6 +19,8 @@ public class AbstractBusinessModel extends BuildResolverModel {
         private String name;
         /**主键信息*/
         private String primaryKey;
+        /**主键类型*/
+        private Class<?> primaryKeyType;
     }
 
 

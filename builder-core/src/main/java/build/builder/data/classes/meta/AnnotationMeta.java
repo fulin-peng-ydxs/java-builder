@@ -3,7 +3,6 @@ package build.builder.data.classes.meta;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.lang.annotation.Annotation;
@@ -15,7 +14,6 @@ import java.util.Map;
 */
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
 public class AnnotationMeta  {
     /**注解类型*/

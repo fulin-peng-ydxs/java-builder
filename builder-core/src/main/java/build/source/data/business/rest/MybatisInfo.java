@@ -1,6 +1,6 @@
-package build.source.data.meta.business.mybatis;
+package build.source.data.business.rest;
 
-import build.source.data.meta.business.AbstractBusinessModel;
+import build.source.data.business.meta.AbstractBusinessModel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,7 +14,7 @@ import java.util.Map;
 @Getter
 @Setter
 @AllArgsConstructor
-public class MybatisBean extends AbstractBusinessModel {
+public  class MybatisInfo extends AbstractBusinessModel {
     /**实体信息*/
     private BeanInfo beanInfo;
     /**元实体信息*/

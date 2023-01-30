@@ -7,8 +7,8 @@ import build.builder.data.classes.model.ClassModel;
 import build.builder.meta.codes.java.classes.ClassBuilder;
 import build.builder.util.ClassBuildUtil;
 import build.builder.util.StringBuildUtil;
-import build.source.data.meta.bean.BuildBean;
-import build.source.data.meta.bean.BuildBeanItem;
+import build.source.data.bean.BuildBean;
+import build.source.data.bean.BuildBeanItem;
 import java.util.*;
 /**Bean构建器
  * @author peng_fu_lin
