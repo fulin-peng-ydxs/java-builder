@@ -1,5 +1,6 @@
 package build.builder.meta.codes.xml.mybatis;
 
+import build.builder.data.busness.RestMethod;
 import build.builder.data.xmls.meta.XmlElement;
 import build.builder.util.CollectionUtil;
 import build.source.data.business.rest.MybatisInfo;
@@ -218,9 +219,8 @@ public class SimpleMybatisBuilder extends MybatisBuilder {
      * @author pengfulin
     */
     protected XmlElement doGetSingletonInsertElement(MybatisInfo mybatisInfo){
-        String elementId="add%s";
         XmlElement element = getObjectElement("insert");
-        element.setId(String.format(elementId, mybatisInfo.getBeanInfo().getName()));
+        element.setId(RestMethod.ADD.name());
         String builder = elementInternalIndentation() +
                 "insert into " + mybatisInfo.getBuildBeanInfo().getName() +
                 elementClearanceLineStyle() + elementInternalIndentation() +
@@ -236,9 +236,8 @@ public class SimpleMybatisBuilder extends MybatisBuilder {
      * @author pengfulin
     */
     protected XmlElement doGetBatchInsertElement(MybatisInfo mybatisInfo){
-        String elementId="add%s";
         XmlElement element =  getObjectElement("insert");
-        element.setId(String.format(elementId, mybatisInfo.getBeanInfo().getName()));
+        element.setId(RestMethod.ADD_BATCH.name());
         String builder = elementInternalIndentation() +
                 "insert into " + mybatisInfo.getBuildBeanInfo().getName() +
                 elementClearanceLineStyle() + elementInternalIndentation() +
@@ -268,10 +267,9 @@ public class SimpleMybatisBuilder extends MybatisBuilder {
      * @author pengfulin
     */
     protected XmlElement doGetSingleDeleteElement(MybatisInfo mybatisInfo){
-        String elementId = "delete%sBySid";
         MybatisInfo.BuildBeanInfo buildBeanInfo = mybatisInfo.getBuildBeanInfo();
         XmlElement element = getObjectElement("delete");
-        element.setId(String.format(elementId, mybatisInfo.getBeanInfo().getSimpleName()));
+        element.setId(RestMethod.DELETE.name());
         String builder = elementInternalIndentation() + "delete from " + buildBeanInfo.getName() + elementClearanceLineStyle() +
                 elementInternalIndentation() +"where " + String.format(valuationTemplate,
                 buildBeanInfo.getName(), mybatisInfo.getEntityFields().get(buildBeanInfo.getPrimaryKey()));
@@ -284,10 +282,9 @@ public class SimpleMybatisBuilder extends MybatisBuilder {
      * @author pengfulin
     */
     protected XmlElement doGetBatchDeleteElement(MybatisInfo mybatisInfo){
-        String elementId = "delete%";
         MybatisInfo.BuildBeanInfo buildBeanInfo = mybatisInfo.getBuildBeanInfo();
         XmlElement element = getObjectElement("delete");
-        element.setId(String.format(elementId, mybatisInfo.getBeanInfo().getSimpleName()));
+        element.setId(RestMethod.DELETE_BATCH.name());
         String builder = elementInternalIndentation() + "delete from " + buildBeanInfo.getName() + elementClearanceLineStyle()+
                 elementInternalIndentation()+"<where>"+elementClearanceLineStyle()+"<include refid=\"where_column\"/>"+ elementClearanceLineStyle()+
                 elementInternalIndentation()+"</where>"+elementClearanceLineStyle();
@@ -309,10 +306,9 @@ public class SimpleMybatisBuilder extends MybatisBuilder {
      * @author pengfulin
     */
     protected XmlElement doGetSingleUpdateElement(MybatisInfo mybatisInfo){
-        String elementId = "update%sBySid";
         MybatisInfo.BuildBeanInfo buildBeanInfo = mybatisInfo.getBuildBeanInfo();
         XmlElement element = getObjectElement("update");
-        element.setId(String.format(elementId, mybatisInfo.getBeanInfo().getSimpleName()));
+        element.setId(RestMethod.UPDATE.name());
         String builder = elementInternalIndentation() + "update " + buildBeanInfo.getName() + elementClearanceLineStyle() +
                 elementInternalIndentation()+"<set>"+elementClearanceLineStyle()+
                 elementInternalIndentation()+elementExternalIndentation()+"<include refid=\"update_column\"/>"+elementClearanceLineStyle()+
@@ -328,10 +324,9 @@ public class SimpleMybatisBuilder extends MybatisBuilder {
      * @author pengfulin
     */
     protected XmlElement doGetBatchUpdateElement(MybatisInfo mybatisInfo){
-        String elementId = "update%s";
         MybatisInfo.BuildBeanInfo buildBeanInfo = mybatisInfo.getBuildBeanInfo();
         XmlElement element = getObjectElement("update");
-        element.setId(String.format(elementId, mybatisInfo.getBeanInfo().getSimpleName()));
+        element.setId(RestMethod.UPDATE_BATCH.name());
         String builder = elementInternalIndentation() + "update " + buildBeanInfo.getName() + elementClearanceLineStyle() +
                 elementInternalIndentation()+"<set>"+elementClearanceLineStyle()+
                 elementInternalIndentation()+elementExternalIndentation()+"<include refid=\"update_column\"/>"+elementClearanceLineStyle()+
@@ -356,11 +351,10 @@ public class SimpleMybatisBuilder extends MybatisBuilder {
      * @author pengfulin
     */
     protected XmlElement doGetSingleSelectElement(MybatisInfo mybatisInfo){
-        String elementId = "find%sBySid";
         MybatisInfo.BuildBeanInfo buildBeanInfo = mybatisInfo.getBuildBeanInfo();
         XmlElement element = getObjectElement("select");
         element.setAttributes(Collections.singletonMap("resultMap","result_mapper"));
-        element.setId(String.format(elementId, mybatisInfo.getBeanInfo().getSimpleName()));
+        element.setId(RestMethod.DETAIL.name());
         String builder = elementInternalIndentation() + "select " +"<include refid=\"select_column\"/>" + elementClearanceLineStyle() +
                 elementInternalIndentation()+"from "+buildBeanInfo.getName()+elementClearanceLineStyle()+
                 elementInternalIndentation() +"where " + String.format("%s=#{%s}",
@@ -374,10 +368,9 @@ public class SimpleMybatisBuilder extends MybatisBuilder {
      * @author pengfulin
     */
     protected XmlElement doGetBatchSelectElement(MybatisInfo mybatisInfo){
-        String elementId = "find%s";
         MybatisInfo.BuildBeanInfo buildBeanInfo = mybatisInfo.getBuildBeanInfo();
         XmlElement element = getObjectElement("select");
-        element.setId(String.format(elementId, mybatisInfo.getBeanInfo().getSimpleName()));
+        element.setId(RestMethod.FIND.name());
         element.setAttributes(Collections.singletonMap("resultMap","result_mapper"));
         String builder = elementInternalIndentation() + "select " +"<include refid=\"select_column\"/>" + elementClearanceLineStyle() +
                 elementInternalIndentation()+"from "+buildBeanInfo.getName()+elementClearanceLineStyle()+

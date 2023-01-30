@@ -8,6 +8,9 @@ import build.builder.meta.codes.CodeBuilder;
 import build.builder.meta.codes.persist.PersistResolverException;
 import build.builder.util.ClassBuildUtil;
 import build.builder.util.StringBuildUtil;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.lang.annotation.Annotation;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -19,6 +22,8 @@ import java.util.Set;
  * @author peng_fu_lin
  * 2022-09-09 10:20
  */
+@Getter
+@Setter
 public abstract class JavaCodeBuilder<T> extends CodeBuilder<T> {
 
     /**包声明配置*/

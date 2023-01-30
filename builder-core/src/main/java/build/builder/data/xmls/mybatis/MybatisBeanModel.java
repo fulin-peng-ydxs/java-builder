@@ -1,9 +1,10 @@
-package build.builder.data.xmls.bean.mybatis;
+package build.builder.data.xmls.mybatis;
 
 import build.builder.data.BuildModel;
 import build.builder.data.xmls.meta.XmlElement;
 import lombok.Getter;
 import lombok.Setter;
+
 import java.util.List;
 /**
  * Mybatis-Bean构建模型
