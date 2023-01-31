@@ -1,10 +1,11 @@
 import build.builder.meta.codes.java.classes.bean.LombokBeanBuilder;
 import build.builder.meta.codes.java.classes.bean.SimpleBeanBuilder;
 import build.bus.exception.BuildBusException;
-import build.bus.model.simple.SimpleBuildBus;
+import build.bus.meta.BuildBus;
 import build.source.meta.jdbc.JdbcBuildFileSource;
 import org.junit.Before;
 import org.junit.Test;
+
 import java.sql.Driver;
 import java.util.Arrays;
 import java.util.Collections;
@@ -58,16 +59,21 @@ public class TestModel {
     @Test
     public void testBus() throws BuildBusException {
         //构建总线
-        SimpleBuildBus simpleBuildBus = new SimpleBuildBus();
+        BuildBus BuildBus = new BuildBus();
         //执行构建
-        simpleBuildBus.build(SimpleBeanBuilder.class, jdbcBuildFileSource,null,null);
+        BuildBus.build(SimpleBeanBuilder.class, jdbcBuildFileSource,null,null);
     }
 
     @Test
     public void testLombokBeanBuilder() throws BuildBusException {
         //构建总线
-        SimpleBuildBus simpleBuildBus = new SimpleBuildBus();
+        BuildBus BuildBus = new BuildBus();
         //执行构建
-        simpleBuildBus.build(LombokBeanBuilder.class, jdbcBuildFileSource,null,null);
+        BuildBus.build(LombokBeanBuilder.class, jdbcBuildFileSource,null,null);
     }
+
+    /**简单模式构建总线测试
+     * 2023/1/31 0031-15:08
+     * @author pengfulin
+    */
 }
