@@ -23,7 +23,7 @@ import java.util.List;
  * @author peng_fu_lin
  * 2022-09-07 14:52
  */
-public class JdbcBSRBuildBean extends JdbcBSR<List<BuildBean>>
+public class JdbcBuildBeanBSR extends JdbcBSR<List<BuildBean>>
       implements BuildBeanMapper {
 
     @Override
@@ -42,7 +42,7 @@ public class JdbcBSRBuildBean extends JdbcBSR<List<BuildBean>>
             JdbcBuildSource jdbcBuildSource = (JdbcBuildSource) builderSource;
             return getBuildBeans(jdbcBuildSource.getTableNames(), jdbcBuildSource.getDataBaseName(), resolverSQL, resolverConnection);
         } catch (Exception e) {
-            throw new JdbcBuildSourceResolverException("failed to resolve the data source",e);
+            throw new JdbcBuildSourceResolverException("构建数据源解析异常",e);
         }
     }
 
@@ -112,7 +112,7 @@ public class JdbcBSRBuildBean extends JdbcBSR<List<BuildBean>>
             continues=false;
         }
         if(buildBean==null)
-            throw new SQLException("There is no data to build");
+            throw new SQLException("没有可以构建元实体的数据");
         buildBean.setDataItems(buildBeanItems);
         return buildBean;
     }

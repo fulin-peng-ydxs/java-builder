@@ -1,5 +1,6 @@
 package build.builder.meta.codes.java.classes.business.rest;
 
+import build.builder.data.busness.RestMethod;
 import build.builder.data.classes.enums.ClassStructure;
 import build.builder.data.classes.enums.FieldType;
 import build.builder.data.classes.meta.*;
@@ -103,7 +104,7 @@ public abstract class RestBusinessBuilder extends ClassBuilder {
      * @author pengfulin
      */
     protected MethodMeta getListQueryInterface(RestBusiness restBusiness, Set<Class<?>> importClasses){
-        return useServiceEntityStyle("find",restBusiness,List.class,importClasses);
+        return useServiceEntityStyle(RestMethod.FIND.name(),restBusiness,List.class,importClasses);
     }
 
     /**获取查询详情接口
@@ -133,7 +134,7 @@ public abstract class RestBusinessBuilder extends ClassBuilder {
      * @author pengfulin
     */
     public MethodMeta getDeleteOnlyInterface(RestBusiness restBusiness,Set<Class<?>> importClasses){
-        return usePrimaryStyle("deleteOnly",restBusiness,Integer.class,true,importClasses);
+        return usePrimaryStyle(RestMethod.DELETE.name(), restBusiness,Integer.class,true,importClasses);
     }
 
     /**获取批量删除接口
@@ -141,7 +142,7 @@ public abstract class RestBusinessBuilder extends ClassBuilder {
      * @author pengfulin
     */
     public MethodMeta getDeleteBatchInterface(RestBusiness restBusiness,Set<Class<?>> importClasses){
-        return usePrimaryStyle("deleteBatch",restBusiness,Integer.class,false,importClasses);
+        return usePrimaryStyle(RestMethod.DELETE_BATCH.name(), restBusiness,Integer.class,false,importClasses);
     }
 
 
@@ -177,7 +178,7 @@ public abstract class RestBusinessBuilder extends ClassBuilder {
      * @author pengfulin
      */
     protected   Map<String, MethodMeta> getUpdateInterface(RestBusiness restBusiness, Set<Class<?>> importClasses){
-        MethodMeta methodMeta = useServiceEntityStyle("update", restBusiness,BusinessClass.class,importClasses);
+        MethodMeta methodMeta = useServiceEntityStyle(RestMethod.UPDATE.name(), restBusiness,BusinessClass.class,importClasses);
         return Collections.singletonMap(methodMeta.getMethodName(),methodMeta);
     }
 
@@ -187,7 +188,7 @@ public abstract class RestBusinessBuilder extends ClassBuilder {
      * @author pengfulin
      */
     protected   Map<String, MethodMeta> getAddInterface(RestBusiness restBusiness,Set<Class<?>> importClasses){
-        MethodMeta methodMeta = useServiceEntityStyle("add", restBusiness,BusinessClass.class,importClasses);
+        MethodMeta methodMeta = useServiceEntityStyle(RestMethod.ADD.name(), restBusiness,BusinessClass.class,importClasses);
         return Collections.singletonMap(methodMeta.getMethodName(),methodMeta);
     }
 

@@ -24,11 +24,14 @@ public abstract class SchemaBuildBus extends BuildBus {
         super(buildCoders,buildResponders, buildSourceResolvers);
     }
 
-    /**构建总线方法：适用模式化构建
+    /**构建总线方法：模式化构建
      * 2022/9/6 0006-16:47
      * @author pengfulin
      */
-    public abstract void build(List<Class<BuildCoder<?>> > builderClasses,
+    public abstract void buildWithChoose(List<Class<BuildCoder<?>> > builderClasses,
+                               BuildSource buildSource, OutputStream outputStream,List<Object> persistSources) throws BuildBusException;
+
+    public abstract void buildWithCustomer(List<BuildCoder<?>> builders,
                                BuildSource buildSource, OutputStream outputStream,List<Object> persistSources) throws BuildBusException;
 
     public abstract void build(BuildSource buildSource, OutputStream outputStream, List<Object> persistSources) throws BuildBusException;
