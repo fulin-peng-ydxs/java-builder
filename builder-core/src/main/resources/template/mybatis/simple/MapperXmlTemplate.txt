@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="{nameSpace}">
+
+    <!--SQL-->
+    <sql id="insertColumns">
+{cloneInsertColumns}
+    </sql>
+    <sql id="insertFields">
+        (
+{cloneInsertFields}
+        )
+    </sql>
+    <sql id="insertBatchFields">
+        (
+{cloneInsertBatchFields}
+        )
+    </sql>
+    <sql id="selectColumns">
+{cloneSelectColumns}
+    </sql>
+    <sql id="whereColumns">
+{cloneWhereColumns}
+    </sql>
+    <sql id="updateColumns">
+{cloneUpdateColumns}
+    </sql>
+
+    <!--RESULT-->
+    <result id="resultMapper" type="{entityReference}">
+{cloneResults}
+    </result>
+
+    <!--CURD-->
+
+    <insert id="insert">
+        INSERT INTO {tableName} t <include refid="insertColumns"/>
+        VALUES <include refid="insertFields"/>
+    </insert>
+
+    <insert id="insertBatch">
+        INSERT INTO {tableName} t <include refid="insertColumns"/>
+        VALUES
+        <foreach item="obj" collection="items"  separator=","  >
+            <include refid="insertBatchFields"/>
+        </foreach>
+    </insert>
+
+    <select id="selectList"  resultType="resultMapper">
+        SELECT <include refid="selectColumns"/>
+        FROM {tableName} t
+        <where>
+            <include refid="whereColumns"/>
+        </where>
+    </select>
+
+    <select id="selectOne"  resultType="resultMapper">
+        SELECT <include refid="selectColumns"/>
+        FROM {tableName} t
+        WHERE t.{primaryKeyColumn}=#{{primaryKeyField}}
+    </select>
+
+
+    <update id="updateById">
+        UPDATE {tableName} t
+        <set>
+            <include refid="updateColumns"/>
+        </set>
+        WHERE {primaryKeyColumn}=#{{primaryKeyField}}
+    </update>
+
+    <update id="update">
+        UPDATE {tableName} t
+        <set>
+            <include refid="updateColumns"/>
+        </set>
+        <where>
+            <include refid="whereColumns"/>
+        </where>
+    </update>
+
+    <delete id="deleteById">
+        DELETE
+        FROM {tableName} t
+        WHERE {primaryKeyColumn}=#{{primaryKeyField}}
+    </delete>
+
+</mapper>

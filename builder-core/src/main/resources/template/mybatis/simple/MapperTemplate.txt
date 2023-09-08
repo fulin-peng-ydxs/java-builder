@@ -1,0 +1,16 @@
+package {package}
+import {import}
+//{description}
+public interface {mapperName} {
+    //新增
+    int insert({Entity} {entity});
+    int insertBatch(List<{Entity}> {entity}s);
+    //查询
+    List<{Entity}> selectList({Entity} {entity});
+    {Entity} selectOne({PrimaryKeyField} {primaryKeyField});
+    //更新
+    int updateById({PrimaryKeyField} {primaryKeyField});
+    int update({Entity} {entity});
+    //删除
+    int deleteById({PrimaryKeyField} {primaryKeyField});
+}

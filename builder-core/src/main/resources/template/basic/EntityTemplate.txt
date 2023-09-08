@@ -1,0 +1,8 @@
+package {package}
+import lombok.Data
+{cloneImports}
+//{description}
+@Data
+public class {entityName} {
+{cloneFields}
+}
