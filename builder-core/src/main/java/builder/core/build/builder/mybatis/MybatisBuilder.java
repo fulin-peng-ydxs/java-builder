@@ -6,14 +6,16 @@ import builder.model.build.config.enums.ClassStructure;
 import builder.model.build.config.type.MybatisType;
 import builder.model.build.orm.Entity;
 import builder.model.build.orm.Field;
-import builder.model.build.orm.mybatis.Mapper;
 import builder.model.build.orm.enums.FieldType;
+import builder.model.build.orm.mybatis.Mapper;
 import builder.model.resolve.database.ColumnInfo;
 import builder.model.resolve.database.TableInfo;
 import builder.model.resolve.database.jdbc.ConnectionInfo;
 import builder.util.ClassUtil;
 import builder.util.StringUtil;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
@@ -23,7 +25,9 @@ import java.util.List;
  * author: pengshuaifeng
  * 2023/9/3
  */
+@Setter
 @Getter
+@NoArgsConstructor
 public abstract class MybatisBuilder {
 
     //构建实体集合

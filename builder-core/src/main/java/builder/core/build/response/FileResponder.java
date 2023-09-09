@@ -37,7 +37,8 @@ public class FileResponder {
     public void execute(Object fileContent,String fileName,String path){
         byte[] bytes = fileContent.toString().getBytes(StandardCharsets.UTF_8);
         //TODO 替换成日志输出
-        System.out.println("输出文件："+path+"："+fileName);
-        FileUtil.flush(bytes,fileName,path==null?rootPath:rootPath+File.separator+path);
+        String outPath = path == null ? rootPath : rootPath + File.separator + path;
+        System.out.println("输出文件："+outPath+"："+fileName);
+        FileUtil.flush(bytes,fileName, outPath);
     }
 }

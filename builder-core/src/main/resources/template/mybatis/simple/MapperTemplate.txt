@@ -1,16 +1,18 @@
 package {package}
+import java.util.*
 import {import}
 //{description}
 public interface {mapperName} {
-    //新增
+    //单个新增
     int insert({Entity} {entity});
+    //批量新增
     int insertBatch(List<{Entity}> {entity}s);
-    //查询
+    //批量查询
     List<{Entity}> selectList({Entity} {entity});
+    //单个查询
     {Entity} selectOne({PrimaryKeyField} {primaryKeyField});
-    //更新
-    int updateById({PrimaryKeyField} {primaryKeyField});
-    int update({Entity} {entity});
-    //删除
+    //单个更新
+    int updateById({Entity} {entity});
+    //单个删除
     int deleteById({PrimaryKeyField} {primaryKeyField});
 }

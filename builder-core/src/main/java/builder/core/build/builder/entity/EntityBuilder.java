@@ -4,7 +4,9 @@ import builder.model.build.config.template.Template;
 import builder.model.build.orm.Entity;
 import builder.model.build.orm.Field;
 import builder.util.ClassUtil;
+import builder.util.StringUtil;
 import builder.util.TemplateUtil;
+import lombok.Data;
 
 import java.util.HashMap;
 import java.util.List;
@@ -14,6 +16,7 @@ import java.util.Map;
  * author: pengshuaifeng
  * 2023/9/6
  */
+@Data
 public class EntityBuilder {
 
     /**
@@ -21,7 +24,7 @@ public class EntityBuilder {
      * 2023/9/6 21:53
      * @author pengshuaifeng
      */
-    public static String build(Entity entity, Template entityTemplate){
+    public  String build(Entity entity, Template entityTemplate){
         Map<String, String> paddings = new HashMap<>();
         //基础模版填充
         paddings.put("{package}",entity.getReference());
@@ -48,7 +51,7 @@ public class EntityBuilder {
             }
             cloneFieldsBuilder.append(TemplateUtil.paddingTemplate(cloneFieldsTemplate,cloneFieldPaddings));
         }
-        paddings.put("{cloneFields}",cloneFieldsBuilder.toString());
+        paddings.put("{cloneFields}", StringUtil.clearLastSpan(cloneFieldsBuilder.toString()));
         paddings.put("{cloneImports}",cloneImportsBuilder.length()==0?"":cloneImportsBuilder.toString());
         return TemplateUtil.paddingTemplate(entityTemplate.getTemplate(),paddings);
     }

@@ -69,16 +69,6 @@
         WHERE {primaryKeyColumn}=#{{primaryKeyField}}
     </update>
 
-    <update id="update">
-        UPDATE {tableName} t
-        <set>
-            <include refid="updateColumns"/>
-        </set>
-        <where>
-            <include refid="whereColumns"/>
-        </where>
-    </update>
-
     <delete id="deleteById">
         DELETE
         FROM {tableName} t

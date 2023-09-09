@@ -75,7 +75,7 @@ public class ClassUtil {
      * @author pengshuaifeng
      */
     public static boolean ignoreReference(String reference){
-        return reference.startsWith("java.lang") || reference.startsWith("java.util");
+        return reference.startsWith("java.lang");
     }
 
     public static String ignoreReferenceToEmpty(String reference){

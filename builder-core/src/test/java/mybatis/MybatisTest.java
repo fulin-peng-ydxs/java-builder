@@ -52,15 +52,15 @@ public class MybatisTest {
     //创建构建器 ：设置输出根路径
     @Test
     public void simpleMybatisTest02(){
-        mybatisBuilder = new SimpleMybatisBuilder(connectionInfo, "/Users/pengshuaifeng");
+        mybatisBuilder = new SimpleMybatisBuilder(connectionInfo, "/Users/pengshuaifeng/works");
     }
     //创建构建器 ：设置组件的构建子路径
     @Test
     public void simpleMybatisTest03(){
         MybatisPath mybatisPath = new MybatisPath();
-        mybatisPath.setEntity("/entity");
-        mybatisPath.setMapper("/mapper");
-        mybatisPath.setMapperXml("/mapper/xml");
+        mybatisPath.setEntity("/entities");
+        mybatisPath.setMapper("/mappers");
+        mybatisPath.setMapperXml("/mappers/xml");
         mybatisPath.setRoot("/Users/pengshuaifeng/javaBuilder");
         mybatisBuilder = new SimpleMybatisBuilder(connectionInfo, mybatisPath);
     }
