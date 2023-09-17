@@ -9,7 +9,6 @@ import builder.model.resolve.database.ColumnInfo;
 import builder.util.ClassUtil;
 import builder.util.StringUtil;
 import builder.util.TemplateUtil;
-import lombok.Data;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,7 +17,6 @@ import java.util.Map;
  * author: pengshuaifeng
  * 2023/9/9
  */
-@Data
 public class MapperBuilder {
 
     /**

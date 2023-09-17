@@ -8,9 +8,8 @@ import builder.model.resolve.database.jdbc.ConnectionInfo;
 import builder.model.resolve.database.jdbc.SQL;
 import builder.util.StringUtil;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import javax.sql.DataSource;
 import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
@@ -20,16 +19,13 @@ import java.util.List;
  * author: pengshuaifeng
  * 2023/9/2
  */
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
 public class DataBaseResolver {
 
+    //数据库连接信息
     protected ConnectionInfo connectionInfo;
-
-    public List<TableInfo> getTableInfos() {
-        return getTableInfos(this.connectionInfo);
-    }
 
     /**
      * 获取表集合
@@ -47,6 +43,10 @@ public class DataBaseResolver {
         } catch (Exception e) {
             throw new RuntimeException("获取数据表集合异常",e);
         }
+    }
+
+    public List<TableInfo> getTableInfos() {
+        return getTableInfos(this.connectionInfo);
     }
 
     /**
@@ -173,9 +173,5 @@ public class DataBaseResolver {
         } catch (Exception e) {
             throw new RuntimeException("获取数据库连接异常",e);
         }
-    }
-
-    private  Connection getConnection(DataSource dataSource){
-        return null;
     }
 }

@@ -1,8 +1,8 @@
 package builder.model.resolve.database.jdbc;
 
 
+import lombok.Builder;
 import lombok.Data;
-
 import java.sql.Driver;
 
 /**
@@ -11,6 +11,7 @@ import java.sql.Driver;
  * 2023/9/2
  */
 @Data
+@Builder
 public class ConnectionInfo {
     /** 数据库连接地址*/
     private String url;

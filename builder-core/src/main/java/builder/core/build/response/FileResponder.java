@@ -2,7 +2,7 @@ package builder.core.build.response;
 
 
 import builder.util.FileUtil;
-import lombok.Data;
+import builder.util.StringUtil;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
@@ -12,18 +12,14 @@ import java.nio.charset.StandardCharsets;
  * author: pengshuaifeng
  * 2023/9/2
  */
-@Data
-public class FileResponder {
-
-    //响应根路径：默认为系统当前用户家目录
-    private String rootPath= System.getProperty("user.home")+File.separator+"JavaBuilds";
+public class FileResponder extends Responder{
 
     public FileResponder(){
-
+        rootPath= System.getProperty("user.home")+File.separator+"JavaBuilds";
     }
 
     public FileResponder(String rootPath){
-        this.rootPath=rootPath;
+        super(rootPath);
     }
 
     /**
@@ -37,8 +33,19 @@ public class FileResponder {
     public void execute(Object fileContent,String fileName,String path){
         byte[] bytes = fileContent.toString().getBytes(StandardCharsets.UTF_8);
         //TODO 替换成日志输出
-        String outPath = path == null ? rootPath : rootPath + File.separator + path;
+        String outPath = path == null ? rootPath : pathSeparator(rootPath,path);
         System.out.println("输出文件："+outPath+"："+fileName);
         FileUtil.flush(bytes,fileName, outPath);
     }
+
+
+    public String pathSeparator(String rootPath,String path){
+        String separator = File.separator;
+        if(rootPath.endsWith(separator) && path.startsWith(separator))
+            return rootPath+ StringUtil.substring(path,"/",null,false,true);
+        else if(!rootPath.endsWith(separator) && !path.startsWith(separator))
+            return rootPath + File.separator + path;
+        else return rootPath+path;
+    }
+
 }

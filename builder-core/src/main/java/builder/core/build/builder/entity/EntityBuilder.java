@@ -6,8 +6,6 @@ import builder.model.build.orm.Field;
 import builder.util.ClassUtil;
 import builder.util.StringUtil;
 import builder.util.TemplateUtil;
-import lombok.Data;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,7 +14,6 @@ import java.util.Map;
  * author: pengshuaifeng
  * 2023/9/6
  */
-@Data
 public class EntityBuilder {
 
     /**

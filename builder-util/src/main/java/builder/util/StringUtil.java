@@ -289,6 +289,11 @@ public class StringUtil {
         return builderToString(builder);
     }
 
+    /**
+     * StringBuilder转换String
+     * 2023/9/17 22:02
+     * @author pengshuaifeng
+     */
     public static String builderToString(StringBuilder builder){
         return builder.length()==0?null:builder.toString();
     }

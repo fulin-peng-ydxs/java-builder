@@ -1,9 +1,14 @@
 package builder.core.build.builder.mybatis;
 
+import builder.core.build.builder.entity.EntityBuilder;
+import builder.core.build.builder.mybatis.mapper.MapperBuilder;
 import builder.core.build.resolve.database.DataBaseResolver;
 import builder.core.build.response.FileResponder;
+import builder.model.build.config.content.orm.MybatisContent;
 import builder.model.build.config.enums.ClassStructure;
-import builder.model.build.config.type.MybatisType;
+import builder.model.build.config.path.MybatisPath;
+import builder.model.build.config.template.Template;
+import builder.model.build.config.template.path.MybatisTemplatePath;
 import builder.model.build.orm.Entity;
 import builder.model.build.orm.Field;
 import builder.model.build.orm.enums.FieldType;
@@ -13,69 +18,180 @@ import builder.model.resolve.database.TableInfo;
 import builder.model.resolve.database.jdbc.ConnectionInfo;
 import builder.util.ClassUtil;
 import builder.util.StringUtil;
+import builder.util.TemplateUtil;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
-
 /**
- * 抽象的mybatis构建器
+ * mybatis构建器
  * author: pengshuaifeng
  * 2023/9/3
  */
 @Setter
 @Getter
-@NoArgsConstructor
-public abstract class MybatisBuilder {
+@Builder
+public class MybatisBuilder {
 
-    //构建实体集合
-    protected  List<Entity> entities=new LinkedList<>();
-    //构建映射集合
-    protected  List<Mapper> mappers=new LinkedList<>();
-    //文件响应器
-    protected  FileResponder responder=new FileResponder();
-    //实体构建路径
+    //构建数据
+    protected  List<Entity> entities;
+    protected  List<Mapper> mappers;
+    //构建源-数据库
+    protected  ConnectionInfo connectionInfo;
+    //构建路径
+    protected String rootPath;
     protected String entityPath;
-    //映射构建路径
     protected String mapperPath;
-    //映射文件构建路径
     protected String mapperXmlPath;
+    protected MybatisPath mybatisPath;
+    //构建模版
+    protected Template entityTemplate;
+    protected Template mapperTemplate;
+    protected Template mapperXmlTemplate;
+    protected MybatisTemplatePath mybatisTemplatePath;
+    //通用构建器
+    protected EntityBuilder entityBuilder;
+    protected MapperBuilder mapperBuilder;
+    //构建响应器
+    protected  FileResponder responder;
 
     /**
-     * 构造器
-     * 2023/9/3 15:37
+     * 构建器创建
+     * 2023/9/17 19:18
      * @author pengshuaifeng
      */
-    public MybatisBuilder(ConnectionInfo connectionInfo, String rootPath,
-                          String entityPath, String mapperPath, String mapperXmlPath){
-        this(connectionInfo,entityPath,mapperPath,mapperXmlPath);
-        if(StringUtil.isNotEmpty(rootPath))
-            this.responder.setRootPath(rootPath);
+    MybatisBuilder(List<Entity> entities, List<Mapper> mappers, ConnectionInfo connectionInfo, String rootPath, String entityPath, String mapperPath, String mapperXmlPath, MybatisPath mybatisPath, Template entityTemplate, Template mapperTemplate, Template mapperXmlTemplate, MybatisTemplatePath mybatisTemplatePath, EntityBuilder entityBuilder, MapperBuilder mapperBuilder, FileResponder responder) {
+        this.entities = entities;
+        this.mappers = mappers;
+        this.connectionInfo = connectionInfo;
+        this.rootPath = rootPath;
+        this.entityPath = entityPath;
+        this.mapperPath = mapperPath;
+        this.mapperXmlPath = mapperXmlPath;
+        this.mybatisPath = mybatisPath;
+        this.entityTemplate = entityTemplate;
+        this.mapperTemplate = mapperTemplate;
+        this.mapperXmlTemplate = mapperXmlTemplate;
+        this.mybatisTemplatePath = mybatisTemplatePath;
+        this.entityBuilder = entityBuilder;
+        this.mapperBuilder = mapperBuilder;
+        this.responder = responder;
+        init();
     }
 
-    public MybatisBuilder(ConnectionInfo connectionInfo, String entityPath, String mapperPath, String mapperXmlPath){
-        this(entityPath,mapperPath,mapperXmlPath);
-        DataBaseResolver dataBaseResolver = new DataBaseResolver(connectionInfo);
+    /**
+     * 构建器初始化
+     * 2023/9/17 19:18
+     * @author pengshuaifeng
+     */
+    protected void init(){
+        //初始化构建数据
+        initBuildData();
+        //初始化路径
+        initBuildPath();
+        //初始化模版
+        initTemplate();
+        //初始化构建器
+        initBuilder();
+        //初始化响应器
+        initBuildResponder();
+    }
+
+    public void initBuildData(){
+         entities=new LinkedList<>();
+         mappers=new LinkedList<>();
+    }
+
+    public void initBuildPath(){
+        if(mybatisPath!=null){
+            entityPath=mybatisPath.getEntity();
+            mapperPath=mybatisPath.getMapper();
+            mapperXmlPath=mybatisPath.getMapperXml();
+            if(StringUtil.isEmpty(rootPath))
+                rootPath=mybatisPath.getRoot();
+        }
+        entityPath=StringUtil.isNotEmpty(entityPath)?entityPath:"java"+ File.separator+"entity";
+        mapperPath=StringUtil.isNotEmpty(mapperPath)?mapperXmlPath:"java"+File.separator+"mapper";
+        mapperXmlPath=StringUtil.isNotEmpty(mapperXmlPath)?mapperXmlPath:"resource"+File.separator+"mapper";
+    }
+
+    public void initTemplate(){
+        initTemplatePath();
+        String entityTemplatePath = mybatisTemplatePath.getEntityPath();
+        String mapperTemplatePath = mybatisTemplatePath.getMapperPath();
+        String mapperXmlTemplatePath = mybatisTemplatePath.getMapperXmlPath();
+        this.entityTemplate=new Template(TemplateUtil.getTemplate(entityTemplatePath),
+                TemplateUtil.getTemplates(entityTemplatePath),TemplateUtil.getCloneTemplates(TemplateUtil.getCloneTemplatePath(entityTemplatePath)));
+        try {
+            this.mapperTemplate=new Template(TemplateUtil.getTemplate(mapperTemplatePath),
+                    TemplateUtil.getTemplates(mapperTemplatePath),TemplateUtil.getCloneTemplates(TemplateUtil.getCloneTemplatePath(mapperTemplatePath)));
+        } catch (Exception e) {
+            this.mapperTemplate=new Template(TemplateUtil.getTemplate(mapperTemplatePath),
+                    TemplateUtil.getTemplates(mapperTemplatePath),null);
+        }
+        this.mapperXmlTemplate= new Template(TemplateUtil.getTemplate(mapperXmlTemplatePath),
+                TemplateUtil.getTemplates(mapperXmlTemplatePath),TemplateUtil.getCloneTemplates(TemplateUtil.getCloneTemplatePath(mapperXmlTemplatePath)));
+    }
+
+    protected void initTemplatePath(){
+        mybatisTemplatePath=mybatisTemplatePath==null?
+                new MybatisTemplatePath():mybatisTemplatePath;
+       if(StringUtil.isEmpty(mybatisTemplatePath.getEntityPath())){
+            mybatisTemplatePath.setEntityPath("/template/basic/EntityTemplate.txt");
+        }
+        if (StringUtil.isEmpty(mybatisTemplatePath.getMapperPath())) {
+            mybatisTemplatePath.setMapperPath("/template/mybatis/simple/MapperTemplate.txt");
+        }
+        if (StringUtil.isEmpty(mybatisTemplatePath.getMapperXmlPath())) {
+            mybatisTemplatePath.setMapperXmlPath("/template/mybatis/simple/MapperXmlTemplate.txt");
+        }
+    }
+
+    public void initBuilder(){
+        entityBuilder=entityBuilder==null?new EntityBuilder():entityBuilder;
+        mapperBuilder=mapperBuilder==null?new MapperBuilder():mapperBuilder;
+    }
+
+    public void initBuildResponder(){
+        if(responder==null){
+            responder=new FileResponder();
+        }
+        if(StringUtil.isNotEmpty(rootPath))
+            responder.setRootPath(rootPath);
+    }
+
+
+    /**
+     * 构建
+     * 2023/9/17 20:11
+     * @author pengshuaifeng
+     */
+    public void build(MybatisContent mybatisContent){
+        if(connectionInfo!=null){
+            setBuildData(new DataBaseResolver(connectionInfo));
+        }else throw new RuntimeException("没有构建源");
+        buildExecute(mybatisContent);
+    }
+
+    /**
+     * 生成构建数据
+     * 2023/9/17 20:17
+     * @author pengshuaifeng
+     */
+    protected void setBuildData(DataBaseResolver dataBaseResolver){
         List<TableInfo> tableInfos = dataBaseResolver.getTableInfos();
+        setBuildData(tableInfos);
+    }
+
+    protected void setBuildData(List<TableInfo> tableInfos){
         for (TableInfo tableInfo : tableInfos) {
             Entity entity = convertEntity(tableInfo,entityPath);
             entities.add(entity);
             Mapper mapper = convertMapper(entity, mapperPath);
             mappers.add(mapper);
         }
-    }
-
-    public MybatisBuilder(String entityPath, String mapperPath, String mapperXmlPath){
-        this.entityPath=entityPath;
-        this.mapperPath=mapperPath;
-        this.mapperXmlPath=mapperXmlPath;
-    }
-
-    public MybatisBuilder(ConnectionInfo connectionInfo, String rootPath){
-        this(connectionInfo,rootPath,"java"+ File.separator+"entity","java"+File.separator+"mapper",
-                "resource"+File.separator+"mapper");
     }
 
     /**
@@ -120,15 +236,14 @@ public abstract class MybatisBuilder {
     }
 
 
-
     /**
-     * 构建方法
+     * 构建执行
      * 2023/9/3 15:17
      * @author pengshuaifeng
-     * @param mybatisType 根据构建类型生成需要的组件
+     * @param mybatisContent 根据构建类型生成需要的组件
      */
-    public void build(MybatisType mybatisType){
-        if(mybatisType == MybatisType.ALL){
+    protected void buildExecute(MybatisContent mybatisContent){
+        if(mybatisContent == MybatisContent.ALL){
             for (Entity entity : entities) {
                 buildEntity(entity);
             }
@@ -136,23 +251,12 @@ public abstract class MybatisBuilder {
                 buildMapper(mapper);
                 buildMapperXml(mapper);
             }
-        }
-        if (mybatisType == MybatisType.ENTITY) {
+        } else if (mybatisContent == MybatisContent.ENTITY) {
             for (Entity entity : entities) {
                 buildEntity(entity);
             }
-        }else{
-            for (Mapper mapper : mappers) {
-                if(mybatisType == MybatisType.MAPPER_XML){
-                    buildMapper(mapper);
-                    buildMapperXml(mapper);
-                }else if(mybatisType == MybatisType.XML){
-                    buildMapperXml(mapper);
-                }else if(mybatisType == MybatisType.MAPPER){
-                    buildMapper(mapper);
-                }
-            }
         }
+        throw new RuntimeException("不支持的构建类型");
     }
 
     /**
@@ -170,7 +274,14 @@ public abstract class MybatisBuilder {
      * @author pengshuaifeng
      * @param path 实体构建输出路径
      */
-    protected abstract void buildEntity(Entity entity,String path);
+    protected void buildEntity(Entity entity, String path) {
+        String entityValue = buildEntityValue(entity);
+        responder.execute(entityValue,entity.getName()+".java",path);
+    }
+
+    protected String buildEntityValue(Entity entity){
+        return entityBuilder.build(entity,entityTemplate);
+    }
 
     /**
      * 构建映射器
@@ -187,7 +298,14 @@ public abstract class MybatisBuilder {
      * @author pengshuaifeng
      * @param path 映射器构建输出路径
      */
-    protected abstract void buildMapper(Mapper mapper,String path);
+    protected void buildMapper(Mapper mapper, String path) {
+        String mapperValue = buildMapperValue(mapper);
+        responder.execute(mapperValue,mapper.getName()+".java",path);
+    }
+
+    protected String buildMapperValue(Mapper mapper){
+        return mapperBuilder.buildMapper(mapper,mapperTemplate);
+    }
 
     /**
      * 构建映射文件
@@ -204,5 +322,12 @@ public abstract class MybatisBuilder {
      * @author pengshuaifeng
      * @param path 构建映射器文件输出路径
      */
-    protected abstract void buildMapperXml(Mapper mapper,String path);
+    protected void buildMapperXml(Mapper mapper, String path) {
+        String mapperXmlValue = buildMapperXmlValue(mapper);
+        responder.execute(mapperXmlValue,mapper.getName()+".xml",path);
+    }
+
+    protected String buildMapperXmlValue(Mapper mapper){
+        return mapperBuilder.buildMapperXml(mapper,mapperXmlTemplate);
+    }
 }
