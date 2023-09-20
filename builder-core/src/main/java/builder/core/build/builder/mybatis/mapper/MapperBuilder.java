@@ -19,18 +19,26 @@ import java.util.Map;
  */
 public class MapperBuilder {
 
+    protected Mapper mapper;
+
+    protected Template mapperTemplate;
+
+    protected Template mapperXmlTemplate;
+
     /**
      * 构建映射器
      * 2023/9/6 21:53
      * @author pengshuaifeng
      */
     public String buildMapper(Mapper mapper,Template mapperTemplate){
+        this.mapper=mapper;
+        this.mapperTemplate=mapperTemplate;
         Map<String, String> paddings = new HashMap<>();
         //基础模版填充
         Entity entity = mapper.getEntity();
         paddings.put("{package}",mapper.getReference());
         paddings.put("{import}",entity.getReference());
-        paddings.put("{mapperName}",mapper.getName());
+        paddings.put("{Mapper}",mapper.getName());
         paddings.put("{description}",mapper.getDescription());
         paddings.put("{Entity}",entity.getName());
         paddings.put("{entity}", ClassUtil.generateStructureName(entity.getTableInfo().getName(),"-",
@@ -48,17 +56,14 @@ public class MapperBuilder {
      * @author pengshuaifeng
      */
     public String buildMapperXml(Mapper mapper,Template mapperXmlTemplate){
+        this.mapper=mapper;
+        this.mapperXmlTemplate=mapperXmlTemplate;
         //基础模版填充
         Map<String, String> paddings = new HashMap<>();
-        //基础模版填充
-        Entity entity = mapper.getEntity();
-        paddings.put("{nameSpace}",mapper.getReference());
-        paddings.put("{entityReference}",entity.getReference());
-        Field primaryField = entity.getPrimaryField();
-        paddings.put("{primaryKeyColumn}",primaryField.getColumnInfo().getName());
-        paddings.put("{primaryKeyField}",primaryField.getName());
-        paddings.put("{tableName}",entity.getTableInfo().getName());
+        paddings=basicPaddings(paddings);
         //克隆模版填充
+        Entity entity = mapper.getEntity();
+        Field primaryField = entity.getPrimaryField();
         Map<String, String> templateClones = mapperXmlTemplate.getTemplateClones();
         String cloneInsertColumnsTemplate = templateClones.get("cloneInsertColumns");
         String cloneInsertFieldsTemplate = templateClones.get("cloneInsertFields");
@@ -100,5 +105,21 @@ public class MapperBuilder {
         paddings.put("{cloneUpdateColumns}",StringUtil.clearLastSpan(updateColumns.toString()));
         paddings.put("{cloneResults}",StringUtil.clearLastSpan(results.toString()));
         return TemplateUtil.paddingTemplate(mapperXmlTemplate.getTemplate(),paddings);
+    }
+
+    /**
+     * 基础模版填充
+     * 2023/9/20 01:27
+     * @author pengshuaifeng
+     */
+    protected  Map<String, String> basicPaddings(Map<String, String> paddings ){
+        Entity entity = mapper.getEntity();
+        paddings.put("{nameSpace}",mapper.getReference());
+        paddings.put("{entityReference}",entity.getReference());
+        Field primaryField = entity.getPrimaryField();
+        paddings.put("{primaryKeyColumn}",primaryField.getColumnInfo().getName());
+        paddings.put("{primaryKeyField}",primaryField.getName());
+        paddings.put("{tableName}",entity.getTableInfo().getName());
+        return paddings;
     }
 }

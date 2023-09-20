@@ -1,8 +1,15 @@
 package {package}
+
 import lombok.Data;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 {cloneImports}
 //{description}
 @Data
-public class {entityName} {
+@TableName(value ="{tableName}")
+public class {Entity} {
+    //{comment}
+    @TableId
+    private {fieldType} {filed};
 {cloneFields}
 }

@@ -22,6 +22,7 @@ import builder.util.TemplateUtil;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+
 import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
@@ -113,7 +114,7 @@ public class MybatisBuilder {
                 rootPath=mybatisPath.getRoot();
         }
         entityPath=StringUtil.isNotEmpty(entityPath)?entityPath:"java"+ File.separator+"entity";
-        mapperPath=StringUtil.isNotEmpty(mapperPath)?mapperXmlPath:"java"+File.separator+"mapper";
+        mapperPath=StringUtil.isNotEmpty(mapperPath)?mapperPath:"java"+File.separator+"mapper";
         mapperXmlPath=StringUtil.isNotEmpty(mapperXmlPath)?mapperXmlPath:"resource"+File.separator+"mapper";
     }
 
@@ -231,7 +232,7 @@ public class MybatisBuilder {
         mapper.setName(entity.getName()+"Mapper");
         mapper.setEntity(entity);
         mapper.setReference(ClassUtil.generateReferencePath(path)+"."+mapper.getName());
-        mapper.setDescription(entity.getTableInfo().getDescription()+"映射器");
+        mapper.setDescription(entity.getName()+"映射器");
         return mapper;
     }
 
@@ -255,8 +256,7 @@ public class MybatisBuilder {
             for (Entity entity : entities) {
                 buildEntity(entity);
             }
-        }
-        throw new RuntimeException("不支持的构建类型");
+        }else throw new RuntimeException("不支持的构建类型");
     }
 
     /**

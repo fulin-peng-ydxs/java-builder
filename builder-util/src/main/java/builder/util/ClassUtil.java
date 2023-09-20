@@ -66,6 +66,7 @@ public class ClassUtil {
      * @param path 原路径
      */
     public static String generateReferencePath(String path){
+        path=StringUtil.clearChar(path,'/',true);
         return path.replace(File.separator, ".");
     }
 

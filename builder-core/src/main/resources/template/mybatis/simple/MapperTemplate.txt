@@ -2,7 +2,7 @@ package {package}
 import java.util.*;
 import {import}
 //{description}
-public interface {mapperName} {
+public interface {Mapper} {
     //单个新增
     int insert({Entity} {entity});
     //批量新增

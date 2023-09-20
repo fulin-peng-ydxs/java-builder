@@ -1,6 +1,7 @@
 package builder.util;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.Reader;
 import java.util.LinkedList;
 import java.util.List;
@@ -95,6 +96,20 @@ public class StringUtil {
             builder.append(value.charAt(i));
         }
         return builderToString(builder);
+    }
+
+    /**
+     * 清除首尾字符
+     * 2023/9/20 23:20
+     * @author pengshuaifeng
+     */
+    public static String clearChar(String value,char charValue,boolean fromHead){
+        if (fromHead && value.charAt(0)==charValue) {
+            return clearChar(value, File.separatorChar, ClearCharType.START, 1);
+        }else if(!fromHead && value.charAt(value.length()-1)==charValue){
+            return clearChar(value, File.separatorChar, ClearCharType.END, 1);
+        }
+        return value;
     }
 
     /**清除多个字符
@@ -201,6 +216,20 @@ public class StringUtil {
         if(startIndex>endIndex)
             return null;
         return value.substring(startIndex, endIndex);
+    }
+
+    /**
+     * 提取首尾字符串
+     * 2023/9/20 23:28
+     * @author pengshuaifeng
+     */
+    public static String substring(String value,String substringValue,boolean fromHead){
+        if (fromHead && value.startsWith(substringValue)) {
+            return substring(value,substringValue,null,false,true);
+        }else if(!fromHead && value.endsWith(substringValue)){
+            return substring(value,null,substringValue,false,false);
+        }
+        return value;
     }
 
     /**获取指定字符串的索引位置

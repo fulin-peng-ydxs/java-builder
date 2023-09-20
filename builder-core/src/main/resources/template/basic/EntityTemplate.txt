@@ -3,6 +3,6 @@ import lombok.Data;
 {cloneImports}
 //{description}
 @Data
-public class {entityName} {
+public class {Entity} {
 {cloneFields}
 }

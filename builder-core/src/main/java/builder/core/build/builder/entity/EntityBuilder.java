@@ -16,16 +16,24 @@ import java.util.Map;
  */
 public class EntityBuilder {
 
+    protected boolean isIgnorePrimaryKey=false;
+
+    protected Entity entity;
+
+    protected Template entityTemplate;
+
     /**
      * 构建实体
      * 2023/9/6 21:53
      * @author pengshuaifeng
      */
     public  String build(Entity entity, Template entityTemplate){
+        this.entity=entity;
+        this.entityTemplate=entityTemplate;
         Map<String, String> paddings = new HashMap<>();
         //基础模版填充
         paddings.put("{package}",entity.getReference());
-        paddings.put("{entityName}",entity.getName());
+        paddings.put("{Entity}",entity.getName());
         paddings.put("{description}",entity.getTableInfo().getDescription());
         //克隆模版填充
         Map<String, String> templateClones = entityTemplate.getTemplateClones();
@@ -38,8 +46,12 @@ public class EntityBuilder {
         List<Field> fields = entity.getFields();
         for (int i = 0; i < fields.size(); i++) {
             Field field = fields.get(i);
+            if(isIgnorePrimaryKey){  //是否忽略主键字段的处理
+                if (field.getName().equals(entity.getPrimaryField().getName()))
+                    continue;
+            }
             cloneFieldPaddings.put("{fieldType}", field.getType().getSimpleName());
-            cloneFieldPaddings.put("{filedName}", field.getName());
+            cloneFieldPaddings.put("{filed}", field.getName());
             cloneFieldPaddings.put("{comment}", field.getColumnInfo().getDescription());
             String reference = field.getReference();
             if(!ClassUtil.ignoreReference(reference)){ //引用是否需要导入
@@ -50,7 +62,15 @@ public class EntityBuilder {
         }
         paddings.put("{cloneFields}", StringUtil.clearLastSpan(cloneFieldsBuilder.toString()));
         paddings.put("{cloneImports}",cloneImportsBuilder.length()==0?"":cloneImportsBuilder.toString());
-        return TemplateUtil.paddingTemplate(entityTemplate.getTemplate(),paddings);
+        return TemplateUtil.paddingTemplate(entityTemplate.getTemplate(),paddingExt(paddings));
     }
 
+    /**
+     * 构建扩展
+     * 2023/9/19 23:26
+     * @author pengshuaifeng
+     */
+    protected Map<String, String> paddingExt(Map<String, String> paddings){
+        return paddings;
+    }
 }
