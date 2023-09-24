@@ -1,9 +1,7 @@
-package mvc;
-
+package mvc.mybatis;
 
 import builder.core.build.builder.mvc.service.ServiceBuilder;
 import builder.core.build.builder.mvc.service.mybatis.MybatisServiceBuilder;
-import builder.core.build.builder.mvc.service.mybatis.plus.MybatisPlusServiceBuilder;
 import builder.core.build.builder.mybatis.MybatisBuilder;
 import builder.core.build.builder.mybatis.plus.MybatisPlusBuilder;
 import builder.model.build.config.BuildGlobalConfig;
@@ -13,9 +11,8 @@ import com.mysql.jdbc.Driver;
 import org.junit.Before;
 import org.junit.Test;
 import java.util.Collections;
-
 /**
- * 服务构建常用模式测试
+ * 服务构建基础测试
  * author: pengshuaifeng
  * 2023/9/23
  */
@@ -38,6 +35,9 @@ public class ServiceTest {
         //设置全局构建信息
         BuildGlobalConfig.templateCreateInfo  //模版创建信息
                 .setUserName("pengfulin"); //创建用户
+        //设置公共构建器
+        serviceBuilder = ServiceBuilder.builder()
+                .rootPath("/Users/pengshuaifeng/javaBuilder").build();
     }
 
 
@@ -48,15 +48,12 @@ public class ServiceTest {
      */
     @Test
     public void test01() {
-        //mybatis构建器-负责处理mybatis的构建，如entity、mapper映射器、mapper映射文件
+        //mybatis层
         MybatisBuilder mybatisBuilder = MybatisBuilder.builder()
                 .connectionInfo(connectionInfo)
                 .rootPath("/Users/pengshuaifeng/javaBuilder")
                 .build();
-        //service构建器-负责处理service的构建，如service接口、service实现
-        serviceBuilder = ServiceBuilder.builder()
-                .rootPath("/Users/pengshuaifeng/javaBuilder").build();
-        //mybatis-service构建器-负责整合service和mybatis构建器，以集成mybatis和service的功能，是service构建器的具体"实现"！
+        //service层
         MybatisServiceBuilder.builder()
                 .mybatisBuilder(mybatisBuilder).serviceBuilder(serviceBuilder).build().build(); //执行构建
     }
@@ -69,14 +66,13 @@ public class ServiceTest {
      */
     @Test
     public void test02(){
+        //mybatis层
         MybatisPlusBuilder mybatisPlusBuilder = MybatisPlusBuilder.builder().mybatisBuilder(
                 MybatisBuilder.builder().connectionInfo(connectionInfo)
                         .rootPath("/Users/pengshuaifeng/javaBuilder")
                         .build()).build();
-        serviceBuilder = ServiceBuilder.builder()
-                .rootPath("/Users/pengshuaifeng/javaBuilder").build();
-        MybatisPlusServiceBuilder.builder()
-                .mybatisPlusBuilder(mybatisPlusBuilder)
-                .serviceBuilder(serviceBuilder).build().build();
+        //service层
+        MybatisServiceBuilder.builder()
+                .mybatisPlusBuilder(mybatisPlusBuilder).serviceBuilder(serviceBuilder).build().build(); //执行构建
     }
 }

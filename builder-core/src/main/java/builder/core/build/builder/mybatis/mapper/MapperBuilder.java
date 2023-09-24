@@ -1,5 +1,6 @@
 package builder.core.build.builder.mybatis.mapper;
 
+import builder.model.build.config.builder.BaseBuilder;
 import builder.model.build.config.template.Template;
 import builder.model.build.orm.Entity;
 import builder.model.build.orm.Field;
@@ -24,14 +25,12 @@ public class MapperBuilder {
     protected Template mapperXmlTemplate;
 
     public MapperBuilder(){
-        this("/template/mybatis/simple/MapperTemplate.txt","/template/mybatis/simple/MapperXmlTemplate.txt");
+        this("/template/mybatis/MapperTemplate.txt","/template/mybatis/MapperXmlTemplate.txt");
     }
 
     public MapperBuilder(String mapperTemplatePath,String mapperXmlTemplatePath){
-        this.mapperTemplate=new Template(TemplateUtil.getTemplate(mapperTemplatePath),
-                TemplateUtil.getTemplates(mapperTemplatePath),null);
-        this.mapperXmlTemplate= new Template(TemplateUtil.getTemplate(mapperXmlTemplatePath),
-                TemplateUtil.getTemplates(mapperXmlTemplatePath),TemplateUtil.getCloneTemplates(TemplateUtil.getCloneTemplatePath(mapperXmlTemplatePath)));
+        this.mapperTemplate= BaseBuilder.generateTemplateIgnoreClone(mapperTemplatePath);
+        this.mapperXmlTemplate=BaseBuilder.generateTemplate(mapperXmlTemplatePath);
     }
 
 

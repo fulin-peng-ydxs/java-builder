@@ -36,7 +36,7 @@ public class {Service} implements {ServiceInterface}{
         return {mapper}.selectList({entity});
     }
 
-    /**查询详情*/
+    /**详情*/
     @Override
     public {Entity} detail({PrimaryKeyField} {primaryKeyField}){
         return {mapper}.selectOne({primaryKeyField});
@@ -44,7 +44,7 @@ public class {Service} implements {ServiceInterface}{
 
     /**删除*/
     @Override
-    public int deleteById({PrimaryKeyField} {primaryKeyField}){
+    public int remove({PrimaryKeyField} {primaryKeyField}){
         return {mapper}.deleteById({primaryKeyField});
     }
 }

@@ -1,4 +1,4 @@
-package builder.core.build.builder.mvc.service.mybatis.plus.basic;
+package builder.core.build.builder.mvc.service.mybatis.plus;
 
 
 import builder.core.build.builder.mvc.service.ServiceBuilder;

@@ -7,7 +7,6 @@ import builder.core.build.response.FileResponder;
 import builder.core.build.response.Responder;
 import builder.model.build.config.content.MybatisContent;
 import builder.model.build.config.enums.ClassStructure;
-import builder.model.build.config.template.TemplateCreateInfo;
 import builder.model.build.orm.Entity;
 import builder.model.build.orm.Field;
 import builder.model.build.orm.enums.FieldType;

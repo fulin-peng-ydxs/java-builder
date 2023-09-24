@@ -13,8 +13,8 @@ public interface {Service}{
     int saveBatch(List<{Entity}> {entity}s);
     /**查询*/
     List<{Entity}> find({Entity} {entity});
-    /**查询详情*/
+    /**详情*/
     {Entity} detail({PrimaryKeyField} {primaryKeyField});
     /**删除*/
-    int deleteById({PrimaryKeyField} {primaryKeyField});
+    int remove({PrimaryKeyField} {primaryKeyField});
 }

@@ -13,7 +13,7 @@ public interface {Mapper} {
     int insertBatch(List<{Entity}> {entity}s);
     /**查询*/
     List<{Entity}> selectList({Entity} {entity});
-    /**查询详情*/
+    /**详情*/
     {Entity} selectOne({PrimaryKeyField} {primaryKeyField});
     /**更新*/
     int updateById({Entity} {entity});

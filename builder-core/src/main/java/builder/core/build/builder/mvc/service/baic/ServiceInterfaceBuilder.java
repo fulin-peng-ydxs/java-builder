@@ -2,7 +2,7 @@ package builder.core.build.builder.mvc.service.baic;
 
 
 import builder.core.build.builder.mvc.service.ServiceBuilder;
-import builder.model.build.config.template.Template;
+import builder.model.build.config.builder.BaseBuilder;
 import builder.model.build.mvc.service.Service;
 import builder.model.build.orm.Entity;
 import builder.model.build.orm.Field;
@@ -15,16 +15,13 @@ import java.util.Map;
  * author: pengshuaifeng
  * 2023/9/23
  */
-public class ServiceInterfaceBuilder {
-
-    protected Template template;
+public class ServiceInterfaceBuilder extends BaseBuilder {
 
     public ServiceInterfaceBuilder(){
         this("/template/mvc/service/ServiceInterfaceTemplate.txt");
     }
     public ServiceInterfaceBuilder(String templatePath){
-        this.template= new Template(TemplateUtil.getTemplate(templatePath),
-                TemplateUtil.getTemplates(templatePath),TemplateUtil.getCloneTemplates(TemplateUtil.getCloneTemplatePath(templatePath)));
+       super(templatePath);
     }
 
     /**

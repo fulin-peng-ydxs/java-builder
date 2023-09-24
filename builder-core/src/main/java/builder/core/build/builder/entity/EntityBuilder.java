@@ -1,12 +1,11 @@
 package builder.core.build.builder.entity;
 
-import builder.model.build.config.template.Template;
+import builder.model.build.config.builder.BaseBuilder;
 import builder.model.build.orm.Entity;
 import builder.model.build.orm.Field;
 import builder.util.ClassUtil;
 import builder.util.StringUtil;
 import builder.util.TemplateUtil;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,20 +14,18 @@ import java.util.Map;
  * author: pengshuaifeng
  * 2023/9/6
  */
-public class EntityBuilder {
+public class EntityBuilder extends BaseBuilder {
 
     protected boolean isIgnorePrimaryKey=false;
 
     protected Entity entity;
-    protected Template entityTemplate;
 
     public EntityBuilder(){
         this("/template/basic/EntityTemplate.txt");
     }
 
     public EntityBuilder(String templatePath){
-        this.entityTemplate=new Template(TemplateUtil.getTemplate(templatePath),
-                TemplateUtil.getTemplates(templatePath),TemplateUtil.getCloneTemplates(TemplateUtil.getCloneTemplatePath(templatePath)));
+        super(templatePath);
     }
 
     /**
@@ -44,7 +41,7 @@ public class EntityBuilder {
         paddings.put("{Entity}",entity.getName());
         paddings.put("{description}",entity.getTableInfo().getDescription());
         //克隆模版填充
-        Map<String, String> templateClones = entityTemplate.getTemplateClones();
+        Map<String, String> templateClones = template.getTemplateClones();
         String cloneFieldsTemplate = templateClones.get("cloneFields");
         String cloneImportsTemplate = templateClones.get("cloneImports");   //获取克隆模版
         Map<String, String> cloneFieldPaddings = new HashMap<>();
@@ -69,7 +66,7 @@ public class EntityBuilder {
         }
         paddings.put("{cloneFields}", StringUtil.clearLastSpan(cloneFieldsBuilder.toString()));
         paddings.put("{cloneImports}",cloneImportsBuilder.length()==0?"":StringUtil.clearLastSpan(cloneImportsBuilder.toString()));
-        return TemplateUtil.paddingTemplate(entityTemplate.getTemplate(),paddingExt(paddings));
+        return TemplateUtil.paddingTemplate(template.getTemplate(),buildExt(paddings));
     }
 
     /**
@@ -77,7 +74,7 @@ public class EntityBuilder {
      * 2023/9/19 23:26
      * @author pengshuaifeng
      */
-    protected Map<String, String> paddingExt(Map<String, String> paddings){
+    protected Map<String, String> buildExt(Map<String, String> paddings){
         return paddings;
     }
 }

@@ -2,7 +2,10 @@ package builder.core.build.builder.mvc.service.mybatis;
 
 import builder.core.build.builder.mvc.service.ServiceBuilder;
 import builder.core.build.builder.mvc.service.mybatis.basic.MybatisServiceImplBuilder;
+import builder.core.build.builder.mvc.service.mybatis.plus.MybatisPlusServiceImplBuilder;
+import builder.core.build.builder.mvc.service.mybatis.plus.MybatisPlusServiceInterfaceBuilder;
 import builder.core.build.builder.mybatis.MybatisBuilder;
+import builder.core.build.builder.mybatis.plus.MybatisPlusBuilder;
 import builder.model.build.config.content.MybatisContent;
 import builder.model.build.mvc.service.MybatisService;
 import builder.model.build.mvc.service.Service;
@@ -12,6 +15,7 @@ import builder.util.JsonUtils;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -24,18 +28,20 @@ import java.util.List;
 @Builder
 public class MybatisServiceBuilder{
 
-    protected ServiceBuilder serviceBuilder;
+    private ServiceBuilder serviceBuilder;
 
-    protected MybatisBuilder mybatisBuilder;
+    private MybatisBuilder mybatisBuilder;
+    private MybatisPlusBuilder mybatisPlusBuilder;
 
     /**
      * 构建器创建
      * 2023/9/23 17:54
      * @author pengshuaifeng
      */
-    MybatisServiceBuilder(ServiceBuilder serviceBuilder,MybatisBuilder mybatisBuilder){
+    MybatisServiceBuilder(ServiceBuilder serviceBuilder,MybatisBuilder mybatisBuilder, MybatisPlusBuilder mybatisPlusBuilder){
         this.serviceBuilder=serviceBuilder;
         this.mybatisBuilder=mybatisBuilder;
+        this.mybatisPlusBuilder = mybatisPlusBuilder;
         init();
     }
 
@@ -49,12 +55,32 @@ public class MybatisServiceBuilder{
     }
 
     public void initBuilder(){
-        serviceBuilder.setServiceImplBuilder(new MybatisServiceImplBuilder());
+        if(mybatisPlusBuilder!=null){
+            initPlusBuilder();
+        }else{
+            serviceBuilder.setServiceImplBuilder(new MybatisServiceImplBuilder());
+        }
     }
 
+    private void initPlusBuilder(){
+        serviceBuilder.setServiceImplBuilder(new MybatisPlusServiceImplBuilder());
+        serviceBuilder.setServiceInterfaceBuilder(new MybatisPlusServiceInterfaceBuilder());
+    }
+
+    /**
+     * 构建
+     * 2023/9/24 16:23
+     * @author pengshuaifeng
+     */
     public void build() {
-        mybatisBuilder.build(MybatisContent.ALL);
-        List<Mapper> mappers = mybatisBuilder.getMappers();
+        List<Mapper> mappers;
+        if(mybatisPlusBuilder!=null){
+            mybatisPlusBuilder.build(MybatisContent.ALL);
+            mappers=mybatisPlusBuilder.getMybatisBuilder().getMappers();
+        }else{
+            mybatisBuilder.build(MybatisContent.ALL);
+            mappers = mybatisBuilder.getMappers();
+        }
         serviceBuilder.setServiceInterfaces(generateServiceInterface(serviceBuilder,mappers));
         serviceBuilder.setServiceImpls(generateServiceImpls(serviceBuilder,serviceBuilder.getServiceInterfaces()));
         serviceBuilder.build();

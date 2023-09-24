@@ -21,7 +21,7 @@ public class MybatisPlusEntityBuilder extends EntityBuilder {
     }
 
     @Override
-    protected Map<String, String> paddingExt(Map<String, String> paddings) {
+    protected Map<String, String> buildExt(Map<String, String> paddings) {
         //处理表名
         paddings.put("{tableName}",entity.getTableInfo().getName());
         //处理主键

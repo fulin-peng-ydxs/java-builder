@@ -142,7 +142,7 @@ public class ServiceBuilder {
         Service service = new Service();
         service.setName(entity.getName()+"Service");
         service.setDescription(entity.getName()+"服务");
-        return generateService(service,ClassUtil.generateReferencePath(serviceInterfacePath),entity);
+        return generateBaseService(service,ClassUtil.generateReferencePath(serviceInterfacePath),entity);
     }
     
     /**
@@ -155,15 +155,10 @@ public class ServiceBuilder {
         service.setName(entity.getName()+"ServiceImpl");
         service.setDescription(entity.getName()+"服务实现");
         service.setServiceInterface(serviceInterface);
-        return generateService(service,ClassUtil.generateReferencePath(serviceImplPath),entity);
+        return generateBaseService(service,ClassUtil.generateReferencePath(serviceImplPath),entity);
     }
-    
-    /**
-     *  生成基础服务
-     * 2023/9/22 00:20
-     * @author pengshuaifeng
-     */
-    private Service generateService(Service service,String referencePath,Entity entity){
+
+    private Service generateBaseService(Service service,String referencePath,Entity entity){
         service.setEntity(entity);
         service.setPackages(referencePath);
         service.setReference(referencePath +"."+service.getName());

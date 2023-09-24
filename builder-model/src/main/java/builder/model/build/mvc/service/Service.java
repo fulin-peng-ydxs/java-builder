@@ -15,7 +15,7 @@ public class Service {
     private String name;
     //实体信息
     private Entity entity;
-    //service描述
+    //服务描述
     private String description;
     //引用路径
     private String reference;
