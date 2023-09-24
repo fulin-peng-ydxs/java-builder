@@ -1,35 +1,96 @@
 package builder.core.build.builder.mvc.service.mybatis;
 
-
 import builder.core.build.builder.mvc.service.ServiceBuilder;
-import builder.model.build.config.template.Template;
-import builder.model.build.mvc.service.ServiceImpl;
-import builder.model.build.mvc.service.ServiceInterface;
+import builder.core.build.builder.mvc.service.mybatis.basic.MybatisServiceImplBuilder;
+import builder.core.build.builder.mybatis.MybatisBuilder;
+import builder.model.build.config.content.MybatisContent;
+import builder.model.build.mvc.service.MybatisService;
+import builder.model.build.mvc.service.Service;
+import builder.model.build.orm.Entity;
+import builder.model.build.orm.mybatis.Mapper;
+import builder.util.JsonUtils;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
+import java.util.LinkedList;
+import java.util.List;
 
 /**mybatis服务构建器
  * author: pengshuaifeng
  * 2023/9/12
  */
-public class MybatisServiceBuilder extends ServiceBuilder {
+@Setter
+@Getter
+@Builder
+public class MybatisServiceBuilder{
 
-    //mybatis构建器
-//    protected SimpleMybatisBuilder mybatisBuilder;
+    protected ServiceBuilder serviceBuilder;
 
+    protected MybatisBuilder mybatisBuilder;
 
-    @Override
-    public String buildImpl(ServiceImpl serviceImpl, ServiceInterface serviceInterface,Template serviceTemplate) {
-        //TODO 待后续实现
-//        //基础模版填充
-//        Map<String, String> paddings = buildBasic(service, serviceTemplate);
-//        Entity entity = service.getEntity();
-//        Field primaryField = entity.getPrimaryField();
-//        paddings.put("{PrimaryKeyField}",primaryField.getType().getSimpleName());
-//        paddings.put("{primaryKeyField}", ClassUtil.generateStructureName(primaryField.getColumnInfo().getName(),"-",
-//                ClassStructure.ATTRIBUTES));
-//        //克隆模版填充
-//        String cloneImportsTemplate = serviceTemplate.getTemplateClones().get("cloneImports");   //获取克隆模版
-//        StringBuilder cloneImportsBuilder = new StringBuilder(); //克隆模版内容构建
-//        cloneImportsBuilder.append(TemplateUtil.paddingTemplate(cloneImportsTemplate,"{import}",));
-        return null;
+    /**
+     * 构建器创建
+     * 2023/9/23 17:54
+     * @author pengshuaifeng
+     */
+    MybatisServiceBuilder(ServiceBuilder serviceBuilder,MybatisBuilder mybatisBuilder){
+        this.serviceBuilder=serviceBuilder;
+        this.mybatisBuilder=mybatisBuilder;
+        init();
     }
+
+    /**
+     * 构建器初始化
+     * 2023/9/23 11:00
+     * @author pengshuaifeng
+     */
+    private void init(){
+        initBuilder();
+    }
+
+    public void initBuilder(){
+        serviceBuilder.setServiceImplBuilder(new MybatisServiceImplBuilder());
+    }
+
+    public void build() {
+        mybatisBuilder.build(MybatisContent.ALL);
+        List<Mapper> mappers = mybatisBuilder.getMappers();
+        serviceBuilder.setServiceInterfaces(generateServiceInterface(serviceBuilder,mappers));
+        serviceBuilder.setServiceImpls(generateServiceImpls(serviceBuilder,serviceBuilder.getServiceInterfaces()));
+        serviceBuilder.build();
+    }
+
+    /**
+     * 生成mybatis服务实现
+     * 2023/9/23 17:39
+     * @author pengshuaifeng
+     */
+    public static List<Service> generateServiceImpls(ServiceBuilder serviceBuilder,List<Service> serviceInterfaces){
+        List<Service> result=new LinkedList<>();
+        for (Service serviceInterface : serviceInterfaces) {
+            MybatisService interfaceService = (MybatisService) serviceInterface;
+            Entity entity = serviceInterface.getEntity();
+            MybatisService serviceImpl = JsonUtils.getObject(serviceBuilder.generateServiceImpl(entity,serviceInterface), MybatisService.class);
+            serviceImpl.setMapper(interfaceService.getMapper());
+            result.add(serviceImpl);
+        }
+        return result;
+    }
+
+    /**
+     * 生成mybatis服务接口
+     * 2023/9/23 17:39
+     * @author pengshuaifeng
+     */
+    public static List<Service> generateServiceInterface(ServiceBuilder serviceBuilder, List<Mapper> mappers){
+        List<Service> result=new LinkedList<>();
+        for (Mapper mapper : mappers) {
+            Entity entity = mapper.getEntity();
+            MybatisService serviceImpl = JsonUtils.getObject(serviceBuilder.generateServiceInterface(entity), MybatisService.class);
+            serviceImpl.setMapper(mapper);
+            result.add(serviceImpl);
+        }
+        return result;
+    }
+
 }

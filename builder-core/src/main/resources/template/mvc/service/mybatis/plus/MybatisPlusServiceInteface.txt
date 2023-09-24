@@ -1,6 +1,0 @@
-package {package}
-import java.util.*;
-import com.baomidou.mybatisplus.extension.serviceInterface.IService;
-{cloneImports}
-//{description}
-public interface {serviceName}  extends IService<Entity> {}

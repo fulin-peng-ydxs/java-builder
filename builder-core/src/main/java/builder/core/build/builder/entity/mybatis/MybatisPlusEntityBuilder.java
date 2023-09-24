@@ -10,7 +10,13 @@ import java.util.Map;
  */
 public class MybatisPlusEntityBuilder extends EntityBuilder {
 
+
     public MybatisPlusEntityBuilder(){
+        this("/template/basic/EntityMybatisPlusTemplate.txt");
+    }
+
+    public MybatisPlusEntityBuilder(String templatePath){
+        super(templatePath);
         super.isIgnorePrimaryKey=true;
     }
 

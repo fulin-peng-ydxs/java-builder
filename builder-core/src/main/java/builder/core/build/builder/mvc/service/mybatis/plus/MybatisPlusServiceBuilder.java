@@ -1,34 +1,66 @@
 package builder.core.build.builder.mvc.service.mybatis.plus;
 
 import builder.core.build.builder.mvc.service.ServiceBuilder;
-import builder.model.build.config.template.Template;
-import builder.model.build.mvc.service.ServiceImpl;
-import builder.model.build.mvc.service.ServiceInterface;
-import builder.util.StringUtil;
-import builder.util.TemplateUtil;
-
-import java.util.Map;
+import builder.core.build.builder.mvc.service.mybatis.MybatisServiceBuilder;
+import builder.core.build.builder.mvc.service.mybatis.plus.basic.MybatisPlusServiceImplBuilder;
+import builder.core.build.builder.mvc.service.mybatis.plus.basic.MybatisPlusServiceInterfaceBuilder;
+import builder.core.build.builder.mybatis.plus.MybatisPlusBuilder;
+import builder.model.build.config.content.MybatisContent;
+import builder.model.build.orm.mybatis.Mapper;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
+import java.util.List;
 
 /**
  * mybatis-plus服务构建器
  * author: pengshuaifeng
  * 2023/9/12
  */
-public class MybatisPlusServiceBuilder extends ServiceBuilder {
+@Setter
+@Getter
+@Builder
+public class MybatisPlusServiceBuilder{
 
+    protected ServiceBuilder serviceBuilder;
 
-    @Override
-    public String buildImpl(ServiceImpl serviceImpl,ServiceInterface serviceInterface,Template serviceTemplate) {
-        //基础模版填充
-        Map<String, String> paddings = buildBasic(serviceImpl, serviceTemplate);
-        paddings.put("{Mapper}",serviceImpl.getMapper().getName());
-        paddings.put("{ServiceInterface}",serviceInterface.getName());
-        //克隆模版填充
-        String cloneImportsTemplate = serviceTemplate.getTemplateClones().get("cloneImports");   //获取克隆模版
-        //克隆模版内容构建
-        String cloneImportsBuilder = TemplateUtil.paddingTemplate(cloneImportsTemplate, "{import}", serviceImpl.getMapper().getReference()) +
-                TemplateUtil.paddingTemplate(cloneImportsTemplate, "{import}", serviceInterface.getReference());
-        paddings.put("{cloneImports}", StringUtil.clearLastSpan(cloneImportsBuilder));
-        return TemplateUtil.paddingTemplate(serviceTemplate.getTemplate(),paddings);
+    protected MybatisPlusBuilder mybatisPlusBuilder;
+
+    /**
+     * 构建器创建
+     * 2023/9/23 11:17
+     * @author pengshuaifeng
+     */
+     MybatisPlusServiceBuilder(ServiceBuilder serviceBuilder, MybatisPlusBuilder mybatisPlusBuilder) {
+        this.serviceBuilder = serviceBuilder;
+        this.mybatisPlusBuilder = mybatisPlusBuilder;
+        init();
+    }
+
+    /**
+     * 构建器初始化
+     * 2023/9/23 11:00
+     * @author pengshuaifeng
+     */
+    protected void init(){
+        initBuilder();
+    }
+
+    public void initBuilder(){
+        serviceBuilder.setServiceImplBuilder(new MybatisPlusServiceImplBuilder());
+        serviceBuilder.setServiceInterfaceBuilder(new MybatisPlusServiceInterfaceBuilder());
+    }
+
+    /**
+     * 构建
+     * 2023/9/23 10:49
+     * @author pengshuaifeng
+     */
+    public void build() {
+        mybatisPlusBuilder.build(MybatisContent.ALL);
+        List<Mapper> mappers = mybatisPlusBuilder.getMybatisBuilder().getMappers();
+        serviceBuilder.setServiceInterfaces(MybatisServiceBuilder.generateServiceInterface(serviceBuilder,mappers));
+        serviceBuilder.setServiceImpls(MybatisServiceBuilder.generateServiceImpls(serviceBuilder,serviceBuilder.getServiceInterfaces()));
+        serviceBuilder.build();
     }
 }

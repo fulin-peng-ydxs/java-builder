@@ -60,6 +60,30 @@ public class ClassUtil {
     }
 
     /**
+     * 类转属性名
+     * 2023/9/23 22:27
+     * @author pengshuaifeng
+     */
+    public static String nameToAttribute(String value){
+        String last = value.substring(1);
+        String start = value.substring(0, 1).toLowerCase();
+        return start+last;
+    }
+
+    /**
+     * 属性转类名
+     * 2023/9/23 22:40
+     * @author pengshuaifeng
+     */
+    public static String attributeToName(String value){
+        String last = value.substring(1);
+        String start = value.substring(0, 1).toUpperCase();
+        return start+last;
+    }
+
+
+
+    /**
      * 生成引用路径
      * 2023/9/3 22:29
      * @author pengshuaifeng

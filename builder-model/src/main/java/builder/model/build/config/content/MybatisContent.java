@@ -1,4 +1,4 @@
-package builder.model.build.config.content.orm;
+package builder.model.build.config.content;
 
 
 /**

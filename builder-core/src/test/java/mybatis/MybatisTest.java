@@ -1,9 +1,7 @@
 package mybatis;
 
 import builder.core.build.builder.mybatis.MybatisBuilder;
-import builder.model.build.config.path.MybatisPath;
-import builder.model.build.config.template.path.MybatisTemplatePath;
-import builder.model.build.config.content.orm.MybatisContent;
+import builder.model.build.config.content.MybatisContent;
 import builder.model.resolve.database.jdbc.BaseInfo;
 import builder.model.resolve.database.jdbc.ConnectionInfo;
 import com.mysql.jdbc.Driver;
@@ -55,26 +53,6 @@ public class MybatisTest {
         mybatisBuilder =MybatisBuilder.builder()
                 .connectionInfo(connectionInfo)
                 .rootPath("/Users/pengshuaifeng/javaBuilder")
-                .build();
-    }
-    //创建构建器 ：设置组件的构建子路径
-    @Test
-    public void simpleMybatisTest03(){
-        mybatisBuilder =MybatisBuilder.builder()
-                .connectionInfo(connectionInfo)
-                .rootPath("/Users/pengshuaifeng/javaBuilder")
-                .mybatisPath(new MybatisPath("/entities","/mappers","/mappers/xml"))
-                .build();
-    }
-    //创建构建器 ：设置模版路径
-    @Test
-    public void simpleMybatisTest04(){
-        mybatisBuilder =MybatisBuilder.builder()
-                .connectionInfo(connectionInfo)
-                .rootPath("/Users/pengshuaifeng/works")
-                .mybatisPath(new MybatisPath("/entities","/mappers","/mappers/xml"))
-                .mybatisTemplatePath(new MybatisTemplatePath("/template/basic/EntityTemplate.txt",
-                        "/template/mybatis/simple/MapperTemplate.txt","/template/mybatis/simple/MapperXmlTemplate.txt"))
                 .build();
     }
 }

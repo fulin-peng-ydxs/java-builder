@@ -1,14 +1,10 @@
 package {package};
 import java.util.*;
 import com.baomidou.mybatisplus.extension.serviceInterface.IService;
-import org.springframework.stereotype.Service;
 {cloneImports}
 /**
  * {description}
  * author: {author}
  * {date}
  */
-@Service
-public class {Service} extends ServiceImpl<{Mapper},{Entity}> implements {ServiceInterface}{}
-
-
+public interface {Service}  extends IService<{Entity}> {}

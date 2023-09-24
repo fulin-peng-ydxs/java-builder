@@ -1,7 +1,11 @@
-package {package}
+package {package};
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import {import}
-//{description}
+import {entityImport}
+/**
+ * {description}
+ * author: {author}
+ * {date}
+ */
 public interface {Mapper} extends BaseMapper<{Entity}> {
 
 }

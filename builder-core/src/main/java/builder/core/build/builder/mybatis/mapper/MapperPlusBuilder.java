@@ -1,7 +1,5 @@
 package builder.core.build.builder.mybatis.mapper;
 
-
-import builder.model.build.config.template.Template;
 import builder.model.build.orm.Entity;
 import builder.model.build.orm.Field;
 import builder.model.build.orm.mybatis.Mapper;
@@ -18,12 +16,21 @@ import java.util.Map;
  */
 public class MapperPlusBuilder extends MapperBuilder{
 
+    public MapperPlusBuilder(){
+        this("/template/mybatis/mybatis-plus/MapperTemplate.txt",
+                "/template/mybatis/mybatis-plus/MapperXmlTemplate.txt");
+    }
+
+    public MapperPlusBuilder(String mapperTemplatePath,String mapperXmlTemplatePath){
+        super(mapperTemplatePath,mapperXmlTemplatePath);
+    }
+
 
     @Override
-    public String buildMapperXml(Mapper mapper, Template mapperXmlTemplate) {
+    public String buildMapperXml(Mapper mapper) {
         Map<String, String> paddings = new HashMap<>();
         //基础模版填充
-        paddings=basicPaddings(paddings);
+        paddings=basicMapperXmlPaddings(paddings);
         //克隆模版填充
         Entity entity = mapper.getEntity();
         Field primaryField = entity.getPrimaryField();

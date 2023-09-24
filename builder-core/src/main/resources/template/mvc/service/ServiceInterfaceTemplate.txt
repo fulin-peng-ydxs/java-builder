@@ -1,0 +1,20 @@
+package {package};
+import java.util.*;
+{cloneImports}
+/**
+ * {description}
+ * author: {author}
+ * {date}
+ */
+public interface {Service}{
+    /**保存*/
+    int save({Entity} {entity});
+    /**批量保存*/
+    int saveBatch(List<{Entity}> {entity}s);
+    /**查询*/
+    List<{Entity}> find({Entity} {entity});
+    /**查询详情*/
+    {Entity} detail({PrimaryKeyField} {primaryKeyField});
+    /**删除*/
+    int deleteById({PrimaryKeyField} {primaryKeyField});
+}

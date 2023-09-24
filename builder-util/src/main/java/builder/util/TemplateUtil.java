@@ -1,5 +1,7 @@
 package builder.util;
 
+import builder.model.build.config.BuildGlobalConfig;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -108,6 +110,7 @@ public class TemplateUtil {
      * @param paddingValues 模版填充
      */
     public static String paddingTemplate(String template,Map<String,String> paddingValues){
+        paddingCreateInfo(paddingValues);
         for (Map.Entry<String, String> padding : paddingValues.entrySet()) {
             template=template.replace(padding.getKey(),padding.getValue());
         }
@@ -118,4 +121,14 @@ public class TemplateUtil {
         return template.replace(paddingKey,paddingValue);
     }
 
+    /**
+     * 模版创建信息填充
+     * 2023/9/23 19:22
+     * @author pengshuaifeng
+     */
+    public static void paddingCreateInfo(Map<String,String> paddingValues){
+        paddingValues.put("{date}", BuildGlobalConfig.templateCreateInfo
+                .getDateToFormat());
+        paddingValues.put("{author}",BuildGlobalConfig.templateCreateInfo.getUserName());
+    }
 }

@@ -1,6 +1,5 @@
 package builder.core.build.builder.mybatis.mapper;
 
-import builder.model.build.config.enums.ClassStructure;
 import builder.model.build.config.template.Template;
 import builder.model.build.orm.Entity;
 import builder.model.build.orm.Field;
@@ -22,31 +21,39 @@ public class MapperBuilder {
     protected Mapper mapper;
 
     protected Template mapperTemplate;
-
     protected Template mapperXmlTemplate;
+
+    public MapperBuilder(){
+        this("/template/mybatis/simple/MapperTemplate.txt","/template/mybatis/simple/MapperXmlTemplate.txt");
+    }
+
+    public MapperBuilder(String mapperTemplatePath,String mapperXmlTemplatePath){
+        this.mapperTemplate=new Template(TemplateUtil.getTemplate(mapperTemplatePath),
+                TemplateUtil.getTemplates(mapperTemplatePath),null);
+        this.mapperXmlTemplate= new Template(TemplateUtil.getTemplate(mapperXmlTemplatePath),
+                TemplateUtil.getTemplates(mapperXmlTemplatePath),TemplateUtil.getCloneTemplates(TemplateUtil.getCloneTemplatePath(mapperXmlTemplatePath)));
+    }
+
 
     /**
      * 构建映射器
      * 2023/9/6 21:53
      * @author pengshuaifeng
      */
-    public String buildMapper(Mapper mapper,Template mapperTemplate){
+    public String buildMapper(Mapper mapper){
         this.mapper=mapper;
-        this.mapperTemplate=mapperTemplate;
         Map<String, String> paddings = new HashMap<>();
         //基础模版填充
         Entity entity = mapper.getEntity();
-        paddings.put("{package}",mapper.getReference());
-        paddings.put("{import}",entity.getReference());
+        paddings.put("{package}",mapper.getPackages());
+        paddings.put("{entityImport}",entity.getReference());
         paddings.put("{Mapper}",mapper.getName());
         paddings.put("{description}",mapper.getDescription());
         paddings.put("{Entity}",entity.getName());
-        paddings.put("{entity}", ClassUtil.generateStructureName(entity.getTableInfo().getName(),"-",
-                ClassStructure.ATTRIBUTES));
+        paddings.put("{entity}", ClassUtil.nameToAttribute(entity.getName()));
         Field primaryField = entity.getPrimaryField();
         paddings.put("{PrimaryKeyField}",primaryField.getType().getSimpleName());
-        paddings.put("{primaryKeyField}", ClassUtil.generateStructureName(primaryField.getColumnInfo().getName(),"-",
-                ClassStructure.ATTRIBUTES));
+        paddings.put("{primaryKeyField}", primaryField.getName());
         return TemplateUtil.paddingTemplate(mapperTemplate.getTemplate(),paddings);
     }
 
@@ -55,12 +62,11 @@ public class MapperBuilder {
      * 2023/9/9 21:16
      * @author pengshuaifeng
      */
-    public String buildMapperXml(Mapper mapper,Template mapperXmlTemplate){
+    public String buildMapperXml(Mapper mapper){
         this.mapper=mapper;
-        this.mapperXmlTemplate=mapperXmlTemplate;
         //基础模版填充
         Map<String, String> paddings = new HashMap<>();
-        paddings=basicPaddings(paddings);
+        paddings=basicMapperXmlPaddings(paddings);
         //克隆模版填充
         Entity entity = mapper.getEntity();
         Field primaryField = entity.getPrimaryField();
@@ -112,7 +118,7 @@ public class MapperBuilder {
      * 2023/9/20 01:27
      * @author pengshuaifeng
      */
-    protected  Map<String, String> basicPaddings(Map<String, String> paddings ){
+    protected  Map<String, String> basicMapperXmlPaddings(Map<String, String> paddings ){
         Entity entity = mapper.getEntity();
         paddings.put("{nameSpace}",mapper.getReference());
         paddings.put("{entityReference}",entity.getReference());

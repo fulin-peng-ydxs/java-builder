@@ -2,8 +2,7 @@ package mybatis;
 
 import builder.core.build.builder.mybatis.MybatisBuilder;
 import builder.core.build.builder.mybatis.plus.MybatisPlusBuilder;
-import builder.model.build.config.content.orm.MybatisContent;
-import builder.model.build.config.path.MybatisPath;
+import builder.model.build.config.content.MybatisContent;
 import builder.model.resolve.database.jdbc.BaseInfo;
 import builder.model.resolve.database.jdbc.ConnectionInfo;
 import com.mysql.jdbc.Driver;
@@ -42,6 +41,7 @@ public class MybatisPlusTest{
         mybatisPlusBuilder.build(mybatisContent);
     }
 
+    //创建构建器：默认方式
     @Test
     public void test1(){
         mybatisPlusBuilder=MybatisPlusBuilder.builder().mybatisBuilder(
@@ -49,16 +49,4 @@ public class MybatisPlusTest{
                         .rootPath("/Users/pengshuaifeng/javaBuilder")
                         .build()).build();
     }
-
-
-    @Test
-    public void test2(){
-        mybatisPlusBuilder=MybatisPlusBuilder.builder().mybatisBuilder(
-                MybatisBuilder.builder()
-                        .connectionInfo(connectionInfo)
-                        .rootPath("/Users/pengshuaifeng/javaBuilder")
-                        .mybatisPath(new MybatisPath("/demo/entities","/demo/mappers","/mappers/xml"))
-                        .build()).build();
-    }
-
 }

@@ -1,7 +1,7 @@
 package builder.model.build.mvc;
 
 
-import builder.model.build.mvc.service.ServiceInterface;
+import builder.model.build.mvc.service.Service;
 import builder.model.build.orm.Entity;
 import lombok.Data;
 
@@ -15,7 +15,7 @@ public class Controller {
     //实体信息
     private Entity entity;
     //服务信息
-    private ServiceInterface serviceInterface;
+    private Service service;
     //引用路径
     private String path;
 }

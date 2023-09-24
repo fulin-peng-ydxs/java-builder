@@ -3,9 +3,7 @@ package builder.core.build.builder.mybatis.plus;
 import builder.core.build.builder.entity.mybatis.MybatisPlusEntityBuilder;
 import builder.core.build.builder.mybatis.MybatisBuilder;
 import builder.core.build.builder.mybatis.mapper.MapperPlusBuilder;
-import builder.model.build.config.content.orm.MybatisContent;
-import builder.model.build.config.template.path.MybatisTemplatePath;
-import builder.util.StringUtil;
+import builder.model.build.config.content.MybatisContent;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,18 +17,18 @@ import lombok.Setter;
 @Builder
 public class MybatisPlusBuilder {
 
-    protected MybatisBuilder mybatisBuilder;
+    private MybatisBuilder mybatisBuilder;
 
-    protected MybatisTemplatePath mybatisTemplatePath;
+    private MybatisContent mybatisContent;
 
     /**
      * 构建器创建
      * 2023/9/20 21:57
      * @author pengshuaifeng
      */
-    public MybatisPlusBuilder(MybatisBuilder mybatisBuilder,MybatisTemplatePath mybatisTemplatePath){
+    MybatisPlusBuilder(MybatisBuilder mybatisBuilder,MybatisContent mybatisContent){
         this.mybatisBuilder=mybatisBuilder;
-        this.mybatisTemplatePath=mybatisTemplatePath;
+        this.mybatisContent=mybatisContent;
         init();
     }
 
@@ -39,26 +37,14 @@ public class MybatisPlusBuilder {
      * 2023/9/17 19:18
      * @author pengshuaifeng
      */
-    protected void init(){
-        initTemplatePath();
+    private void init(){
+        initBuilder();
     }
 
-    protected void initTemplatePath(){
-        mybatisTemplatePath=mybatisTemplatePath==null?
-                new MybatisTemplatePath():mybatisTemplatePath;
-        if(StringUtil.isEmpty(mybatisTemplatePath.getEntityPath())){
-            mybatisTemplatePath.setEntityPath("/template/basic/EntityMybatisPlusTemplate.txt");
-        }
-        if (StringUtil.isEmpty(mybatisTemplatePath.getMapperPath())) {
-            mybatisTemplatePath.setMapperPath("/template/mybatis/mybatis-plus/MapperTemplate.txt");
-        }
-        if (StringUtil.isEmpty(mybatisTemplatePath.getMapperXmlPath())) {
-            mybatisTemplatePath.setMapperXmlPath("/template/mybatis/mybatis-plus/MapperXmlTemplate.txt");
-        }
+
+    public void initBuilder(){
         mybatisBuilder.setMapperBuilder(new MapperPlusBuilder());
         mybatisBuilder.setEntityBuilder(new MybatisPlusEntityBuilder());
-        mybatisBuilder.setMybatisTemplatePath(mybatisTemplatePath);
-        mybatisBuilder.initTemplate();
     }
 
     /**
@@ -67,6 +53,10 @@ public class MybatisPlusBuilder {
      * @author pengshuaifeng
      */
     public void build(MybatisContent mybatisContent){
+        mybatisBuilder.build(mybatisContent);
+    }
+
+    public void build(){
         mybatisBuilder.build(mybatisContent);
     }
 }

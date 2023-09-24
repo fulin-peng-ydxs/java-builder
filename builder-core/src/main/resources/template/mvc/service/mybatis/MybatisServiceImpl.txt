@@ -1,0 +1,50 @@
+package {package};
+import java.util.*;
+import org.springframework.stereotype.Service;
+{cloneImports}
+/**
+ * {description}
+ * author: {author}
+ * {date}
+ */
+@Service
+public class {Service} implements {ServiceInterface}{
+
+    @Autowire
+    private {Mapper} {mapper};
+
+    /**保存*/
+    @Override
+    public int save({Entity} {entity}){
+        {Entity} {entity}Result={mapper}.selectOne({entity}.get{primaryKeyField}());
+        if({entity}Result==null){
+            return {mapper}.insert({entity});
+        }else{
+            return {mapper}.updateById({entity});
+        }
+    }
+
+    /**批量保存*/
+    @Override
+    public int saveBatch(List<{Entity}> {entity}s){
+        return {mapper}.insertBatch({entity}s)
+    }
+
+    /**查询*/
+    @Override
+    public List<{Entity}> find({Entity} {entity}){
+        return {mapper}.selectList({entity});
+    }
+
+    /**查询详情*/
+    @Override
+    public {Entity} detail({PrimaryKeyField} {primaryKeyField}){
+        return {mapper}.selectOne({primaryKeyField});
+    }
+
+    /**删除*/
+    @Override
+    public int deleteById({PrimaryKeyField} {primaryKeyField}){
+        return {mapper}.deleteById({primaryKeyField});
+    }
+}

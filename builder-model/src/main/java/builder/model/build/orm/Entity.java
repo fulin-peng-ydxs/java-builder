@@ -20,6 +20,8 @@ public class Entity {
     private Field primaryField;
     //引用路径
     private String reference;
+    //包声明
+    private String packages;
     //实体表对象
     private TableInfo tableInfo;
 }

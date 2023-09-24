@@ -19,4 +19,8 @@ public class Service {
     private String description;
     //引用路径
     private String reference;
+    //包声明
+    private String packages;
+    //服务接口引用
+    private Service serviceInterface;
 }

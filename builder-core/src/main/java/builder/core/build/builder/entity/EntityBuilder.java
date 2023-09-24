@@ -6,6 +6,7 @@ import builder.model.build.orm.Field;
 import builder.util.ClassUtil;
 import builder.util.StringUtil;
 import builder.util.TemplateUtil;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,20 +20,27 @@ public class EntityBuilder {
     protected boolean isIgnorePrimaryKey=false;
 
     protected Entity entity;
-
     protected Template entityTemplate;
+
+    public EntityBuilder(){
+        this("/template/basic/EntityTemplate.txt");
+    }
+
+    public EntityBuilder(String templatePath){
+        this.entityTemplate=new Template(TemplateUtil.getTemplate(templatePath),
+                TemplateUtil.getTemplates(templatePath),TemplateUtil.getCloneTemplates(TemplateUtil.getCloneTemplatePath(templatePath)));
+    }
 
     /**
      * 构建实体
      * 2023/9/6 21:53
      * @author pengshuaifeng
      */
-    public  String build(Entity entity, Template entityTemplate){
+    public  String build(Entity entity){
         this.entity=entity;
-        this.entityTemplate=entityTemplate;
         Map<String, String> paddings = new HashMap<>();
         //基础模版填充
-        paddings.put("{package}",entity.getReference());
+        paddings.put("{package}",entity.getPackages());
         paddings.put("{Entity}",entity.getName());
         paddings.put("{description}",entity.getTableInfo().getDescription());
         //克隆模版填充
@@ -44,9 +52,8 @@ public class EntityBuilder {
         StringBuilder cloneFieldsBuilder = new StringBuilder();
         StringBuilder cloneImportsBuilder = new StringBuilder(); //克隆模版内容构建
         List<Field> fields = entity.getFields();
-        for (int i = 0; i < fields.size(); i++) {
-            Field field = fields.get(i);
-            if(isIgnorePrimaryKey){  //是否忽略主键字段的处理
+        for (Field field : fields) {
+            if (isIgnorePrimaryKey) {  //是否忽略主键字段的处理
                 if (field.getName().equals(entity.getPrimaryField().getName()))
                     continue;
             }
@@ -61,7 +68,7 @@ public class EntityBuilder {
             cloneFieldsBuilder.append(TemplateUtil.paddingTemplate(cloneFieldsTemplate,cloneFieldPaddings));
         }
         paddings.put("{cloneFields}", StringUtil.clearLastSpan(cloneFieldsBuilder.toString()));
-        paddings.put("{cloneImports}",cloneImportsBuilder.length()==0?"":cloneImportsBuilder.toString());
+        paddings.put("{cloneImports}",cloneImportsBuilder.length()==0?"":StringUtil.clearLastSpan(cloneImportsBuilder.toString()));
         return TemplateUtil.paddingTemplate(entityTemplate.getTemplate(),paddingExt(paddings));
     }
 

@@ -17,6 +17,8 @@ public class Mapper {
     private Entity entity;
     //引用路径
     private String reference;
+    //包声明
+    private String packages;
     //mapper描述
     private String description;
 }

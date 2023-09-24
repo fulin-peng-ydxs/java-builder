@@ -1,7 +1,11 @@
-package {package}
+package {package};
 import lombok.Data;
 {cloneImports}
-//{description}
+/**
+ * {description}
+ * author: {author}
+ * {date}
+ */
 @Data
 public class {Entity} {
 {cloneFields}

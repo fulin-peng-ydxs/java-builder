@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 模版对象
+ * 模版信息
  * author: pengshuaifeng
  * 2023/9/5
  */
