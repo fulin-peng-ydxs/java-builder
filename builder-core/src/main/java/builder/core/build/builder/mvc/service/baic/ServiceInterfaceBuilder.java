@@ -1,8 +1,8 @@
 package builder.core.build.builder.mvc.service.baic;
 
 
+import builder.core.build.builder.base.BaseBuilder;
 import builder.core.build.builder.mvc.service.ServiceBuilder;
-import builder.model.build.config.builder.BaseBuilder;
 import builder.model.build.mvc.service.Service;
 import builder.model.build.orm.Entity;
 import builder.model.build.orm.Field;

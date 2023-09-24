@@ -17,6 +17,11 @@
             <artifactId>builder-model</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>S1897.java.builder</groupId>
+            <artifactId>builder-util</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
 </project>

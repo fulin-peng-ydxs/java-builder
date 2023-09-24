@@ -1,7 +1,7 @@
 package builder.core.build.builder.mvc.service.baic;
 
 
-import builder.model.build.config.builder.BaseBuilder;
+import builder.core.build.builder.base.BaseBuilder;
 import builder.model.build.mvc.service.Service;
 
 /**

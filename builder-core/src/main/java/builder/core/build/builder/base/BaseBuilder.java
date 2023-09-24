@@ -1,4 +1,4 @@
-package builder.model.build.config.builder;
+package builder.core.build.builder.base;
 
 
 import builder.model.build.config.template.Template;
@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
  * 2023/9/24
  */
 @NoArgsConstructor
-public class BaseBuilder{
+public class BaseBuilder {
 
     protected Template template;
 

@@ -1,6 +1,6 @@
 package builder.core.build.builder.entity;
 
-import builder.model.build.config.builder.BaseBuilder;
+import builder.core.build.builder.base.BaseBuilder;
 import builder.model.build.orm.Entity;
 import builder.model.build.orm.Field;
 import builder.util.ClassUtil;
