@@ -60,7 +60,7 @@ public class ControllerTest {
 
 
     /**
-     * mybatis构建服务测试
+     * mybatis构建测试
      * 2023/9/24 17:56
      * @author pengshuaifeng
      */
@@ -77,6 +77,11 @@ public class ControllerTest {
 
     }
 
+    /**
+     * mybatis-plus构建测试
+     * 2023/10/3 19:59
+     * @author pengshuaifeng
+     */
     @Test
     public void test02(){
         //mybatis层
