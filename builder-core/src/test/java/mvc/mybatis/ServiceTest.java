@@ -12,7 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 import java.util.Collections;
 /**
- * 服务构建基础测试
+ * 服务构建测试
  * author: pengshuaifeng
  * 2023/9/23
  */

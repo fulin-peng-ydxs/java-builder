@@ -11,7 +11,7 @@ import org.junit.Test;
 import java.util.Collections;
 
 /**
- * mybatis常用模式测试
+ * mybatis测试
  * author: pengshuaifeng
  * 2023/9/6
  */

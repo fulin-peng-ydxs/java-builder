@@ -18,7 +18,7 @@ import org.junit.Test;
 import java.util.Collections;
 
 /**
- * 控制器构建基础测试
+ * 控制器构建测试
  * author: pengshuaifeng
  * 2023/9/24
  */
@@ -60,7 +60,7 @@ public class ControllerTest {
 
 
     /**
-     * mybatis构建测试
+     * mybatis测试
      * 2023/9/24 17:56
      * @author pengshuaifeng
      */
@@ -78,7 +78,7 @@ public class ControllerTest {
     }
 
     /**
-     * mybatis-plus构建测试
+     * mybatis-plus测试
      * 2023/10/3 19:59
      * @author pengshuaifeng
      */
