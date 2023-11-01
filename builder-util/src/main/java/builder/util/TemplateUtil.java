@@ -2,7 +2,6 @@ package builder.util;
 
 import builder.model.build.config.BuildGlobalConfig;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -97,8 +96,8 @@ public class TemplateUtil {
      * @author pengshuaifeng
      */
     public static String getCloneTemplatePath(String path){
-        String templateFileName = StringUtil.substring(path, File.separator, null, false, false);
-        return path.replace(templateFileName, "clone" + File.separator +
+        String templateFileName = StringUtil.substring(path, "/", null, false, false);
+        return path.replace(templateFileName, "clone" + "/" +
                 StringUtil.substring(templateFileName, null, ".", false, false) + ".json");
     }
 
