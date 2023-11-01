@@ -44,7 +44,7 @@ public class FileResponder extends Responder{
     public String pathSeparator(String rootPath,String path){
         String separator = File.separator;
         if(rootPath.endsWith(separator) && path.startsWith(separator))
-            return rootPath+ StringUtil.substring(path,"/",null,false,true);
+            return rootPath+ StringUtil.substring(path,separator,null,false,true);
         else if(!rootPath.endsWith(separator) && !path.startsWith(separator))
             return rootPath + File.separator + path;
         else return rootPath+path;

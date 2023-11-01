@@ -1,6 +1,7 @@
 package {package};
+
 import java.util.*;
-import {entityImport}
+import {entityImport};
 /**
  * {description}
  * author: {author}

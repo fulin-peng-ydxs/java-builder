@@ -199,23 +199,33 @@ public class StringUtil {
         if(StringUtil.isEmpty(start,true)|| StringUtil.isEmpty(end,true)){
             int index;
             if(StringUtil.isEmpty(start,true)){  //开始点为null
-                index=index(value, end, isStartIndex, isContain,false);
+                index=subStringIndex(end,index(value, end, isStartIndex, isContain,false));
                 if(index<0) return null;
                 return value.substring(0,index);
             }else{  //结束点为null
-                index = index(value, start, isStartIndex, isContain,true);
+                index = subStringIndex(start,index(value, start, isStartIndex, isContain,true));
                 if(index<0) return null;
                 return value.substring(index);
             }
         }
         //如果start&&end都不为空
-        int startIndex=index(value, start, isStartIndex, isContain,true);
-        int endIndex=index(value, end, isStartIndex, isContain,false);
+        int startIndex=subStringIndex(start,index(value, start, isStartIndex, isContain,true));
+        int endIndex=subStringIndex(end,index(value, end, isStartIndex, isContain,false));
         if(startIndex<0||endIndex<0)
             return null;
         if(startIndex>endIndex)
             return null;
         return value.substring(startIndex, endIndex);
+    }
+
+    /**
+     * substring提取的索引自动转换
+     * 2023/11/1 0001 17:15
+     * @author fulin-peng
+     */
+
+    private static int subStringIndex(String value,int startIndex){
+        return startIndex>=0 && value.length()!=1?startIndex+value.length()-1:startIndex;
     }
 
     /**

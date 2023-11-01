@@ -84,13 +84,19 @@ public class ClassUtil {
 
 
     /**
-     * 生成引用路径
+     * 生成引用路径（包路径）
      * 2023/9/3 22:29
      * @author pengshuaifeng
      * @param path 原路径
      */
     public static String generateReferencePath(String path){
-        path=StringUtil.clearChar(path,'/',true);
+        //如果以java开头，则需要移除
+        if(path.startsWith(File.separator+"java")){
+            path=StringUtil.substring(path,File.separator+"java",true);
+        }else if(path.startsWith("java")){
+            path=StringUtil.substring(path,"java",true);;
+        }
+        path=StringUtil.clearChar(path,File.separator.toCharArray()[0],true);
         return path.replace(File.separator, ".");
     }
 
