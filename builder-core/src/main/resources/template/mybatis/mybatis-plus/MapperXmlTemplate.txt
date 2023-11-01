@@ -3,9 +3,9 @@
 <mapper namespace="{nameSpace}">
 
     <!--RESULT-->
-    <result id="resultMapper" type="{entityReference}">
+    <resultMap id="resultMapper" type="{entityReference}">
         <id column="{primaryKeyColumn}" property="{primaryKeyField}"/>
 {cloneResults}
-    </result>
+    </resultMap>
 
 </mapper>

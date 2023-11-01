@@ -172,7 +172,7 @@ public class ServiceBuilder {
      */
     public static Map<String,String> buildBasicPadding(Service service ,Template serviceTemplate){
         Map<String, String> paddings = new HashMap<>();
-        paddings.put("{package}", service.getReference());
+        paddings.put("{package}", service.getPackages());
         paddings.put("{description}", service.getDescription());
         paddings.put("{Service}", service.getName());
         Entity entity = service.getEntity();
