@@ -1,7 +1,7 @@
 package builder.core.build.builder.mvc.controller.basic;
 
+import builder.core.build.builder.base.BaseBuilder;
 import builder.core.build.builder.mvc.controller.ControllerBuilder;
-import builder.model.build.config.builder.BaseBuilder;
 import builder.model.build.mvc.Controller;
 import builder.model.build.mvc.service.Service;
 import builder.model.build.orm.Entity;
