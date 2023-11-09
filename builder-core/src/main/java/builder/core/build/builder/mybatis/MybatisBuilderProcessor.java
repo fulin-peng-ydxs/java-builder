@@ -31,10 +31,10 @@ import java.util.List;
 @Setter
 @Getter
 @Builder
-public class MybatisBuilder {
+public class MybatisBuilderProcessor {
 
     //构建数据
-    private   List<Entity> entities;
+    private  List<Entity> entities;
     private  List<Mapper> mappers;
     //构建源-数据库
     private  ConnectionInfo connectionInfo;
@@ -56,7 +56,7 @@ public class MybatisBuilder {
      * 2023/9/17 19:18
      * @author pengshuaifeng
      */
-    MybatisBuilder(List<Entity> entities, List<Mapper> mappers, ConnectionInfo connectionInfo, String rootPath, String entityPath, String mapperPath, String mapperXmlPath, EntityBuilder entityBuilder, MapperBuilder mapperBuilder,MybatisContent mybatisContent,Responder responder) {
+    MybatisBuilderProcessor(List<Entity> entities, List<Mapper> mappers, ConnectionInfo connectionInfo, String rootPath, String entityPath, String mapperPath, String mapperXmlPath, EntityBuilder entityBuilder, MapperBuilder mapperBuilder, MybatisContent mybatisContent, Responder responder) {
         this.entities = entities;
         this.mappers = mappers;
         this.connectionInfo = connectionInfo;

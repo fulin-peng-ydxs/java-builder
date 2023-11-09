@@ -1,6 +1,6 @@
 package mybatis;
 
-import builder.core.build.builder.mybatis.MybatisBuilder;
+import builder.core.build.builder.mybatis.MybatisBuilderProcessor;
 import builder.model.build.config.content.MybatisContent;
 import builder.model.resolve.database.jdbc.BaseInfo;
 import builder.model.resolve.database.jdbc.ConnectionInfo;
@@ -18,7 +18,7 @@ import java.util.Collections;
 public class MybatisTest {
 
     private ConnectionInfo connectionInfo;
-    private MybatisBuilder mybatisBuilder;
+    private MybatisBuilderProcessor mybatisBuilderProcessor;
     private MybatisContent mybatisContent;
 
     //创建配置信息
@@ -38,19 +38,19 @@ public class MybatisTest {
     //执行构建
     @After
     public void after(){
-        mybatisBuilder.build(mybatisContent);
+        mybatisBuilderProcessor.build(mybatisContent);
     }
 
     //创建构建器 ：默认方式
     @Test
     public void simpleMybatisTest01(){
-        mybatisBuilder =MybatisBuilder.builder()
+        mybatisBuilderProcessor = MybatisBuilderProcessor.builder()
                 .connectionInfo(connectionInfo).build();
     }
     //创建构建器 ：设置输出根路径
     @Test
     public void simpleMybatisTest02(){
-        mybatisBuilder =MybatisBuilder.builder()
+        mybatisBuilderProcessor = MybatisBuilderProcessor.builder()
                 .connectionInfo(connectionInfo)
                 .rootPath("/Users/pengshuaifeng/javaBuilder")
                 .build();

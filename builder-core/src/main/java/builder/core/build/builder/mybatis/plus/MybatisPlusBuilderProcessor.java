@@ -1,7 +1,7 @@
 package builder.core.build.builder.mybatis.plus;
 
 import builder.core.build.builder.entity.mybatis.MybatisPlusEntityBuilder;
-import builder.core.build.builder.mybatis.MybatisBuilder;
+import builder.core.build.builder.mybatis.MybatisBuilderProcessor;
 import builder.core.build.builder.mybatis.mapper.MapperPlusBuilder;
 import builder.model.build.config.content.MybatisContent;
 import lombok.Builder;
@@ -15,9 +15,9 @@ import lombok.Setter;
 @Setter
 @Getter
 @Builder
-public class MybatisPlusBuilder {
+public class MybatisPlusBuilderProcessor {
 
-    private MybatisBuilder mybatisBuilder;
+    private MybatisBuilderProcessor mybatisBuilderProcessor;
 
     private MybatisContent mybatisContent;
 
@@ -26,8 +26,8 @@ public class MybatisPlusBuilder {
      * 2023/9/20 21:57
      * @author pengshuaifeng
      */
-    MybatisPlusBuilder(MybatisBuilder mybatisBuilder,MybatisContent mybatisContent){
-        this.mybatisBuilder=mybatisBuilder;
+    MybatisPlusBuilderProcessor(MybatisBuilderProcessor mybatisBuilderProcessor, MybatisContent mybatisContent){
+        this.mybatisBuilderProcessor = mybatisBuilderProcessor;
         this.mybatisContent=mybatisContent;
         init();
     }
@@ -43,8 +43,8 @@ public class MybatisPlusBuilder {
 
 
     public void initBuilder(){
-        mybatisBuilder.setMapperBuilder(new MapperPlusBuilder());
-        mybatisBuilder.setEntityBuilder(new MybatisPlusEntityBuilder());
+        mybatisBuilderProcessor.setMapperBuilder(new MapperPlusBuilder());
+        mybatisBuilderProcessor.setEntityBuilder(new MybatisPlusEntityBuilder());
     }
 
     /**
@@ -53,10 +53,10 @@ public class MybatisPlusBuilder {
      * @author pengshuaifeng
      */
     public void build(MybatisContent mybatisContent){
-        mybatisBuilder.build(mybatisContent);
+        mybatisBuilderProcessor.build(mybatisContent);
     }
 
     public void build(){
-        mybatisBuilder.build(mybatisContent);
+        mybatisBuilderProcessor.build(mybatisContent);
     }
 }

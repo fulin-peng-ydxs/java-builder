@@ -1,7 +1,7 @@
 package builder.core.build.builder.mvc.service.mybatis.basic;
 
 
-import builder.core.build.builder.mvc.service.ServiceBuilder;
+import builder.core.build.builder.mvc.service.ServiceBuilderProcessor;
 import builder.core.build.builder.mvc.service.baic.ServiceImplBuilder;
 import builder.model.build.mvc.service.MybatisService;
 import builder.model.build.mvc.service.Service;
@@ -33,7 +33,7 @@ public class MybatisServiceImplBuilder extends ServiceImplBuilder {
     public String buildImpl(Service serviceImpl) {
         MybatisService mybatisService = (MybatisService) serviceImpl;
         //基础模版填充
-        Map<String, String> paddings = ServiceBuilder.buildBasicPadding(serviceImpl, template);
+        Map<String, String> paddings = ServiceBuilderProcessor.buildBasicPadding(serviceImpl, template);
         Mapper mapper = mybatisService.getMapper();
         Entity entity = serviceImpl.getEntity();
         paddings.put("{Mapper}", mapper.getName());

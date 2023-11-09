@@ -2,7 +2,7 @@ package builder.core.build.builder.mvc.service.baic;
 
 
 import builder.core.build.builder.base.BaseBuilder;
-import builder.core.build.builder.mvc.service.ServiceBuilder;
+import builder.core.build.builder.mvc.service.ServiceBuilderProcessor;
 import builder.model.build.mvc.service.Service;
 import builder.model.build.orm.Entity;
 import builder.model.build.orm.Field;
@@ -30,7 +30,7 @@ public class ServiceInterfaceBuilder extends BaseBuilder {
      * @author pengshuaifeng
      */
     public String buildInterface(Service service){
-        Map<String, String> basicPadding = ServiceBuilder.buildBasicPadding(service, template);
+        Map<String, String> basicPadding = ServiceBuilderProcessor.buildBasicPadding(service, template);
         Entity entity = service.getEntity();
         Field primaryField = entity.getPrimaryField();
         basicPadding.put("{PrimaryKeyField}",primaryField.getType().getSimpleName());

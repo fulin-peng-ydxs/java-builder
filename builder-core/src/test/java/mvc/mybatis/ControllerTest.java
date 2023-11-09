@@ -1,12 +1,12 @@
 package mvc.mybatis;
 
 
-import builder.core.build.builder.mvc.controller.ControllerBuilder;
-import builder.core.build.builder.mvc.controller.mybatis.MybatisControllerBuilder;
-import builder.core.build.builder.mvc.service.ServiceBuilder;
-import builder.core.build.builder.mvc.service.mybatis.MybatisServiceBuilder;
-import builder.core.build.builder.mybatis.MybatisBuilder;
-import builder.core.build.builder.mybatis.plus.MybatisPlusBuilder;
+import builder.core.build.builder.mvc.controller.ControllerBuilderProcessor;
+import builder.core.build.builder.mvc.controller.mybatis.MybatisControllerBuilderProcessor;
+import builder.core.build.builder.mvc.service.ServiceBuilderProcessor;
+import builder.core.build.builder.mvc.service.mybatis.MybatisServiceBuilderProcessor;
+import builder.core.build.builder.mybatis.MybatisBuilderProcessor;
+import builder.core.build.builder.mybatis.plus.MybatisPlusBuilderProcessor;
 import builder.model.build.config.BuildGlobalConfig;
 import builder.model.resolve.database.jdbc.BaseInfo;
 import builder.model.resolve.database.jdbc.ConnectionInfo;
@@ -26,9 +26,9 @@ public class ControllerTest {
 
     private ConnectionInfo connectionInfo;
 
-    private ControllerBuilder controllerBuilder;
-    private ServiceBuilder serviceBuilder;
-    private MybatisServiceBuilder mybatisServiceBuilder;
+    private ControllerBuilderProcessor controllerBuilderProcessor;
+    private ServiceBuilderProcessor serviceBuilderProcessor;
+    private MybatisServiceBuilderProcessor mybatisServiceBuilderProcessor;
 
     //创建配置信息
     @Before
@@ -44,18 +44,18 @@ public class ControllerTest {
         BuildGlobalConfig.templateCreateInfo  //模版创建信息
                 .setUserName("pengfulin"); //创建用户
         //设置公共构建器
-        serviceBuilder = ServiceBuilder.builder()
+        serviceBuilderProcessor = ServiceBuilderProcessor.builder()
                 .rootPath("/Users/pengshuaifeng/javaBuilder").build();
-        controllerBuilder=ControllerBuilder.builder()
+        controllerBuilderProcessor = ControllerBuilderProcessor.builder()
                 .rootPath("/Users/pengshuaifeng/javaBuilder").build();
     }
 
     //构建
     @After
     public void after(){
-        MybatisControllerBuilder.builder()
-                .controllerBuilder(controllerBuilder)
-                .serviceBuilder(mybatisServiceBuilder).build().build();
+        MybatisControllerBuilderProcessor.builder()
+                .controllerBuilderProcessor(controllerBuilderProcessor)
+                .serviceBuilder(mybatisServiceBuilderProcessor).build().build();
     }
 
 
@@ -67,13 +67,13 @@ public class ControllerTest {
     @Test
     public void test01(){
         //mybatis层
-        MybatisBuilder mybatisBuilder = MybatisBuilder.builder()
+        MybatisBuilderProcessor mybatisBuilderProcessor = MybatisBuilderProcessor.builder()
                 .connectionInfo(connectionInfo)
                 .rootPath("/Users/pengshuaifeng/javaBuilder")
                 .build();
         //service层
-         mybatisServiceBuilder = MybatisServiceBuilder.builder()
-                .mybatisBuilder(mybatisBuilder).serviceBuilder(serviceBuilder).build();
+         mybatisServiceBuilderProcessor = MybatisServiceBuilderProcessor.builder()
+                .mybatisBuilderProcessor(mybatisBuilderProcessor).serviceBuilderProcessor(serviceBuilderProcessor).build();
 
     }
 
@@ -85,13 +85,13 @@ public class ControllerTest {
     @Test
     public void test02(){
         //mybatis层
-        MybatisPlusBuilder mybatisPlusBuilder = MybatisPlusBuilder.builder().mybatisBuilder(
-                MybatisBuilder.builder().connectionInfo(connectionInfo)
+        MybatisPlusBuilderProcessor mybatisPlusBuilderProcessor = MybatisPlusBuilderProcessor.builder().mybatisBuilderProcessor(
+                MybatisBuilderProcessor.builder().connectionInfo(connectionInfo)
                         .rootPath("/Users/pengshuaifeng/javaBuilder")
                         .build()).build();
         //service层
-        mybatisServiceBuilder = MybatisServiceBuilder.builder()
-                .mybatisPlusBuilder(mybatisPlusBuilder).serviceBuilder(serviceBuilder).build();
+        mybatisServiceBuilderProcessor = MybatisServiceBuilderProcessor.builder()
+                .mybatisPlusBuilderProcessor(mybatisPlusBuilderProcessor).serviceBuilderProcessor(serviceBuilderProcessor).build();
     }
 
 }

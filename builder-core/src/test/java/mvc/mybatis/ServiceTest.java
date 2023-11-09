@@ -1,9 +1,9 @@
 package mvc.mybatis;
 
-import builder.core.build.builder.mvc.service.ServiceBuilder;
-import builder.core.build.builder.mvc.service.mybatis.MybatisServiceBuilder;
-import builder.core.build.builder.mybatis.MybatisBuilder;
-import builder.core.build.builder.mybatis.plus.MybatisPlusBuilder;
+import builder.core.build.builder.mvc.service.ServiceBuilderProcessor;
+import builder.core.build.builder.mvc.service.mybatis.MybatisServiceBuilderProcessor;
+import builder.core.build.builder.mybatis.MybatisBuilderProcessor;
+import builder.core.build.builder.mybatis.plus.MybatisPlusBuilderProcessor;
 import builder.model.build.config.BuildGlobalConfig;
 import builder.model.resolve.database.jdbc.BaseInfo;
 import builder.model.resolve.database.jdbc.ConnectionInfo;
@@ -20,7 +20,7 @@ public class ServiceTest {
 
     private ConnectionInfo connectionInfo;
 
-    private ServiceBuilder serviceBuilder;
+    private ServiceBuilderProcessor serviceBuilderProcessor;
 
     //创建配置信息
     @Before
@@ -36,7 +36,7 @@ public class ServiceTest {
         BuildGlobalConfig.templateCreateInfo  //模版创建信息
                 .setUserName("pengfulin"); //创建用户
         //设置公共构建器
-        serviceBuilder = ServiceBuilder.builder()
+        serviceBuilderProcessor = ServiceBuilderProcessor.builder()
                 .rootPath("/Users/pengshuaifeng/javaBuilder").build();
     }
 
@@ -49,13 +49,13 @@ public class ServiceTest {
     @Test
     public void test01() {
         //mybatis层
-        MybatisBuilder mybatisBuilder = MybatisBuilder.builder()
+        MybatisBuilderProcessor mybatisBuilderProcessor = MybatisBuilderProcessor.builder()
                 .connectionInfo(connectionInfo)
                 .rootPath("/Users/pengshuaifeng/javaBuilder")
                 .build();
         //service层
-        MybatisServiceBuilder.builder()
-                .mybatisBuilder(mybatisBuilder).serviceBuilder(serviceBuilder).build().build(); //执行构建
+        MybatisServiceBuilderProcessor.builder()
+                .mybatisBuilderProcessor(mybatisBuilderProcessor).serviceBuilderProcessor(serviceBuilderProcessor).build().build(); //执行构建
     }
 
 
@@ -67,12 +67,12 @@ public class ServiceTest {
     @Test
     public void test02(){
         //mybatis层
-        MybatisPlusBuilder mybatisPlusBuilder = MybatisPlusBuilder.builder().mybatisBuilder(
-                MybatisBuilder.builder().connectionInfo(connectionInfo)
+        MybatisPlusBuilderProcessor mybatisPlusBuilderProcessor = MybatisPlusBuilderProcessor.builder().mybatisBuilderProcessor(
+                MybatisBuilderProcessor.builder().connectionInfo(connectionInfo)
                         .rootPath("/Users/pengshuaifeng/javaBuilder")
                         .build()).build();
         //service层
-        MybatisServiceBuilder.builder()
-                .mybatisPlusBuilder(mybatisPlusBuilder).serviceBuilder(serviceBuilder).build().build(); //执行构建
+        MybatisServiceBuilderProcessor.builder()
+                .mybatisPlusBuilderProcessor(mybatisPlusBuilderProcessor).serviceBuilderProcessor(serviceBuilderProcessor).build().build(); //执行构建
     }
 }

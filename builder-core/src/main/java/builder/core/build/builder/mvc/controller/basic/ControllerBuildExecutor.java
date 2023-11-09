@@ -1,7 +1,7 @@
 package builder.core.build.builder.mvc.controller.basic;
 
 import builder.core.build.builder.base.BaseBuilder;
-import builder.core.build.builder.mvc.controller.ControllerBuilder;
+import builder.core.build.builder.mvc.controller.ControllerBuilderProcessor;
 import builder.model.build.mvc.Controller;
 import builder.model.build.mvc.service.Service;
 import builder.model.build.orm.Entity;
@@ -32,7 +32,7 @@ public class ControllerBuildExecutor extends BaseBuilder {
      * @author pengshuaifeng
      */
     public String build(Controller controller){
-        Map<String, String> paddings = ControllerBuilder.buildBasicPadding(controller, template);
+        Map<String, String> paddings = ControllerBuilderProcessor.buildBasicPadding(controller, template);
         Entity entity = controller.getEntity();
         Field primaryField = entity.getPrimaryField();
         paddings.put("{PrimaryKeyField}",primaryField.getType().getSimpleName());

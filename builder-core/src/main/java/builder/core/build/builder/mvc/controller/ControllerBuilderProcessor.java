@@ -29,7 +29,7 @@ import java.util.Map;
 @Getter
 @Setter
 @Builder
-public class ControllerBuilder {
+public class ControllerBuilderProcessor {
 
     //数据源
     private List<Controller> controllers;
@@ -46,7 +46,7 @@ public class ControllerBuilder {
      * 2023/9/24 15:22
      * @author pengshuaifeng
      */
-    ControllerBuilder(List<Controller> controllers, ControllerBuildExecutor controllerBuildExecutor, String rootPath, String executePath, Responder responder){
+    ControllerBuilderProcessor(List<Controller> controllers, ControllerBuildExecutor controllerBuildExecutor, String rootPath, String executePath, Responder responder){
         this.controllers=controllers;
         this.controllerBuildExecutor = controllerBuildExecutor;
         this.rootPath=rootPath;

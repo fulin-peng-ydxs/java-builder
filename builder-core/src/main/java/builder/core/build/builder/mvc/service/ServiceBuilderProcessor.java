@@ -27,7 +27,7 @@ import java.util.Map;
 @Setter
 @Getter
 @Builder
-public class ServiceBuilder {
+public class ServiceBuilderProcessor {
 
     //数据源
     private List<Service> serviceImpls;
@@ -47,7 +47,7 @@ public class ServiceBuilder {
      * 2023/9/23 10:58
      * @author pengshuaifeng
      */
-    ServiceBuilder(List<Service> serviceInterfaces,List<Service> serviceImpls,ServiceImplBuilder serviceImplBuilder,ServiceInterfaceBuilder serviceInterfaceBuilder,String rootPath, String serviceImplPath, String serviceInterfacePath, Responder responder) {
+    ServiceBuilderProcessor(List<Service> serviceInterfaces, List<Service> serviceImpls, ServiceImplBuilder serviceImplBuilder, ServiceInterfaceBuilder serviceInterfaceBuilder, String rootPath, String serviceImplPath, String serviceInterfacePath, Responder responder) {
         this.serviceImpls=serviceImpls;
         this.serviceInterfaces=serviceInterfaces;
         this.serviceImplBuilder=serviceImplBuilder;
