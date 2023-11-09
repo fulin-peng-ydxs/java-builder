@@ -10,7 +10,7 @@ import builder.model.resolve.database.jdbc.ConnectionInfo;
 import com.mysql.jdbc.Driver;
 import org.junit.Before;
 import org.junit.Test;
-import java.util.Collections;
+import java.util.Arrays;
 
 /**
  * 实战使用
@@ -33,7 +33,9 @@ public class UseGZZNModel {
                 .userName("gxts")
                 .password("gxts")
                 .DriverClass(Driver.class)
-                .baseInfo(new BaseInfo("gxts", Collections.singletonList("process_notify_manage"))).build();
+//                .baseInfo(new BaseInfo("gxts", Collections.singletonList("process_notify_manage"))).build();
+                .baseInfo(new BaseInfo("gxts",
+                        Arrays.asList("process_notify_business","process_notify_business_impl","process_notify_business_message"))).build();
         //设置全局构建信息
         BuildGlobalConfig.templateCreateInfo  //模版创建信息
                 .setUserName("fulin-peng"); //创建用户
