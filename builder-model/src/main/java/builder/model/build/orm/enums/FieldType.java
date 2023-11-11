@@ -3,23 +3,26 @@ package builder.model.build.orm.enums;
 import lombok.AllArgsConstructor;
 import lombok.ToString;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 @ToString
 @AllArgsConstructor
 public enum FieldType {
 
-    STRING(String.class,"char,varchar"),
+    STRING(String.class, Arrays.asList("char","varchar")),
 
-    DATE(Date.class,"datetime,date,timestamp"),
+    DATE(Date.class,Arrays.asList("datetime","date","timestamp")),
 
-    INT(Integer.class,"int"),
+    INT(Integer.class, Collections.singletonList("int")),
 
-    BIG_INT(Long.class,"bigint");
+    BIG_INT(Long.class, Collections.singletonList("bigint"));
 
     public final Class<?> javaType;
 
-    public final String dataBaseTypes;
+    public final List<String> dataBaseTypes;
 
 
     public static FieldType supportType(String dataBaseType){
@@ -31,7 +34,6 @@ public enum FieldType {
             return INT;
         else if(BIG_INT.dataBaseTypes.contains(dataBaseType))
             return INT;
-        else
-            return null;
+        else return STRING;
     }
 }

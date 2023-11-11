@@ -113,6 +113,16 @@ public class TemplateUtil {
         for (Map.Entry<String, String> padding : paddingValues.entrySet()) {
             template=template.replace(padding.getKey(),padding.getValue());
         }
+        if (template.contains("!empty!")){
+            String[] templates = template.split("\n");
+            StringBuilder builder = new StringBuilder();
+            for (String temp : templates) {
+                if (temp.contains("!empty!"))
+                    continue;
+                builder.append(temp).append("\n");
+            }
+            template=builder.toString();
+        }
         return template;
     }
 

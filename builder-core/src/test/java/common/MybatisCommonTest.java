@@ -1,0 +1,62 @@
+package common;
+
+
+import builder.core.build.builder.common.MybatisBuilderCommon;
+import builder.model.build.config.BuildGlobalConfig;
+import builder.model.build.config.content.MybatisContent;
+import builder.model.build.config.content.WebContent;
+import builder.model.resolve.database.jdbc.BaseInfo;
+import builder.model.resolve.database.jdbc.ConnectionInfo;
+import com.mysql.jdbc.Driver;
+import org.junit.Before;
+import org.junit.Test;
+import java.util.Collections;
+
+/**
+ * Mybatis-最佳实践
+ * author: pengshuaifeng
+ * 2023/11/11
+ */
+public class MybatisCommonTest {
+
+    private MybatisBuilderCommon builderCommon;
+
+    @Before
+    public void before(){
+        //设置数据库信息
+        ConnectionInfo connectionInfo = ConnectionInfo.builder()
+                .url("jdbc:mysql://192.168.1.103:3307/jpa?useSSL=false&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&allowMultiQueries=true")
+                .userName("root")
+                .password("root")
+                .DriverClass(Driver.class)
+                .baseInfo(new BaseInfo("jpa", Collections.singletonList("user"))).build();
+        //设置全局构建信息
+        BuildGlobalConfig.templateCreateInfo
+                .setUserName("fulin-peng"); //创建用户
+        //创建构建器
+        builderCommon=MybatisBuilderCommon.builder()
+                .connectionInfo(connectionInfo)
+                .build();
+    }
+
+    @Test
+    public void mybatis(){
+        builderCommon.mybatisBuild(MybatisContent.ALL);
+    }
+
+    @Test
+    public void mybatisPlus(){
+        builderCommon.mybatisPlusBuild(MybatisContent.ALL);
+    }
+
+
+    @Test
+    public void mybatisService(){
+        builderCommon.mybatisWebBuild(WebContent.ALL);
+    }
+
+    @Test
+    public void mybatisPlusService(){
+        builderCommon.mybatisPlusWebBuild(WebContent.ALL);
+    }
+}

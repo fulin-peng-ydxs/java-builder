@@ -1,0 +1,13 @@
+package {package};
+
+import lombok.Data;
+{cloneImports}
+/**
+ * {description}
+ * author: {author}
+ * {date}
+ */
+@Data
+public class {Entity} {
+{cloneFields}
+}

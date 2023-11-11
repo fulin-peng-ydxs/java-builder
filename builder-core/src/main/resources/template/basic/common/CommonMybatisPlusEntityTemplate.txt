@@ -1,0 +1,22 @@
+package {package};
+
+import lombok.Data;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+{cloneImports}
+/**
+ * {description}
+ * author: {author}
+ * {date}
+ */
+@ApiModel("{entity}")
+@Data
+@TableName(value ="{tableName}")
+public class {Entity} {
+    //{comment}
+    @TableId
+    private {fieldType} {filed};
+{cloneFields}
+}

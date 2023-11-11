@@ -1,17 +1,14 @@
 package builder.core.build.builder.mybatis;
 
+import builder.core.build.builder.entity.base.EntityConvertor;
 import builder.core.build.builder.entity.EntityBuilder;
 import builder.core.build.builder.mybatis.mapper.MapperBuilder;
 import builder.core.build.resolve.database.DataBaseResolver;
 import builder.core.build.response.FileResponder;
 import builder.core.build.response.Responder;
 import builder.model.build.config.content.MybatisContent;
-import builder.model.build.config.enums.ClassStructure;
 import builder.model.build.orm.Entity;
-import builder.model.build.orm.Field;
-import builder.model.build.orm.enums.FieldType;
 import builder.model.build.orm.mybatis.Mapper;
-import builder.model.resolve.database.ColumnInfo;
 import builder.model.resolve.database.TableInfo;
 import builder.model.resolve.database.jdbc.ConnectionInfo;
 import builder.util.ClassUtil;
@@ -218,27 +215,7 @@ public class MybatisBuilderProcessor {
      * @author pengshuaifeng
      */
     private Entity convertEntity(TableInfo tableInfo,String path){
-        Entity entity = new Entity();
-        entity.setName(ClassUtil.generateStructureName(tableInfo.getName(),"_", ClassStructure.NAME));
-        String referencePath = ClassUtil.generateReferencePath(path);
-        entity.setReference(referencePath +"."+entity.getName());
-        entity.setPackages(referencePath);
-        LinkedList<Field> fields = new LinkedList<>();
-        for (ColumnInfo columnInfo : tableInfo.getColumnInfos()) {
-            Field field = new Field();
-            Class<?> javaType = FieldType.supportType(columnInfo.getType()).javaType;
-            field.setReference(javaType.getName());
-            field.setType(javaType);
-            field.setName(ClassUtil.generateStructureName(columnInfo.getName(),"_", ClassStructure.ATTRIBUTES));
-            field.setColumnInfo(columnInfo);
-            fields.add(field);
-            if(columnInfo.isPrimaryKey()){
-                entity.setPrimaryField(field);
-            }
-        }
-        entity.setTableInfo(tableInfo);
-        entity.setFields(fields);
-        return entity;
+        return EntityConvertor.convertEntity(tableInfo,path);
     }
 
     /**

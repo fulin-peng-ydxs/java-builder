@@ -7,6 +7,7 @@ import builder.model.build.config.content.MybatisContent;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+
 /**
  * mybatis-plus构建器
  * author: pengshuaifeng
@@ -21,14 +22,20 @@ public class MybatisPlusBuilderProcessor {
 
     private MybatisContent mybatisContent;
 
+    private boolean ignoreInitEntityBuilder;
+    private boolean ignoreInitMapperBuilder;
+
     /**
      * 构建器创建
      * 2023/9/20 21:57
      * @author pengshuaifeng
      */
-    MybatisPlusBuilderProcessor(MybatisBuilderProcessor mybatisBuilderProcessor, MybatisContent mybatisContent){
+    MybatisPlusBuilderProcessor(MybatisBuilderProcessor mybatisBuilderProcessor, MybatisContent mybatisContent,
+                                boolean ignoreInitEntityBuilder, boolean ignoreInitMapperBuilder){
         this.mybatisBuilderProcessor = mybatisBuilderProcessor;
         this.mybatisContent=mybatisContent;
+        this.ignoreInitEntityBuilder=ignoreInitEntityBuilder;
+        this.ignoreInitMapperBuilder= ignoreInitMapperBuilder;
         init();
     }
 
@@ -43,8 +50,10 @@ public class MybatisPlusBuilderProcessor {
 
 
     public void initBuilder(){
-        mybatisBuilderProcessor.setMapperBuilder(new MapperPlusBuilder());
-        mybatisBuilderProcessor.setEntityBuilder(new MybatisPlusEntityBuilder());
+        if(!ignoreInitEntityBuilder)
+            mybatisBuilderProcessor.setEntityBuilder(new MybatisPlusEntityBuilder());
+        if(!ignoreInitMapperBuilder)
+            mybatisBuilderProcessor.setMapperBuilder(new MapperPlusBuilder());
     }
 
     /**

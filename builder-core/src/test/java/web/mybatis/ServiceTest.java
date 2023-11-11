@@ -1,4 +1,4 @@
-package use;
+package web.mybatis;
 
 import builder.core.build.builder.web.service.ServiceBuilderProcessor;
 import builder.core.build.builder.web.service.mybatis.MybatisServiceBuilderProcessor;
@@ -10,15 +10,13 @@ import builder.model.resolve.database.jdbc.ConnectionInfo;
 import com.mysql.jdbc.Driver;
 import org.junit.Before;
 import org.junit.Test;
-import java.util.Arrays;
-
+import java.util.Collections;
 /**
- * 实战案例-广州智能
- *
- * @author fulin-peng
- * 2023-11-01  14:37
+ * 服务构建测试
+ * author: pengshuaifeng
+ * 2023/9/23
  */
-public class UseGZZNModel {
+public class ServiceTest {
 
     private ConnectionInfo connectionInfo;
 
@@ -29,33 +27,49 @@ public class UseGZZNModel {
     public void before(){
         //设置数据库信息
         connectionInfo=ConnectionInfo.builder()
-                .url("jdbc:mysql://130.120.3.158:3306/gxts?useSSL=false&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&allowMultiQueries=true")
-                .userName("gxts")
-                .password("gxts")
+                .url("jdbc:mysql://192.168.1.103:3307/jpa?useSSL=false&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&allowMultiQueries=true")
+                .userName("root")
+                .password("root")
                 .DriverClass(Driver.class)
-//                .baseInfo(new BaseInfo("gxts", Collections.singletonList("process_notify_manage"))).build();
-                .baseInfo(new BaseInfo("gxts",
-                        Arrays.asList("process_notify_business","process_notify_business_impl","process_notify_business_message"))).build();
+                .baseInfo(new BaseInfo("jpa", Collections.singletonList("user"))).build();
         //设置全局构建信息
         BuildGlobalConfig.templateCreateInfo  //模版创建信息
-                .setUserName("fulin-peng"); //创建用户
+                .setUserName("pengfulin"); //创建用户
         //设置公共构建器
         serviceBuilderProcessor = ServiceBuilderProcessor.builder()
-                .rootPath("E:\\flowabletask-test\\flowable-task\\src\\main")
-                .serviceInterfacePath("\\java\\com\\gzz\\gxts\\flowableTask\\service\\ext\\process\\notify")
-                .serviceImplPath("\\java\\com\\gzz\\gxts\\flowableTask\\service\\ext\\process\\notify\\impl")
-                .build();
+                .rootPath("/Users/pengshuaifeng/javaBuilder").build();
     }
 
+
+    /**
+     * mybatis测试
+     * 2023/9/23 22:49
+     * @author pengshuaifeng
+     */
     @Test
-    public void test(){
+    public void test01() {
+        //mybatis层
+        MybatisBuilderProcessor mybatisBuilderProcessor = MybatisBuilderProcessor.builder()
+                .connectionInfo(connectionInfo)
+                .rootPath("/Users/pengshuaifeng/javaBuilder")
+                .build();
+        //service层
+        MybatisServiceBuilderProcessor.builder()
+                .mybatisBuilderProcessor(mybatisBuilderProcessor).serviceBuilderProcessor(serviceBuilderProcessor).build().build(); //执行构建
+    }
+
+
+    /**
+     * mybatis-plus测试
+     * 2023/9/23 22:49
+     * @author pengshuaifeng
+     */
+    @Test
+    public void test02(){
         //mybatis层
         MybatisPlusBuilderProcessor mybatisPlusBuilderProcessor = MybatisPlusBuilderProcessor.builder().mybatisBuilderProcessor(
                 MybatisBuilderProcessor.builder().connectionInfo(connectionInfo)
-                        .rootPath("E:\\flowabletask-test\\flowable-task\\src\\main")
-                        .entityPath("\\java\\com\\gzz\\gxts\\flowableTask\\business\\model\\ext\\process\\notify")
-                        .mapperPath("\\java\\com\\gzz\\gxts\\flowableTask\\mapper\\gxts")
-                        .mapperXmlPath("\\resources\\business\\mapping\\ext.process\\notify")
+                        .rootPath("/Users/pengshuaifeng/javaBuilder")
                         .build()).build();
         //service层
         MybatisServiceBuilderProcessor.builder()
