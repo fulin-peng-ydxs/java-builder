@@ -13,12 +13,12 @@ import org.junit.Test;
 import java.util.Arrays;
 
 /**
- * 实战案例-广州智能
+ * mybatis实战案例-广州智能
  *
  * @author fulin-peng
  * 2023-11-01  14:37
  */
-public class UseGZZNModel {
+public class UseGZZNMybatisModel {
 
     private ConnectionInfo connectionInfo;
 
@@ -55,7 +55,7 @@ public class UseGZZNModel {
                         .rootPath("E:\\flowabletask-test\\flowable-task\\src\\main")
                         .entityPath("\\java\\com\\gzz\\gxts\\flowableTask\\business\\model\\ext\\process\\notify")
                         .mapperPath("\\java\\com\\gzz\\gxts\\flowableTask\\mapper\\gxts")
-                        .mapperXmlPath("\\resources\\business\\mapping\\ext.process\\notify")
+                        .mapperXmlPath("\\resources\\business\\mapping\\ext\\process\\notify")
                         .build()).build();
         //service层
         MybatisServiceBuilderProcessor.builder()

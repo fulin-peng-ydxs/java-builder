@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * mybatis常用构建器
+ * mybatis常用构建组件
  * author: pengshuaifeng
  * 2023/11/10
  */
@@ -92,8 +92,9 @@ public class MybatisBuilderCommon {
     private MybatisPlusBuilderProcessor getMybatisPlusBuilderProcessor(){
         MybatisBuilderProcessor mybatisBuilderProcessor = getMybatisBuilderProcessor(
                 "/template/basic/common/CommonMybatisPlusEntityTemplate.txt");
-        mybatisBuilderProcessor.getEntityBuilder()
-                .getEntityBuilders().add(new MybatisPlusEntityBuilder());
+        EntityBuilder entityBuilder = mybatisBuilderProcessor.getEntityBuilder();
+        entityBuilder.getEntityBuilders().add(new MybatisPlusEntityBuilder());
+        entityBuilder.setIgnorePrimaryKey(true);
        return MybatisPlusBuilderProcessor.builder()
                 .mybatisBuilderProcessor(mybatisBuilderProcessor)
                 .ignoreInitEntityBuilder(true)

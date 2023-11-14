@@ -16,6 +16,7 @@ import io.swagger.annotations.ApiModelProperty;
 @TableName(value ="{tableName}")
 public class {Entity} {
     //{comment}
+    @ApiModelProperty(value ="{comment}")
     @TableId
     private {fieldType} {filed};
 {cloneFields}
