@@ -19,7 +19,7 @@ import io.swagger.annotations.ApiParam;
 @Api(tags = "description")
 @Controller
 @ResponseBody
-@RequestMapping("/{entity}")
+@RequestMapping("/{Entity}")
 public class {Controller}{
 
     @Autowire
