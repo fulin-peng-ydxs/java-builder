@@ -33,7 +33,7 @@ public enum FieldType {
         else if(INT.dataBaseTypes.contains(dataBaseType))
             return INT;
         else if(BIG_INT.dataBaseTypes.contains(dataBaseType))
-            return INT;
+            return BIG_INT;
         else return STRING;
     }
 }

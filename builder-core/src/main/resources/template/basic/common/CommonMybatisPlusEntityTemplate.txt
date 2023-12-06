@@ -11,7 +11,7 @@ import io.swagger.annotations.ApiModelProperty;
  * author: {author}
  * {date}
  */
-@ApiModel("{entity}")
+@ApiModel("{Entity}")
 @Data
 @TableName(value ="{tableName}")
 public class {Entity} {

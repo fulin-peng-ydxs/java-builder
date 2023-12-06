@@ -167,7 +167,7 @@ public class DataBaseResolver {
      */
     private  Connection getConnection(ConnectionInfo connectionInfo){
         try {
-            Class.forName(connectionInfo.getClass().getName());
+            Class.forName(connectionInfo.getDriverClass().getName());
             return DriverManager.getConnection(connectionInfo.getUrl(),
                     connectionInfo.getUserName(), connectionInfo.getPassword());
         } catch (Exception e) {

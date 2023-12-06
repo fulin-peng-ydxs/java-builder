@@ -10,7 +10,7 @@ import com.mysql.jdbc.Driver;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Collections;
+import java.util.Arrays;
 
 /**
  * mybatis常用构建组件实战案例-广州智能
@@ -24,13 +24,19 @@ public class UseGZZNMybatisCommonModel {
 
     @Before
     public void before(){
-        //设置数据库信息
+//        //设置数据库信息
+//        ConnectionInfo connectionInfo = ConnectionInfo.builder()
+//                .url("jdbc:mysql://130.120.3.158:3306/gxts?useSSL=false&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&allowMultiQueries=true")
+//                .userName("gxts")
+//                .password("gxts")
+//                .DriverClass(Driver.class)
+//                .baseInfo(new BaseInfo("gxts", Arrays.asList("process_data_resource_obtain_impl"))).build();
         ConnectionInfo connectionInfo = ConnectionInfo.builder()
-                .url("jdbc:mysql://130.120.3.158:3306/gxts?useSSL=false&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&allowMultiQueries=true")
-                .userName("gxts")
-                .password("gxts")
+                .url("jdbc:mysql://130.120.2.219:3306/fullres_test_prod?useSSL=false&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&allowMultiQueries=true")
+                .userName("fullres")
+                .password("123456")
                 .DriverClass(Driver.class)
-                .baseInfo(new BaseInfo("gxts", Collections.singletonList("act_ru_task"))).build();
+                .baseInfo(new BaseInfo("fullres_test_prod", Arrays.asList("resource_category_type"))).build();
         //设置全局构建信息
         BuildGlobalConfig.templateCreateInfo
                 .setUserName("fulin-peng"); //创建用户
@@ -38,11 +44,11 @@ public class UseGZZNMybatisCommonModel {
         builderCommon=MybatisBuilderCommon.builder()
                 .connectionInfo(connectionInfo)
                 .rootPath("E:\\flowabletask-test\\flowable-task\\src\\main")
-                .servicePath("\\java\\com\\gzz\\gxts\\flowableTask\\service")
-                .serviceImplPath("\\java\\com\\gzz\\gxts\\flowableTask\\service\\impl")
-                .entityPath("\\java\\com\\gzz\\gxts\\flowableTask\\business\\model")
-                .mapperPath("\\java\\com\\gzz\\gxts\\flowableTask\\mapper\\gxts")
-                .mapperXmlPath("\\resources\\business\\mapping")
+                .servicePath("\\java\\com\\gzz\\gxts\\flowableTask\\service\\fullres")
+                .serviceImplPath("\\java\\com\\gzz\\gxts\\flowableTask\\service\\fullres\\impl")
+                .entityPath("\\java\\com\\gzz\\gxts\\flowableTask\\business\\model\\fullres")
+                .mapperPath("\\java\\com\\gzz\\gxts\\flowableTask\\mapper\\fullres")
+                .mapperXmlPath("\\resources\\business\\mapping-fullres")
                 .build();
     }
 

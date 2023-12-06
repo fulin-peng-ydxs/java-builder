@@ -9,7 +9,7 @@ import io.swagger.annotations.ApiModelProperty;
  * author: {author}
  * {date}
  */
-@ApiModel("{entity}")
+@ApiModel("{Entity}")
 @Data
 public class {Entity} {
 {cloneFields}
