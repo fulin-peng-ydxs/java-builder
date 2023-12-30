@@ -3,9 +3,9 @@ package builder.core.build.builder.entity;
 import builder.core.build.builder.base.Builder;
 import builder.model.build.orm.Entity;
 import builder.model.build.orm.Field;
-import builder.util.ClassUtil;
-import builder.util.StringUtil;
-import builder.util.TemplateUtil;
+import builder.util.ClassUtils;
+import builder.util.StringUtils;
+import builder.util.TemplateUtils;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -56,7 +56,7 @@ public class EntityBuilder extends Builder {
         //基础模版填充
         paddings.put("{package}",entity.getPackages());
         paddings.put("{Entity}",entity.getName());
-        paddings.put("{entity}",ClassUtil.nameToAttribute(entity.getName()));
+        paddings.put("{entity}", ClassUtils.nameToAttribute(entity.getName()));
         paddings.put("{description}",entity.getTableInfo().getDescription());
         //克隆模版填充
         Map<String, String> templateClones = template.getTemplateClones();
@@ -75,24 +75,24 @@ public class EntityBuilder extends Builder {
             cloneFieldPaddings.put("{filed}", field.getName());
             cloneFieldPaddings.put("{comment}", field.getColumnInfo().getDescription());
             String reference = field.getReference();
-            if(!ClassUtil.ignoreReference(reference)){ //引用是否需要导入
-                cloneImportsBuilder.append(TemplateUtil.paddingTemplate(cloneImportsTemplate,"{import}", reference));
+            if(!ClassUtils.ignoreReference(reference)){ //引用是否需要导入
+                cloneImportsBuilder.append(TemplateUtils.paddingTemplate(cloneImportsTemplate,"{import}", reference));
             }
             entityBuilders.forEach(value->{
                 value.setEntity(entity);
                 value.setIgnorePrimaryKey(isIgnorePrimaryKey);
                 value.fieldAdd(cloneFieldPaddings,field,cloneImportsBuilder);
             });
-            cloneFieldsBuilder.append(TemplateUtil.paddingTemplate(cloneFieldsTemplate,cloneFieldPaddings));
+            cloneFieldsBuilder.append(TemplateUtils.paddingTemplate(cloneFieldsTemplate,cloneFieldPaddings));
         }
-        paddings.put("{cloneFields}", StringUtil.clearLastSpan(cloneFieldsBuilder.toString()));
-        paddings.put("{cloneImports}",cloneImportsBuilder.length()==0?"":StringUtil.clearLastSpan(cloneImportsBuilder.toString()));
+        paddings.put("{cloneFields}", StringUtils.clearLastSpan(cloneFieldsBuilder.toString()));
+        paddings.put("{cloneImports}",cloneImportsBuilder.length()==0?"": StringUtils.clearLastSpan(cloneImportsBuilder.toString()));
         entityBuilders.forEach(value->{
             value.setEntity(entity);
             value.setIgnorePrimaryKey(isIgnorePrimaryKey);
             value.globalAdd(paddings);
         });
-        return TemplateUtil.paddingTemplate(template.getTemplate(),paddings);
+        return TemplateUtils.paddingTemplate(template.getTemplate(),paddings);
     }
 
     /**

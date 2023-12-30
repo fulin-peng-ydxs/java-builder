@@ -7,9 +7,9 @@ import builder.core.build.response.Responder;
 import builder.model.build.orm.Entity;
 import builder.model.build.web.Controller;
 import builder.model.build.web.service.Service;
-import builder.util.ClassUtil;
-import builder.util.CollectionUtil;
-import builder.util.StringUtil;
+import builder.util.ClassUtils;
+import builder.util.CollectionUtils;
+import builder.util.StringUtils;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -67,14 +67,14 @@ public class ControllerBuilderProcessor {
     }
 
     public void initBuildPath(){
-        executePath= StringUtil.isNotEmpty(executePath)?executePath:"java"+ File.separator+"controller";
+        executePath= StringUtils.isNotEmpty(executePath)?executePath:"java"+ File.separator+"controller";
     }
 
     public void initBuildResponder(){
         if(responder==null){
             responder=new FileResponder();
         }
-        if(StringUtil.isNotEmpty(rootPath))
+        if(StringUtils.isNotEmpty(rootPath))
             responder.setRootPath(rootPath);
     }
 
@@ -88,7 +88,7 @@ public class ControllerBuilderProcessor {
      * @author pengshuaifeng
      */
     public void build(){
-        if(CollectionUtil.isNotEmpty(controllers)){
+        if(CollectionUtils.isNotEmpty(controllers)){
             controllers.forEach(this::buildExecute);
         }else throw new RuntimeException("没有构建源");
     }
@@ -119,7 +119,7 @@ public class ControllerBuilderProcessor {
         controller.setDescription(entity.getName()+"控制器");
         controller.setEntity(entity);
         controller.setServiceImpl(serviceImpl);
-        String referencePath = ClassUtil.generateReferencePath(executePath);
+        String referencePath = ClassUtils.generateReferencePath(executePath);
         controller.setPackages(referencePath);
         controller.setReference(referencePath +"."+controller.getName());
         return controller;

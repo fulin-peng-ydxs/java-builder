@@ -3,7 +3,7 @@ package builder.core.build.builder.entity.base;
 
 import builder.core.build.builder.entity.EntityBuilder;
 import builder.model.build.orm.Field;
-import builder.util.TemplateUtil;
+import builder.util.TemplateUtils;
 
 import java.util.Map;
 
@@ -27,7 +27,7 @@ public class JSR303EntityBuilder extends EntityBuilder {
         if(!field.getColumnInfo().isNull()){
             cloneFieldPaddings.put("{JSR303}","@NotNull(message=\""+field.getColumnInfo().getDescription()+"不能为空\")");
             String cloneImports = template.getTemplateClones().get("cloneImports");
-            cloneImportsBuilder.append(TemplateUtil.paddingTemplate(cloneImports,"{import}","javax.validation.constraints.NotNull"));
+            cloneImportsBuilder.append(TemplateUtils.paddingTemplate(cloneImports,"{import}","javax.validation.constraints.NotNull"));
         }else{
             cloneFieldPaddings.put("{JSR303}","!empty!");
         }

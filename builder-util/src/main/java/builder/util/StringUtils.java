@@ -11,7 +11,7 @@ import java.util.List;
  * @author peng_fu_lin
  * 2022-09-08 16:23
  */
-public class StringUtil {
+public class StringUtils {
 
 
     /**是否为空
@@ -193,12 +193,12 @@ public class StringUtil {
      */
     public static String substring(String value,String start,String end,boolean isContain, boolean isStartIndex){
         //如果start&&end为空
-        if(StringUtil.isEmpty(start,true)&& StringUtil.isEmpty(end,true))
+        if(StringUtils.isEmpty(start,true)&& StringUtils.isEmpty(end,true))
             return null;
         //如果start||end为空
-        if(StringUtil.isEmpty(start,true)|| StringUtil.isEmpty(end,true)){
+        if(StringUtils.isEmpty(start,true)|| StringUtils.isEmpty(end,true)){
             int index;
-            if(StringUtil.isEmpty(start,true)){  //开始点为null
+            if(StringUtils.isEmpty(start,true)){  //开始点为null
                 index=subStringIndex(end,index(value, end, isStartIndex, isContain,false));
                 if(index<0) return null;
                 return value.substring(0,index);
@@ -306,7 +306,7 @@ public class StringUtil {
     */
     public static String fileToString(Reader reader, boolean isClearSpacing , boolean isClearBlankLines, String codeBr){
         List<String> fileToLines = fileToLines(reader, isClearSpacing, isClearBlankLines, codeBr);
-        if(CollectionUtil.isEmpty(fileToLines))
+        if(CollectionUtils.isEmpty(fileToLines))
             return null;
         StringBuilder builder = new StringBuilder();
         for (String fileToLine : fileToLines)
@@ -320,7 +320,7 @@ public class StringUtil {
      * @author pengshuaifeng
      */
     public static String listToString(List<String> fileToLines){
-        if(CollectionUtil.isEmpty(fileToLines))
+        if(CollectionUtils.isEmpty(fileToLines))
             return null;
         StringBuilder builder = new StringBuilder();
         for (String fileToLine : fileToLines)

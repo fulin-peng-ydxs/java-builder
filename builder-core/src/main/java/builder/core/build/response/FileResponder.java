@@ -1,8 +1,8 @@
 package builder.core.build.response;
 
 
-import builder.util.FileUtil;
-import builder.util.StringUtil;
+import builder.util.FileUtils;
+import builder.util.StringUtils;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
@@ -15,7 +15,7 @@ import java.nio.charset.StandardCharsets;
 public class FileResponder extends Responder{
 
     public FileResponder(){
-        rootPath = FileUtil.getSystemHomePath()+File.separator+"JavaBuilds";
+        rootPath = FileUtils.getSystemHomePath()+File.separator+"JavaBuilds";
     }
 
     public FileResponder(String rootPath){
@@ -35,14 +35,14 @@ public class FileResponder extends Responder{
         //TODO 替换成日志输出
         String outPath = path == null ? rootPath : pathSeparator(rootPath,path);
         System.out.println("输出文件："+outPath+"："+fileName);
-        FileUtil.flush(bytes,fileName, outPath);
+        FileUtils.flush(bytes,fileName, outPath);
     }
 
 
     public String pathSeparator(String rootPath,String path){
         String separator = File.separator;
         if(rootPath.endsWith(separator) && path.startsWith(separator))
-            return rootPath+ StringUtil.substring(path,separator,null,false,true);
+            return rootPath+ StringUtils.substring(path,separator,null,false,true);
         else if(!rootPath.endsWith(separator) && !path.startsWith(separator))
             return rootPath + File.separator + path;
         else return rootPath+path;

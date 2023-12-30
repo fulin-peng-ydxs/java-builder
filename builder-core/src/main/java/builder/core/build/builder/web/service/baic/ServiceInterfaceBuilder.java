@@ -6,8 +6,8 @@ import builder.core.build.builder.web.service.ServiceBuilderProcessor;
 import builder.model.build.web.service.Service;
 import builder.model.build.orm.Entity;
 import builder.model.build.orm.Field;
-import builder.util.StringUtil;
-import builder.util.TemplateUtil;
+import builder.util.StringUtils;
+import builder.util.TemplateUtils;
 
 import java.util.Map;
 /**
@@ -38,7 +38,7 @@ public class ServiceInterfaceBuilder extends Builder {
         //克隆模版填充
         String cloneImportsTemplate = template.getTemplateClones().get("cloneImports");
         basicPadding.put("{cloneImports}",//克隆模版内容构建
-                StringUtil.clearLastSpan(TemplateUtil.paddingTemplate(cloneImportsTemplate, "{import}", entity.getReference())));
-        return TemplateUtil.paddingTemplate(template.getTemplate(),basicPadding);
+                StringUtils.clearLastSpan(TemplateUtils.paddingTemplate(cloneImportsTemplate, "{import}", entity.getReference())));
+        return TemplateUtils.paddingTemplate(template.getTemplate(),basicPadding);
     }
 }

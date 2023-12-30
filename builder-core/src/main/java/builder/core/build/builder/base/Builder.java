@@ -2,7 +2,7 @@ package builder.core.build.builder.base;
 
 
 import builder.model.build.config.template.Template;
-import builder.util.TemplateUtil;
+import builder.util.TemplateUtils;
 import lombok.NoArgsConstructor;
 
 /**
@@ -20,12 +20,12 @@ public class Builder {
     }
 
     public static Template generateTemplate(String path){
-        return new Template(TemplateUtil.getTemplate(path),
-                TemplateUtil.getTemplates(path),TemplateUtil.getCloneTemplates(TemplateUtil.getCloneTemplatePath(path)));
+        return new Template(TemplateUtils.getTemplate(path),
+                TemplateUtils.getTemplates(path), TemplateUtils.getCloneTemplates(TemplateUtils.getCloneTemplatePath(path)));
     }
 
     public static Template generateTemplateIgnoreClone(String path){
-        return new Template(TemplateUtil.getTemplate(path),
-                TemplateUtil.getTemplates(path),null);
+        return new Template(TemplateUtils.getTemplate(path),
+                TemplateUtils.getTemplates(path),null);
     }
 }

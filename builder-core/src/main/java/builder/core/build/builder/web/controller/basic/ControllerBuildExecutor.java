@@ -5,9 +5,9 @@ import builder.model.build.orm.Entity;
 import builder.model.build.orm.Field;
 import builder.model.build.web.Controller;
 import builder.model.build.web.service.Service;
-import builder.util.ClassUtil;
-import builder.util.StringUtil;
-import builder.util.TemplateUtil;
+import builder.util.ClassUtils;
+import builder.util.StringUtils;
+import builder.util.TemplateUtils;
 import lombok.Getter;
 
 import java.util.HashMap;
@@ -57,13 +57,13 @@ public class ControllerBuildExecutor extends Builder {
         Service serviceInterface = controller.getServiceImpl().getServiceInterface();
         String cloneImportsTemplate = template.getTemplateClones().get("cloneImports");
         paddings.put("{cloneImports}",//克隆模版内容构建
-                StringUtil.clearLastSpan(TemplateUtil.paddingTemplate(cloneImportsTemplate, "{import}", entity.getReference()))+
-                StringUtil.clearLastSpan(TemplateUtil.paddingTemplate(cloneImportsTemplate, "{import}", serviceInterface.getReference()))
+                StringUtils.clearLastSpan(TemplateUtils.paddingTemplate(cloneImportsTemplate, "{import}", entity.getReference()))+
+                StringUtils.clearLastSpan(TemplateUtils.paddingTemplate(cloneImportsTemplate, "{import}", serviceInterface.getReference()))
         );
         controllerBuildExecutors.forEach(value->{
             value.globalAdd(paddings);
         });
-        return TemplateUtil.paddingTemplate(template.getTemplate(),paddings);
+        return TemplateUtils.paddingTemplate(template.getTemplate(),paddings);
     }
 
     /**
@@ -77,10 +77,10 @@ public class ControllerBuildExecutor extends Builder {
         paddings.put("{description}", controller.getDescription());
         Service serviceInterface = controller.getServiceImpl().getServiceInterface();
         paddings.put("{Service}", serviceInterface.getName());
-        paddings.put("{service}", ClassUtil.nameToAttribute(serviceInterface.getName()));
+        paddings.put("{service}", ClassUtils.nameToAttribute(serviceInterface.getName()));
         Entity entity = controller.getEntity();
         paddings.put("{Entity}", entity.getName());
-        paddings.put("{entity}",ClassUtil.nameToAttribute(entity.getName()));
+        paddings.put("{entity}", ClassUtils.nameToAttribute(entity.getName()));
         paddings.put("{entityDescription}",controller.getEntity().getTableInfo().getDescription());
         return paddings;
     }

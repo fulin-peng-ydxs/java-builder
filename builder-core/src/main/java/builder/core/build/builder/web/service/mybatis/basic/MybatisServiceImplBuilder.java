@@ -8,9 +8,9 @@ import builder.model.build.web.service.Service;
 import builder.model.build.orm.Entity;
 import builder.model.build.orm.Field;
 import builder.model.build.orm.mybatis.Mapper;
-import builder.util.ClassUtil;
-import builder.util.StringUtil;
-import builder.util.TemplateUtil;
+import builder.util.ClassUtils;
+import builder.util.StringUtils;
+import builder.util.TemplateUtils;
 
 import java.util.Map;
 
@@ -37,19 +37,19 @@ public class MybatisServiceImplBuilder extends ServiceImplBuilder {
         Mapper mapper = mybatisService.getMapper();
         Entity entity = serviceImpl.getEntity();
         paddings.put("{Mapper}", mapper.getName());
-        paddings.put("{mapper}", ClassUtil.nameToAttribute(mapper.getName()));
+        paddings.put("{mapper}", ClassUtils.nameToAttribute(mapper.getName()));
         paddings.put("{ServiceInterface}",mybatisService.getName());
         Field primaryField = entity.getPrimaryField();
         paddings.put("{PrimaryKeyField}",primaryField.getType().getSimpleName());
         paddings.put("{primaryKeyField}",primaryField.getName());
-        paddings.put("{primaryKeyFieldName}",ClassUtil.attributeToName(primaryField.getName()));
+        paddings.put("{primaryKeyFieldName}", ClassUtils.attributeToName(primaryField.getName()));
         //克隆模版填充
         String cloneImportsTemplate = template.getTemplateClones().get("cloneImports");   //获取克隆模版
         //克隆模版内容构建
-        String cloneImportsBuilder = TemplateUtil.paddingTemplate(cloneImportsTemplate, "{import}", mapper.getReference()) +
-                TemplateUtil.paddingTemplate(cloneImportsTemplate, "{import}", serviceImpl.getServiceInterface().getReference())+
-                TemplateUtil.paddingTemplate(cloneImportsTemplate, "{import}", entity.getReference());
-        paddings.put("{cloneImports}", StringUtil.clearLastSpan(cloneImportsBuilder));
-        return TemplateUtil.paddingTemplate(template.getTemplate(),paddings);
+        String cloneImportsBuilder = TemplateUtils.paddingTemplate(cloneImportsTemplate, "{import}", mapper.getReference()) +
+                TemplateUtils.paddingTemplate(cloneImportsTemplate, "{import}", serviceImpl.getServiceInterface().getReference())+
+                TemplateUtils.paddingTemplate(cloneImportsTemplate, "{import}", entity.getReference());
+        paddings.put("{cloneImports}", StringUtils.clearLastSpan(cloneImportsBuilder));
+        return TemplateUtils.paddingTemplate(template.getTemplate(),paddings);
     }
 }

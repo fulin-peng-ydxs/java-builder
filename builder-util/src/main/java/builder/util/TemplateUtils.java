@@ -14,7 +14,7 @@ import java.util.Objects;
  * @author peng_fu_lin
  * 2022-10-10 14:10
  */
-public class TemplateUtil {
+public class TemplateUtils {
 
     private static final Map<String,String> templateStringCache=new HashMap<>();
 
@@ -31,8 +31,8 @@ public class TemplateUtil {
         try {
             String template = templateStringCache.get(path);
             if(template==null){
-                template = StringUtil.listToString(getTemplates(path));
-                if(StringUtil.isNotEmpty(template))
+                template = StringUtils.listToString(getTemplates(path));
+                if(StringUtils.isNotEmpty(template))
                     templateStringCache.put(path,template);
             }
             return template;
@@ -53,12 +53,12 @@ public class TemplateUtil {
             if(lines==null){
                 InputStream stream;
                 if(!path.startsWith("file:"))
-                    stream = TemplateUtil.class.getResourceAsStream(path.replace("classpath:", ""));
+                    stream = TemplateUtils.class.getResourceAsStream(path.replace("classpath:", ""));
                 else
                     stream=new FileInputStream(path);
-                lines = StringUtil.fileToLines(new InputStreamReader(
+                lines = StringUtils.fileToLines(new InputStreamReader(
                         Objects.requireNonNull(stream)), false, false, "\n");
-                if(CollectionUtil.isNotEmpty(lines))
+                if(CollectionUtils.isNotEmpty(lines))
                     templateLineCache.put(path,lines);
             }
             return lines;
@@ -78,7 +78,7 @@ public class TemplateUtil {
             Map<String,String> cloneTemplate= templateCloneCache.get(path);
             if(cloneTemplate==null){
                 String template = getTemplate(path);
-                if (StringUtil.isNotEmpty(template)) {
+                if (StringUtils.isNotEmpty(template)) {
                     cloneTemplate = JsonUtils.getObject(template, Map.class);
                     templateCloneCache.put(path,cloneTemplate);
                 }
@@ -96,9 +96,9 @@ public class TemplateUtil {
      * @author pengshuaifeng
      */
     public static String getCloneTemplatePath(String path){
-        String templateFileName = StringUtil.substring(path, "/", null, false, false);
+        String templateFileName = StringUtils.substring(path, "/", null, false, false);
         return path.replace(templateFileName, "clone" + "/" +
-                StringUtil.substring(templateFileName, null, ".", false, false) + ".json");
+                StringUtils.substring(templateFileName, null, ".", false, false) + ".json");
     }
 
     /**

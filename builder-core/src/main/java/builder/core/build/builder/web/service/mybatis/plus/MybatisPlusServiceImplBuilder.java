@@ -5,8 +5,8 @@ import builder.core.build.builder.web.service.ServiceBuilderProcessor;
 import builder.core.build.builder.web.service.mybatis.basic.MybatisServiceImplBuilder;
 import builder.model.build.web.service.MybatisService;
 import builder.model.build.web.service.Service;
-import builder.util.StringUtil;
-import builder.util.TemplateUtil;
+import builder.util.StringUtils;
+import builder.util.TemplateUtils;
 import java.util.Map;
 /**
  * mybatis-plus服务实现构建器
@@ -34,11 +34,11 @@ public class MybatisPlusServiceImplBuilder extends MybatisServiceImplBuilder {
         //克隆模版填充
         String cloneImportsTemplate = template.getTemplateClones().get("cloneImports");   //获取克隆模版
         //克隆模版内容构建
-        String cloneImportsBuilder = TemplateUtil.paddingTemplate(cloneImportsTemplate, "{import}", mybatisService.getMapper().getReference()) +
-                TemplateUtil.paddingTemplate(cloneImportsTemplate, "{import}", serviceInterface.getReference())+
-                TemplateUtil.paddingTemplate(cloneImportsTemplate, "{import}", mybatisService.getEntity().getReference());
-        paddings.put("{cloneImports}", StringUtil.clearLastSpan(cloneImportsBuilder));
-        return TemplateUtil.paddingTemplate(template.getTemplate(),paddings);
+        String cloneImportsBuilder = TemplateUtils.paddingTemplate(cloneImportsTemplate, "{import}", mybatisService.getMapper().getReference()) +
+                TemplateUtils.paddingTemplate(cloneImportsTemplate, "{import}", serviceInterface.getReference())+
+                TemplateUtils.paddingTemplate(cloneImportsTemplate, "{import}", mybatisService.getEntity().getReference());
+        paddings.put("{cloneImports}", StringUtils.clearLastSpan(cloneImportsBuilder));
+        return TemplateUtils.paddingTemplate(template.getTemplate(),paddings);
     }
 }
 

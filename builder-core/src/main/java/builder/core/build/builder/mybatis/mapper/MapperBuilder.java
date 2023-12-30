@@ -6,9 +6,9 @@ import builder.model.build.orm.Entity;
 import builder.model.build.orm.Field;
 import builder.model.build.orm.mybatis.Mapper;
 import builder.model.resolve.database.ColumnInfo;
-import builder.util.ClassUtil;
-import builder.util.StringUtil;
-import builder.util.TemplateUtil;
+import builder.util.ClassUtils;
+import builder.util.StringUtils;
+import builder.util.TemplateUtils;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -49,11 +49,11 @@ public class MapperBuilder {
         paddings.put("{Mapper}",mapper.getName());
         paddings.put("{description}",mapper.getDescription());
         paddings.put("{Entity}",entity.getName());
-        paddings.put("{entity}", ClassUtil.nameToAttribute(entity.getName()));
+        paddings.put("{entity}", ClassUtils.nameToAttribute(entity.getName()));
         Field primaryField = entity.getPrimaryField();
         paddings.put("{PrimaryKeyField}",primaryField.getType().getSimpleName());
         paddings.put("{primaryKeyField}", primaryField.getName());
-        return TemplateUtil.paddingTemplate(mapperTemplate.getTemplate(),paddings);
+        return TemplateUtils.paddingTemplate(mapperTemplate.getTemplate(),paddings);
     }
 
     /**
@@ -92,24 +92,24 @@ public class MapperBuilder {
             String columnInfoName = columnInfo.getName();
             clonePaddings.put("{field}",fieldName);
             clonePaddings.put("{column}",columnInfoName);
-            insertColumns.append(TemplateUtil.paddingTemplate(cloneInsertColumnsTemplate,clonePaddings));
-            insertFields.append(TemplateUtil.paddingTemplate(cloneInsertFieldsTemplate,clonePaddings));
-            insertBatchFields.append(TemplateUtil.paddingTemplate(cloneInsertBatchFieldsTemplate,clonePaddings));
-            selectColumns.append(TemplateUtil.paddingTemplate(cloneSelectColumnsTemplate,clonePaddings));
-            whereColumns.append(TemplateUtil.paddingTemplate(cloneWhereColumnsTemplate,clonePaddings));
+            insertColumns.append(TemplateUtils.paddingTemplate(cloneInsertColumnsTemplate,clonePaddings));
+            insertFields.append(TemplateUtils.paddingTemplate(cloneInsertFieldsTemplate,clonePaddings));
+            insertBatchFields.append(TemplateUtils.paddingTemplate(cloneInsertBatchFieldsTemplate,clonePaddings));
+            selectColumns.append(TemplateUtils.paddingTemplate(cloneSelectColumnsTemplate,clonePaddings));
+            whereColumns.append(TemplateUtils.paddingTemplate(cloneWhereColumnsTemplate,clonePaddings));
             if(!field.getName().equals(primaryField.getName())){
-                updateColumns.append(TemplateUtil.paddingTemplate(cloneUpdateColumnsTemplate,clonePaddings));
-                results.append(TemplateUtil.paddingTemplate(cloneResultsTemplate,clonePaddings));
+                updateColumns.append(TemplateUtils.paddingTemplate(cloneUpdateColumnsTemplate,clonePaddings));
+                results.append(TemplateUtils.paddingTemplate(cloneResultsTemplate,clonePaddings));
             }
         }
-        paddings.put("{cloneInsertColumns}", StringUtil.substring(insertColumns.toString(),null,",",false,false));
-        paddings.put("{cloneInsertFields}",StringUtil.substring(insertFields.toString(),null,",",false,false));
-        paddings.put("{cloneInsertBatchFields}",StringUtil.substring(insertBatchFields.toString(),null,",",false,false));
-        paddings.put("{cloneSelectColumns}",StringUtil.substring(selectColumns.toString(),null,",",false,false));
-        paddings.put("{cloneWhereColumns}",StringUtil.clearLastSpan(whereColumns.toString()));
-        paddings.put("{cloneUpdateColumns}",StringUtil.clearLastSpan(updateColumns.toString()));
-        paddings.put("{cloneResults}",StringUtil.clearLastSpan(results.toString()));
-        return TemplateUtil.paddingTemplate(mapperXmlTemplate.getTemplate(),paddings);
+        paddings.put("{cloneInsertColumns}", StringUtils.substring(insertColumns.toString(),null,",",false,false));
+        paddings.put("{cloneInsertFields}", StringUtils.substring(insertFields.toString(),null,",",false,false));
+        paddings.put("{cloneInsertBatchFields}", StringUtils.substring(insertBatchFields.toString(),null,",",false,false));
+        paddings.put("{cloneSelectColumns}", StringUtils.substring(selectColumns.toString(),null,",",false,false));
+        paddings.put("{cloneWhereColumns}", StringUtils.clearLastSpan(whereColumns.toString()));
+        paddings.put("{cloneUpdateColumns}", StringUtils.clearLastSpan(updateColumns.toString()));
+        paddings.put("{cloneResults}", StringUtils.clearLastSpan(results.toString()));
+        return TemplateUtils.paddingTemplate(mapperXmlTemplate.getTemplate(),paddings);
     }
 
     /**

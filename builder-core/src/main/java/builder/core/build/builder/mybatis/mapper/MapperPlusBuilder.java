@@ -4,8 +4,8 @@ import builder.model.build.orm.Entity;
 import builder.model.build.orm.Field;
 import builder.model.build.orm.mybatis.Mapper;
 import builder.model.resolve.database.ColumnInfo;
-import builder.util.StringUtil;
-import builder.util.TemplateUtil;
+import builder.util.StringUtils;
+import builder.util.TemplateUtils;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -46,10 +46,10 @@ public class MapperPlusBuilder extends MapperBuilder{
             clonePaddings.put("{field}",fieldName);
             clonePaddings.put("{column}",columnInfoName);
             if(!field.getName().equals(primaryField.getName())){
-                results.append(TemplateUtil.paddingTemplate(cloneResultsTemplate,clonePaddings));
+                results.append(TemplateUtils.paddingTemplate(cloneResultsTemplate,clonePaddings));
             }
         }
-        paddings.put("{cloneResults}", StringUtil.clearLastSpan(results.toString()));
-        return TemplateUtil.paddingTemplate(mapperXmlTemplate.getTemplate(),paddings);
+        paddings.put("{cloneResults}", StringUtils.clearLastSpan(results.toString()));
+        return TemplateUtils.paddingTemplate(mapperXmlTemplate.getTemplate(),paddings);
     }
 }

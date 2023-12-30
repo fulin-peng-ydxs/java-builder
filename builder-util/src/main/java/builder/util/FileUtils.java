@@ -10,7 +10,7 @@ import java.io.FileOutputStream;
  * author: pengshuaifeng
  * 2023/8/31
  */
-public class FileUtil {
+public class FileUtils {
 
     /**
      *文件输出

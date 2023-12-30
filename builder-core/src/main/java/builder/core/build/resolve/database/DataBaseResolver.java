@@ -6,7 +6,7 @@ import builder.model.resolve.database.TableInfo;
 import builder.model.resolve.database.jdbc.BaseInfo;
 import builder.model.resolve.database.jdbc.ConnectionInfo;
 import builder.model.resolve.database.jdbc.SQL;
-import builder.util.StringUtil;
+import builder.util.StringUtils;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -150,7 +150,7 @@ public class DataBaseResolver {
             boolean isNull= ColumnMapper.mapperNullType(resultSet.getString("isNull"));
             boolean isPrimaryKey = ColumnMapper.mapperPrimaryKey(resultSet.getString("isPrimaryKey"));
             columnInfo.setLength(length);
-            columnInfo.setDescription(StringUtil.isNotEmpty(comment)?comment:fieldName);
+            columnInfo.setDescription(StringUtils.isNotEmpty(comment)?comment:fieldName);
             columnInfo.setNull(isNull);
             columnInfo.setPrimaryKey(isPrimaryKey);
             return columnInfo;

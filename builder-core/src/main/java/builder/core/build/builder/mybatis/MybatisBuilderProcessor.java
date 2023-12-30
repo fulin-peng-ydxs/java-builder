@@ -11,8 +11,8 @@ import builder.model.build.orm.Entity;
 import builder.model.build.orm.mybatis.Mapper;
 import builder.model.resolve.database.TableInfo;
 import builder.model.resolve.database.jdbc.ConnectionInfo;
-import builder.util.ClassUtil;
-import builder.util.StringUtil;
+import builder.util.ClassUtils;
+import builder.util.StringUtils;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -90,9 +90,9 @@ public class MybatisBuilderProcessor {
     }
 
     public void initBuildPath(){
-        entityPath=StringUtil.isNotEmpty(entityPath)?entityPath:"java"+ File.separator+"entity";
-        mapperPath=StringUtil.isNotEmpty(mapperPath)?mapperPath:"java"+File.separator+"mapper";
-        mapperXmlPath=StringUtil.isNotEmpty(mapperXmlPath)?mapperXmlPath:"resource"+File.separator+"mapper";
+        entityPath= StringUtils.isNotEmpty(entityPath)?entityPath:"java"+ File.separator+"entity";
+        mapperPath= StringUtils.isNotEmpty(mapperPath)?mapperPath:"java"+File.separator+"mapper";
+        mapperXmlPath= StringUtils.isNotEmpty(mapperXmlPath)?mapperXmlPath:"resource"+File.separator+"mapper";
     }
 
     public void initBuilder(){
@@ -105,7 +105,7 @@ public class MybatisBuilderProcessor {
         if(responder==null){
             responder=new FileResponder();
         }
-        if(StringUtil.isNotEmpty(rootPath))
+        if(StringUtils.isNotEmpty(rootPath))
             responder.setRootPath(rootPath);
     }
 
@@ -227,7 +227,7 @@ public class MybatisBuilderProcessor {
         Mapper mapper = new Mapper();
         mapper.setName(entity.getName()+"Mapper");
         mapper.setEntity(entity);
-        String referencePath = ClassUtil.generateReferencePath(path);
+        String referencePath = ClassUtils.generateReferencePath(path);
         mapper.setReference(referencePath +"."+mapper.getName());
         mapper.setPackages(referencePath);
         mapper.setDescription(entity.getName()+"映射器");

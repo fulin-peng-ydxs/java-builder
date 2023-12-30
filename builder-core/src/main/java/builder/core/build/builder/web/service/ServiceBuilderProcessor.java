@@ -7,9 +7,9 @@ import builder.core.build.response.Responder;
 import builder.model.build.config.template.Template;
 import builder.model.build.web.service.Service;
 import builder.model.build.orm.Entity;
-import builder.util.ClassUtil;
-import builder.util.CollectionUtil;
-import builder.util.StringUtil;
+import builder.util.ClassUtils;
+import builder.util.CollectionUtils;
+import builder.util.StringUtils;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -74,15 +74,15 @@ public class ServiceBuilderProcessor {
     }
 
     public void initBuildPath(){
-        serviceInterfacePath=StringUtil.isNotEmpty(serviceInterfacePath)?serviceInterfacePath:"java"+File.separator+"service";
-        serviceImplPath=StringUtil.isNotEmpty(serviceImplPath)?serviceImplPath:"java"+ File.separator+"service"+File.separator+"impl";
+        serviceInterfacePath= StringUtils.isNotEmpty(serviceInterfacePath)?serviceInterfacePath:"java"+File.separator+"service";
+        serviceImplPath= StringUtils.isNotEmpty(serviceImplPath)?serviceImplPath:"java"+ File.separator+"service"+File.separator+"impl";
     }
 
     public void initBuildResponder(){
         if(responder==null){
             responder=new FileResponder();
         }
-        if(StringUtil.isNotEmpty(rootPath))
+        if(StringUtils.isNotEmpty(rootPath))
             responder.setRootPath(rootPath);
     }
 
@@ -97,7 +97,7 @@ public class ServiceBuilderProcessor {
      * @author pengshuaifeng
      */
     public void build(){
-        if(CollectionUtil.isNotEmpty(serviceImpls)  && CollectionUtil.isNotEmpty(serviceInterfaces)){
+        if(CollectionUtils.isNotEmpty(serviceImpls)  && CollectionUtils.isNotEmpty(serviceInterfaces)){
             serviceImpls.forEach(this::buildServiceImpl);
             serviceInterfaces.forEach(this::buildServiceInterface);
         }else throw new RuntimeException("没有构建源");
@@ -142,7 +142,7 @@ public class ServiceBuilderProcessor {
         Service service = new Service();
         service.setName(entity.getName()+"Service");
         service.setDescription(entity.getName()+"服务");
-        return generateBaseService(service,ClassUtil.generateReferencePath(serviceInterfacePath),entity);
+        return generateBaseService(service, ClassUtils.generateReferencePath(serviceInterfacePath),entity);
     }
     
     /**
@@ -155,7 +155,7 @@ public class ServiceBuilderProcessor {
         service.setName(entity.getName()+"ServiceImpl");
         service.setDescription(entity.getName()+"服务实现");
         service.setServiceInterface(serviceInterface);
-        return generateBaseService(service,ClassUtil.generateReferencePath(serviceImplPath),entity);
+        return generateBaseService(service, ClassUtils.generateReferencePath(serviceImplPath),entity);
     }
 
     private Service generateBaseService(Service service,String referencePath,Entity entity){
@@ -177,7 +177,7 @@ public class ServiceBuilderProcessor {
         paddings.put("{Service}", service.getName());
         Entity entity = service.getEntity();
         paddings.put("{Entity}", entity.getName());
-        paddings.put("{entity}",ClassUtil.nameToAttribute(entity.getName()));
+        paddings.put("{entity}", ClassUtils.nameToAttribute(entity.getName()));
         return paddings;
     }
 }

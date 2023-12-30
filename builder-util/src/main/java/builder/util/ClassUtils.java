@@ -13,7 +13,7 @@ import java.util.List;
  * @author peng_fu_lin
  * 2022-09-07 15:17
  */
-public class ClassUtil {
+public class ClassUtils {
 
     /**获取泛型
      * 2022/9/7 0007-15:17
@@ -56,7 +56,7 @@ public class ClassUtil {
             split[i]= lowerCase.substring(0,1).toUpperCase()+lowerCase.substring(1);
             builder.append(split[i]);
         }
-        return StringUtil.builderToString(builder);
+        return StringUtils.builderToString(builder);
     }
 
     /**
@@ -92,11 +92,11 @@ public class ClassUtil {
     public static String generateReferencePath(String path){
         //如果以java开头，则需要移除
         if(path.startsWith(File.separator+"java")){
-            path=StringUtil.substring(path,File.separator+"java",true);
+            path= StringUtils.substring(path,File.separator+"java",true);
         }else if(path.startsWith("java")){
-            path=StringUtil.substring(path,"java",true);;
+            path= StringUtils.substring(path,"java",true);;
         }
-        path=StringUtil.clearChar(path,File.separator.toCharArray()[0],true);
+        path= StringUtils.clearChar(path,File.separator.toCharArray()[0],true);
         return path.replace(File.separator, ".");
     }
 
