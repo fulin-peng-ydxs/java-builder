@@ -4,7 +4,6 @@ package builder.core.build.response;
 import builder.util.FileUtil;
 import builder.util.StringUtil;
 
-import javax.swing.filechooser.FileSystemView;
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 
@@ -16,8 +15,7 @@ import java.nio.charset.StandardCharsets;
 public class FileResponder extends Responder{
 
     public FileResponder(){
-        File desktopDir = FileSystemView.getFileSystemView() .getHomeDirectory();
-        rootPath = desktopDir.getAbsolutePath()+File.separator+"JavaBuilds";
+        rootPath = FileUtil.getSystemHomePath()+File.separator+"JavaBuilds";
     }
 
     public FileResponder(String rootPath){

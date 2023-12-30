@@ -1,6 +1,7 @@
 package builder.util;
 
 
+import javax.swing.filechooser.FileSystemView;
 import java.io.File;
 import java.io.FileOutputStream;
 
@@ -53,4 +54,13 @@ public class FileUtil {
         return file;
     }
 
+    /**
+     * 获取系统当前用户目录路径
+     * 2023/12/30 13:37
+     * @author pengshuaifeng
+     */
+    public static String getSystemHomePath(){
+        File homeDirectory = FileSystemView.getFileSystemView() .getHomeDirectory();
+        return homeDirectory.getAbsolutePath();
+    }
 }
