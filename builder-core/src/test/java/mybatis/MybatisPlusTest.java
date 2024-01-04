@@ -3,7 +3,7 @@ package mybatis;
 import builder.core.build.builder.mybatis.MybatisBuilderProcessor;
 import builder.core.build.builder.mybatis.plus.MybatisPlusBuilderProcessor;
 import builder.model.build.config.content.MybatisContent;
-import builder.model.resolve.database.jdbc.BaseInfo;
+import builder.model.resolve.database.jdbc.DataBaseInfo;
 import builder.model.resolve.database.jdbc.ConnectionInfo;
 import com.mysql.jdbc.Driver;
 import org.junit.After;
@@ -30,7 +30,7 @@ public class MybatisPlusTest{
                 .userName("root")
                 .password("root")
                 .DriverClass(Driver.class)
-                .baseInfo(new BaseInfo("jpa", Collections.singletonList("user"))).build();
+                .dataBaseInfo(new DataBaseInfo("jpa", Collections.singletonList("user"))).build();
         //设置构建模式：一般选择全部ALL（构建实体、映射器和xml）或ENTITY（仅构建实体）
         mybatisContent = MybatisContent.ALL;
     }

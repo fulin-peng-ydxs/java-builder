@@ -3,7 +3,7 @@ package builder.core.build.resolve.database;
 import builder.core.build.resolve.database.mapper.ColumnMapper;
 import builder.model.resolve.database.ColumnInfo;
 import builder.model.resolve.database.TableInfo;
-import builder.model.resolve.database.jdbc.BaseInfo;
+import builder.model.resolve.database.jdbc.DataBaseInfo;
 import builder.model.resolve.database.jdbc.ConnectionInfo;
 import builder.model.resolve.database.jdbc.SQL;
 import builder.util.StringUtils;
@@ -34,8 +34,8 @@ public class DataBaseResolver {
      */
     public List<TableInfo> getTableInfos(ConnectionInfo connectionInfo){
         try {
-            BaseInfo baseInfo = connectionInfo.getBaseInfo();
-            List<TableInfo> tableInfos = resultSetsConvertTables(baseInfo.getTableNames(), baseInfo.getDataBaseName(),
+            DataBaseInfo dataBaseInfo = connectionInfo.getDataBaseInfo();
+            List<TableInfo> tableInfos = resultSetsConvertTables(dataBaseInfo.getTableNames(), dataBaseInfo.getDataBaseName(),
                     SQL.getSQL(connectionInfo.getUrl()), getConnection(connectionInfo));
             if(tableInfos.isEmpty())
                 throw new RuntimeException("未获取到数据表："+connectionInfo);

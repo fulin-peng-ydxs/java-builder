@@ -5,7 +5,7 @@ import builder.core.build.builder.common.GeneralMybatisBuilderCommon;
 import builder.model.build.config.BuildGlobalConfig;
 import builder.model.build.config.content.MybatisContent;
 import builder.model.build.config.content.WebContent;
-import builder.model.resolve.database.jdbc.BaseInfo;
+import builder.model.resolve.database.jdbc.DataBaseInfo;
 import builder.model.resolve.database.jdbc.ConnectionInfo;
 import com.mysql.jdbc.Driver;
 import org.junit.Before;
@@ -29,7 +29,7 @@ public class MybatisCommonTest {
                 .userName("root")
                 .password("root")
                 .DriverClass(Driver.class)
-                .baseInfo(new BaseInfo("jpa", Collections.singletonList("user"))).build();
+                .dataBaseInfo(new DataBaseInfo("jpa", Collections.singletonList("user"))).build();
         //设置全局构建信息
         BuildGlobalConfig.templateCreateInfo
                 .setUserName("fulin-peng"); //创建用户

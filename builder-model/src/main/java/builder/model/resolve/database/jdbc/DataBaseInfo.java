@@ -13,7 +13,7 @@ import java.util.List;
  */
 @Data
 @AllArgsConstructor
-public class BaseInfo {
+public class DataBaseInfo {
     /** 数据库名*/
     private String dataBaseName;
     /** 数据表名*/

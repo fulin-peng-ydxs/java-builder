@@ -5,7 +5,7 @@ import builder.core.build.builder.web.service.mybatis.MybatisServiceBuilderProce
 import builder.core.build.builder.mybatis.MybatisBuilderProcessor;
 import builder.core.build.builder.mybatis.plus.MybatisPlusBuilderProcessor;
 import builder.model.build.config.BuildGlobalConfig;
-import builder.model.resolve.database.jdbc.BaseInfo;
+import builder.model.resolve.database.jdbc.DataBaseInfo;
 import builder.model.resolve.database.jdbc.ConnectionInfo;
 import com.mysql.jdbc.Driver;
 import org.junit.Before;
@@ -29,12 +29,12 @@ public class GZZNMybatisModel {
     public void before(){
         //设置数据库信息
         connectionInfo=ConnectionInfo.builder()
-                .url("jdbc:mysql://130.120.3.158:3306/gxts?useSSL=false&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&allowMultiQueries=true")
-                .userName("gxts")
-                .password("gxts")
+                .url("jdbc:mysql://10.100.100.95:3307/fullres?useSSL=false&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&allowMultiQueries=true")
+                .userName("fullres")
+                .password("fuLL@2023")
                 .DriverClass(Driver.class)
-//                .baseInfo(new BaseInfo("gxts", Collections.singletonList("process_notify_manage"))).build();
-                .baseInfo(new BaseInfo("gxts",
+//                .dataBaseInfo(new DataBaseInfo("gxts", Collections.singletonList("process_notify_manage"))).build();
+                .dataBaseInfo(new DataBaseInfo("fullres",
                         Arrays.asList("process_notify_business","process_notify_business_impl","process_notify_business_message"))).build();
         //设置全局构建信息
         BuildGlobalConfig.templateCreateInfo  //模版创建信息

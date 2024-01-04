@@ -8,7 +8,7 @@ import builder.core.build.builder.web.service.mybatis.MybatisServiceBuilderProce
 import builder.core.build.builder.mybatis.MybatisBuilderProcessor;
 import builder.core.build.builder.mybatis.plus.MybatisPlusBuilderProcessor;
 import builder.model.build.config.BuildGlobalConfig;
-import builder.model.resolve.database.jdbc.BaseInfo;
+import builder.model.resolve.database.jdbc.DataBaseInfo;
 import builder.model.resolve.database.jdbc.ConnectionInfo;
 import com.mysql.jdbc.Driver;
 import org.junit.After;
@@ -39,7 +39,7 @@ public class ControllerTest {
                 .userName("root")
                 .password("root")
                 .DriverClass(Driver.class)
-                .baseInfo(new BaseInfo("jpa", Collections.singletonList("user"))).build();
+                .dataBaseInfo(new DataBaseInfo("jpa", Collections.singletonList("user"))).build();
         //设置全局构建信息
         BuildGlobalConfig.templateCreateInfo  //模版创建信息
                 .setUserName("pengfulin"); //创建用户

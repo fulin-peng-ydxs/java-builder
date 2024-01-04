@@ -22,5 +22,5 @@ public class ConnectionInfo {
     /** 数据库用户密码*/
     private String password;
     //操作目标信息
-    private BaseInfo baseInfo;
+    private DataBaseInfo dataBaseInfo;
 }
