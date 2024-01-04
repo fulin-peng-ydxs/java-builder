@@ -4,13 +4,12 @@ import builder.core.build.builder.common.GeneralMybatisBuilderCommon;
 import builder.model.build.config.BuildGlobalConfig;
 import builder.model.build.config.content.MybatisContent;
 import builder.model.build.config.content.WebContent;
-import builder.model.resolve.database.jdbc.DataBaseInfo;
 import builder.model.resolve.database.jdbc.ConnectionInfo;
+import builder.model.resolve.database.jdbc.DataBaseInfo;
 import com.mysql.jdbc.Driver;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.Arrays;
+import java.util.Collections;
 
 /**
  * 通用的mybatis构建组件实战案例-广州智能
@@ -31,12 +30,12 @@ public class GZZNMybatisCommonModel {
 //                .password("gxts")
 //                .DriverClass(Driver.class)
 //                .dataBaseInfo(new DataBaseInfo("gxts", Arrays.asList("process_data_resource_obtain_impl"))).build();
-        ConnectionInfo connectionInfo = ConnectionInfo.builder()
-                .url("jdbc:mysql://130.120.2.219:3306/fullres_test_prod?useSSL=false&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&allowMultiQueries=true")
+        ConnectionInfo connectionInfo =ConnectionInfo.builder()
+                .url("jdbc:mysql://10.100.100.95:3307/fullres?useSSL=false&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&allowMultiQueries=true")
                 .userName("fullres")
-                .password("123456")
+                .password("fuLL@2023")
                 .DriverClass(Driver.class)
-                .dataBaseInfo(new DataBaseInfo("fullres_test_prod", Arrays.asList("resource_category_type"))).build();
+                .dataBaseInfo(new DataBaseInfo("fullres", Collections.singletonList("resource_info_error_log"))).build();
         //设置全局构建信息
         BuildGlobalConfig.templateCreateInfo
                 .setUserName("fulin-peng"); //创建用户
