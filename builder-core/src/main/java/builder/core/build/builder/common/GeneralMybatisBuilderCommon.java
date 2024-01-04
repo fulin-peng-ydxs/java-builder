@@ -21,12 +21,12 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * mybatis常用构建组件
+ * 通用的mybatis构建组件
  * author: pengshuaifeng
  * 2023/11/10
  */
 @Builder
-public class MybatisBuilderCommon {
+public class GeneralMybatisBuilderCommon {
 
     //连接对象
     private ConnectionInfo connectionInfo;

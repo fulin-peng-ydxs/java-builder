@@ -1,6 +1,6 @@
 package use;
 
-import builder.core.build.builder.common.MybatisBuilderCommon;
+import builder.core.build.builder.common.GeneralMybatisBuilderCommon;
 import builder.model.build.config.BuildGlobalConfig;
 import builder.model.build.config.content.MybatisContent;
 import builder.model.build.config.content.WebContent;
@@ -20,7 +20,7 @@ import java.util.Arrays;
  */
 public class UseGZZNMybatisCommonModel {
 
-    private MybatisBuilderCommon builderCommon;
+    private GeneralMybatisBuilderCommon builderCommon;
 
     @Before
     public void before(){
@@ -41,7 +41,7 @@ public class UseGZZNMybatisCommonModel {
         BuildGlobalConfig.templateCreateInfo
                 .setUserName("fulin-peng"); //创建用户
         //创建构建器
-        builderCommon=MybatisBuilderCommon.builder()
+        builderCommon= GeneralMybatisBuilderCommon.builder()
                 .connectionInfo(connectionInfo)
                 .rootPath("E:\\flowabletask-test\\flowable-task\\src\\main")
                 .servicePath("\\java\\com\\gzz\\gxts\\flowableTask\\service\\fullres")
