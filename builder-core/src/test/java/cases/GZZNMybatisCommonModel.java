@@ -1,4 +1,4 @@
-package use;
+package cases;
 
 import builder.core.build.builder.common.GeneralMybatisBuilderCommon;
 import builder.model.build.config.BuildGlobalConfig;
@@ -13,12 +13,12 @@ import org.junit.Test;
 import java.util.Arrays;
 
 /**
- * mybatis常用构建组件实战案例-广州智能
+ * 通用的mybatis构建组件实战案例-广州智能
  *
  * @author fulin-peng
  * 2023-11-01  14:37
  */
-public class UseGZZNMybatisCommonModel {
+public class GZZNMybatisCommonModel {
 
     private GeneralMybatisBuilderCommon builderCommon;
 

@@ -1,4 +1,4 @@
-package use;
+package cases;
 
 import builder.core.build.builder.web.service.ServiceBuilderProcessor;
 import builder.core.build.builder.web.service.mybatis.MybatisServiceBuilderProcessor;
@@ -18,7 +18,7 @@ import java.util.Arrays;
  * @author fulin-peng
  * 2023-11-01  14:37
  */
-public class UseGZZNMybatisModel {
+public class GZZNMybatisModel {
 
     private ConnectionInfo connectionInfo;
 
