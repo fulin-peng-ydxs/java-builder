@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.sql.*;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -54,7 +55,7 @@ public class DataBaseResolver {
      * 2023/9/3 12:55
      * @author pengshuaifeng
      */
-    public List<TableInfo>  resultSetsConvertTables(List<String> tableNames, String databaseName, SQL sql, Connection connection)
+    public List<TableInfo>  resultSetsConvertTables(Collection<String> tableNames, String databaseName, SQL sql, Connection connection)
             throws SQLException {
         String fieldSql=sql.fieldSql;
         String tableSQL=sql.tableSQL;

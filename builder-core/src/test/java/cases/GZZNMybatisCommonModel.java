@@ -6,10 +6,11 @@ import builder.model.build.config.content.MybatisContent;
 import builder.model.build.config.content.WebContent;
 import builder.model.resolve.database.jdbc.ConnectionInfo;
 import builder.model.resolve.database.jdbc.DataBaseInfo;
-import com.mysql.jdbc.Driver;
 import org.junit.Before;
 import org.junit.Test;
-import java.util.Collections;
+
+import java.util.Arrays;
+import java.util.Properties;
 
 /**
  * 通用的mybatis构建组件实战案例-广州智能
@@ -22,32 +23,28 @@ public class GZZNMybatisCommonModel {
     private GeneralMybatisBuilderCommon builderCommon;
 
     @Before
-    public void before(){
-//        //设置数据库信息
-//        ConnectionInfo connectionInfo = ConnectionInfo.builder()
-//                .url("jdbc:mysql://130.120.3.158:3306/gxts?useSSL=false&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&allowMultiQueries=true")
-//                .userName("gxts")
-//                .password("gxts")
-//                .DriverClass(Driver.class)
-//                .dataBaseInfo(new DataBaseInfo("gxts", Arrays.asList("process_data_resource_obtain_impl"))).build();
+    public void before() throws Exception {
+        //设置数据库信息
+        Properties properties = new Properties();
+        properties.load(GZZNMybatisCommonModel.class.getResourceAsStream("/BuilderConfig.properties"));
         ConnectionInfo connectionInfo =ConnectionInfo.builder()
-                .url("jdbc:mysql://10.100.100.95:3307/fullres?useSSL=false&useUnicode=true&characterEncoding=utf-8&autoReconnect=true&allowMultiQueries=true")
-                .userName("fullres")
-                .password("fuLL@2023")
-                .DriverClass(Driver.class)
-                .dataBaseInfo(new DataBaseInfo("fullres", Collections.singletonList("resource_info_error_log"))).build();
+                .url(properties.get("jdbc.url").toString())
+                .userName(properties.get("jdbc.userName").toString())
+                .password(properties.get("jdbc.password").toString())
+                .DriverClass((Class<? extends java.sql.Driver>) Class.forName(properties.get("jdbc.driverClass").toString()))
+                .dataBaseInfo(new DataBaseInfo(properties.get("jdbc.dataBase.name").toString(), Arrays.asList(properties.get("jdbc.dataBase.tables").toString().split(",")))).build();
         //设置全局构建信息
         BuildGlobalConfig.templateCreateInfo
                 .setUserName("fulin-peng"); //创建用户
         //创建构建器
         builderCommon= GeneralMybatisBuilderCommon.builder()
                 .connectionInfo(connectionInfo)
-                .rootPath("E:\\flowabletask-test\\flowable-task\\src\\main")
-                .servicePath("\\java\\com\\gzz\\gxts\\flowableTask\\service\\fullres")
-                .serviceImplPath("\\java\\com\\gzz\\gxts\\flowableTask\\service\\fullres\\impl")
-                .entityPath("\\java\\com\\gzz\\gxts\\flowableTask\\business\\model\\fullres")
-                .mapperPath("\\java\\com\\gzz\\gxts\\flowableTask\\mapper\\fullres")
-                .mapperXmlPath("\\resources\\business\\mapping-fullres")
+                .rootPath(properties.get("path.rootPath").toString())
+                .servicePath(properties.get("path.servicePath").toString())
+                .serviceImplPath(properties.get("path.serviceImplPath").toString())
+                .entityPath(properties.get("path.entityPath").toString())
+                .mapperPath(properties.get("path.mapperPath").toString())
+                .mapperXmlPath(properties.get("path.mapperXmlPath").toString())
                 .build();
     }
 

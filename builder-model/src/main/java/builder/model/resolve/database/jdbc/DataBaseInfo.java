@@ -3,8 +3,7 @@ package builder.model.resolve.database.jdbc;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-
-import java.util.List;
+import java.util.Collection;
 
 /**
  * jdbc解析对象
@@ -17,5 +16,5 @@ public class DataBaseInfo {
     /** 数据库名*/
     private String dataBaseName;
     /** 数据表名*/
-    private List<String> tableNames;
+    private Collection<String> tableNames;
 }
