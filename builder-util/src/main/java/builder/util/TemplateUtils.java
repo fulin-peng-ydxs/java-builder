@@ -16,6 +16,8 @@ import java.util.Objects;
  */
 public class TemplateUtils {
 
+    public static final String templateNullValue="!empty!";
+
     private static final Map<String,String> templateStringCache=new HashMap<>();
 
     private static final Map<String,List<String>> templateLineCache=new HashMap<>();
@@ -111,13 +113,13 @@ public class TemplateUtils {
     public static String paddingTemplate(String template,Map<String,String> paddingValues){
         paddingCreateInfo(paddingValues);
         for (Map.Entry<String, String> padding : paddingValues.entrySet()) {
-            template=template.replace(padding.getKey(),padding.getValue());
+            template=template.replace(padding.getKey(),StringUtils.clearLastSpan(padding.getValue()));
         }
-        if (template.contains("!empty!")){
+        if (template.contains(templateNullValue)){
             String[] templates = template.split("\n");
             StringBuilder builder = new StringBuilder();
             for (String temp : templates) {
-                if (temp.contains("!empty!"))
+                if (temp.contains(templateNullValue))
                     continue;
                 builder.append(temp).append("\n");
             }

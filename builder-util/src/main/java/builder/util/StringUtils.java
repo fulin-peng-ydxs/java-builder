@@ -1,7 +1,6 @@
 package builder.util;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.Reader;
 import java.util.LinkedList;
 import java.util.List;
@@ -105,9 +104,9 @@ public class StringUtils {
      */
     public static String clearChar(String value,char charValue,boolean fromHead){
         if (fromHead && value.charAt(0)==charValue) {
-            return clearChar(value, File.separatorChar, ClearCharType.START, 1);
+            return clearChar(value, charValue, ClearCharType.START, 1);
         }else if(!fromHead && value.charAt(value.length()-1)==charValue){
-            return clearChar(value, File.separatorChar, ClearCharType.END, 1);
+            return clearChar(value,charValue, ClearCharType.END, 1);
         }
         return value;
     }

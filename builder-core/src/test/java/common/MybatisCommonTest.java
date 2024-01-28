@@ -33,6 +33,10 @@ public class MybatisCommonTest {
         //设置全局构建信息
         BuildGlobalConfig.templateCreateInfo
                 .setUserName("fulin-peng"); //创建用户
+        BuildGlobalConfig.templateSuffix="Suffix"; //模板后缀
+        BuildGlobalConfig.templatePrefix="Prefix"; //模版前缀
+//        BuildGlobalConfig.templateEntity.setJsr303Enable(false);  //不要开启jsr
+//        BuildGlobalConfig.templateEntity.setSwaggerEnable(false);  //不要开启swagger
         //创建构建器
         builderCommon= GeneralMybatisBuilderCommon.builder()
                 .connectionInfo(connectionInfo)

@@ -3,13 +3,12 @@ package builder.core.build.builder.web.service.mybatis.basic;
 
 import builder.core.build.builder.web.service.ServiceBuilderProcessor;
 import builder.core.build.builder.web.service.baic.ServiceImplBuilder;
-import builder.model.build.web.service.MybatisService;
-import builder.model.build.web.service.Service;
 import builder.model.build.orm.Entity;
 import builder.model.build.orm.Field;
 import builder.model.build.orm.mybatis.Mapper;
+import builder.model.build.web.service.MybatisService;
+import builder.model.build.web.service.Service;
 import builder.util.ClassUtils;
-import builder.util.StringUtils;
 import builder.util.TemplateUtils;
 
 import java.util.Map;
@@ -27,6 +26,10 @@ public class MybatisServiceImplBuilder extends ServiceImplBuilder {
 
     public MybatisServiceImplBuilder(String templatePath){
         super(templatePath);
+    }
+
+    public MybatisServiceImplBuilder(String templatePath,String templateClonePath){
+        super(templatePath,templateClonePath);
     }
 
     @Override
@@ -49,7 +52,7 @@ public class MybatisServiceImplBuilder extends ServiceImplBuilder {
         String cloneImportsBuilder = TemplateUtils.paddingTemplate(cloneImportsTemplate, "{import}", mapper.getReference()) +
                 TemplateUtils.paddingTemplate(cloneImportsTemplate, "{import}", serviceImpl.getServiceInterface().getReference())+
                 TemplateUtils.paddingTemplate(cloneImportsTemplate, "{import}", entity.getReference());
-        paddings.put("{cloneImports}", StringUtils.clearLastSpan(cloneImportsBuilder));
+        paddings.put("{cloneImports}", cloneImportsBuilder);
         return TemplateUtils.paddingTemplate(template.getTemplate(),paddings);
     }
 }

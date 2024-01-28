@@ -1,0 +1,5 @@
+{
+    "cloneFields": "     //{comment}\n{Annotations}\n    private {fieldType} {filed};\n",
+    "cloneFieldAnnotations": "    {Annotation}\n",
+    "cloneImports": "import {import};\n"
+}

@@ -6,7 +6,6 @@ import builder.model.build.orm.Field;
 import builder.model.build.web.Controller;
 import builder.model.build.web.service.Service;
 import builder.util.ClassUtils;
-import builder.util.StringUtils;
 import builder.util.TemplateUtils;
 import lombok.Getter;
 
@@ -23,24 +22,33 @@ import java.util.Map;
 @Getter
 public class ControllerBuildExecutor extends Builder {
 
-    private List<ControllerBuildExecutor> controllerBuildExecutors=new LinkedList<>();
+    private final List<ControllerBuildExecutor> controllerBuildExecutors;
 
     public ControllerBuildExecutor(){
         this("/template/web/controller/ControllerTemplate.txt");
     };
 
     public ControllerBuildExecutor(String templatePath){
-        super(templatePath);
+        this(templatePath,new LinkedList<>());
     }
 
-    public ControllerBuildExecutor(String templatePath,List<ControllerBuildExecutor> controllerBuildExecutors){
-        super(templatePath);
-        this.controllerBuildExecutors=controllerBuildExecutors;
+    public ControllerBuildExecutor(String templatePath,String cloneTemplatePath){
+        this(templatePath,cloneTemplatePath,new LinkedList<>());
     }
 
     public ControllerBuildExecutor(List<ControllerBuildExecutor> controllerBuildExecutors){
+       this("/template/web/controller/ControllerTemplate.txt",controllerBuildExecutors);
+    }
+
+    public ControllerBuildExecutor(String templatePath,List<ControllerBuildExecutor> controllerBuildExecutors){
+        this(templatePath,"/template/web/controller/ControllerTemplate.txt",controllerBuildExecutors);
+    }
+
+    public ControllerBuildExecutor(String templatePath,String cloneTemplatePath, List<ControllerBuildExecutor> controllerBuildExecutors){
+        super(templatePath,cloneTemplatePath);
         this.controllerBuildExecutors=controllerBuildExecutors;
     }
+
 
     /**
      * 构建控制器
@@ -57,8 +65,7 @@ public class ControllerBuildExecutor extends Builder {
         Service serviceInterface = controller.getServiceImpl().getServiceInterface();
         String cloneImportsTemplate = template.getTemplateClones().get("cloneImports");
         paddings.put("{cloneImports}",//克隆模版内容构建
-                StringUtils.clearLastSpan(TemplateUtils.paddingTemplate(cloneImportsTemplate, "{import}", entity.getReference()))+
-                StringUtils.clearLastSpan(TemplateUtils.paddingTemplate(cloneImportsTemplate, "{import}", serviceInterface.getReference()))
+                TemplateUtils.paddingTemplate(cloneImportsTemplate, "{import}", entity.getReference())+TemplateUtils.paddingTemplate(cloneImportsTemplate, "{import}", serviceInterface.getReference())
         );
         controllerBuildExecutors.forEach(value->{
             value.globalAdd(paddings);

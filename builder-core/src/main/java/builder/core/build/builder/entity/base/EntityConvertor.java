@@ -1,6 +1,7 @@
 package builder.core.build.builder.entity.base;
 
 
+import builder.model.build.config.BuildGlobalConfig;
 import builder.model.build.config.enums.ClassStructure;
 import builder.model.build.orm.Entity;
 import builder.model.build.orm.Field;
@@ -25,7 +26,8 @@ public class EntityConvertor {
      */
     public static Entity convertEntity(TableInfo tableInfo, String path){
         Entity entity = new Entity();
-        entity.setName(ClassUtils.generateStructureName(tableInfo.getName(),"_", ClassStructure.NAME));
+        entity.setName(BuildGlobalConfig.templatePrefix +ClassUtils.generateStructureName(tableInfo.getName(),
+                        "_", ClassStructure.NAME)+BuildGlobalConfig.templatePrefix);
         String referencePath = ClassUtils.generateReferencePath(path);
         entity.setReference(referencePath +"."+entity.getName());
         entity.setPackages(referencePath);

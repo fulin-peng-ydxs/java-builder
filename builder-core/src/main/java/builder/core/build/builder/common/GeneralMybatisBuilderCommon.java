@@ -76,7 +76,7 @@ public class GeneralMybatisBuilderCommon {
     }
 
     private MybatisBuilderProcessor getMybatisBuilderProcessor(String templatePath){
-        EntityBuilder entityBuilder = new EntityBuilder(templatePath,
+        EntityBuilder entityBuilder = new EntityBuilder(templatePath,"/template/basic/AnnotationEntityTemplate.txt",
                 Stream.of(new SwaggerEntityBuilder(), new JSR303EntityBuilder()).collect(Collectors.toList()));
         return MybatisBuilderProcessor.builder()
                 .connectionInfo(connectionInfo)

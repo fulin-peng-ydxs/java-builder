@@ -12,16 +12,16 @@ public class MybatisPlusEntityBuilder extends EntityBuilder {
 
 
     public MybatisPlusEntityBuilder(){
-        this("/template/basic/MybatisPlusEntityTemplate.txt");
+        this("/template/basic/MybatisPlusEntityTemplate.txt","/template/basic/EntityTemplate.txt");
     }
 
-    public MybatisPlusEntityBuilder(String templatePath){
-        super(templatePath);
+    public MybatisPlusEntityBuilder(String templatePath,String cloneTemplatePath){
+        super(templatePath,cloneTemplatePath);
         super.isIgnorePrimaryKey=true;
     }
 
     @Override
-    protected void globalAdd(Map<String, String> paddings) {
+    protected void globalAddExt(Map<String, String> paddings) {
         //处理表名
         paddings.put("{tableName}",entity.getTableInfo().getName());
         //处理主键

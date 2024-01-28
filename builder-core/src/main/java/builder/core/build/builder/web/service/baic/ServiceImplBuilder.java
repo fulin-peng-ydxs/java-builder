@@ -11,10 +11,16 @@ import builder.model.build.web.service.Service;
  */
 public class ServiceImplBuilder extends Builder {
 
-    public ServiceImplBuilder(){};
+    public ServiceImplBuilder(){
+
+
+    };
 
     public ServiceImplBuilder(String templatePath){
-        super(templatePath);
+        this(templatePath,"/template/web/service/ServiceInterfaceTemplate.txt");
+    }
+    public ServiceImplBuilder(String templatePath,String templateClonePath){
+        super(templatePath,templateClonePath);
     }
 
     /**

@@ -106,9 +106,9 @@ public class MapperBuilder {
         paddings.put("{cloneInsertFields}", StringUtils.substring(insertFields.toString(),null,",",false,false));
         paddings.put("{cloneInsertBatchFields}", StringUtils.substring(insertBatchFields.toString(),null,",",false,false));
         paddings.put("{cloneSelectColumns}", StringUtils.substring(selectColumns.toString(),null,",",false,false));
-        paddings.put("{cloneWhereColumns}", StringUtils.clearLastSpan(whereColumns.toString()));
-        paddings.put("{cloneUpdateColumns}", StringUtils.clearLastSpan(updateColumns.toString()));
-        paddings.put("{cloneResults}", StringUtils.clearLastSpan(results.toString()));
+        paddings.put("{cloneWhereColumns}", whereColumns.toString());
+        paddings.put("{cloneUpdateColumns}", updateColumns.toString());
+        paddings.put("{cloneResults}", results.toString());
         return TemplateUtils.paddingTemplate(mapperXmlTemplate.getTemplate(),paddings);
     }
 

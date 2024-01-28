@@ -5,8 +5,8 @@ import builder.core.build.builder.web.service.ServiceBuilderProcessor;
 import builder.core.build.builder.web.service.mybatis.basic.MybatisServiceImplBuilder;
 import builder.model.build.web.service.MybatisService;
 import builder.model.build.web.service.Service;
-import builder.util.StringUtils;
 import builder.util.TemplateUtils;
+
 import java.util.Map;
 /**
  * mybatis-plus服务实现构建器
@@ -23,6 +23,10 @@ public class MybatisPlusServiceImplBuilder extends MybatisServiceImplBuilder {
         super(templatePath);
     }
 
+    public MybatisPlusServiceImplBuilder(String templatePath,String templateClonePath){
+        super(templatePath,templateClonePath);
+    }
+
     @Override
     public String buildImpl(Service serviceImpl) {
         MybatisService mybatisService = (MybatisService) serviceImpl;
@@ -37,7 +41,7 @@ public class MybatisPlusServiceImplBuilder extends MybatisServiceImplBuilder {
         String cloneImportsBuilder = TemplateUtils.paddingTemplate(cloneImportsTemplate, "{import}", mybatisService.getMapper().getReference()) +
                 TemplateUtils.paddingTemplate(cloneImportsTemplate, "{import}", serviceInterface.getReference())+
                 TemplateUtils.paddingTemplate(cloneImportsTemplate, "{import}", mybatisService.getEntity().getReference());
-        paddings.put("{cloneImports}", StringUtils.clearLastSpan(cloneImportsBuilder));
+        paddings.put("{cloneImports}", cloneImportsBuilder);
         return TemplateUtils.paddingTemplate(template.getTemplate(),paddings);
     }
 }

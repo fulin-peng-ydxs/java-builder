@@ -13,7 +13,10 @@ import java.util.Map;
 @Data
 @AllArgsConstructor
 public class Template {
+
     private String template;
+
     private List<String> templates;
+
     private Map<String,String> templateClones;
 }

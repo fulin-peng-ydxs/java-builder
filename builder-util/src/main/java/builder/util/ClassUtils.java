@@ -96,7 +96,7 @@ public class ClassUtils {
         }else if(path.startsWith("java")){
             path= StringUtils.substring(path,"java",true);;
         }
-        path= StringUtils.clearChar(path,File.separator.toCharArray()[0],true);
+        path= StringUtils.clearChar(path,File.separatorChar,true);
         return path.replace(File.separator, ".");
     }
 

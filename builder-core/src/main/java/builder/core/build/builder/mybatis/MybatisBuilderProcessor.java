@@ -1,7 +1,7 @@
 package builder.core.build.builder.mybatis;
 
-import builder.core.build.builder.entity.base.EntityConvertor;
 import builder.core.build.builder.entity.EntityBuilder;
+import builder.core.build.builder.entity.base.EntityConvertor;
 import builder.core.build.builder.mybatis.mapper.MapperBuilder;
 import builder.core.build.resolve.database.DataBaseResolver;
 import builder.core.build.response.FileResponder;
@@ -16,7 +16,6 @@ import builder.util.StringUtils;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-
 import java.io.File;
 import java.util.LinkedList;
 import java.util.List;

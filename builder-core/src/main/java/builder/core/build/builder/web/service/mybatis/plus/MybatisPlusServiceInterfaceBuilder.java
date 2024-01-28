@@ -16,4 +16,8 @@ public class MybatisPlusServiceInterfaceBuilder extends ServiceInterfaceBuilder 
     public MybatisPlusServiceInterfaceBuilder(String templatePath){
         super(templatePath);
     }
+
+    public MybatisPlusServiceInterfaceBuilder(String templatePath,String templateClonePath){
+        super(templatePath,templateClonePath);
+    }
 }

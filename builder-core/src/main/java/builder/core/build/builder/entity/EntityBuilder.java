@@ -4,7 +4,6 @@ import builder.core.build.builder.base.Builder;
 import builder.model.build.orm.Entity;
 import builder.model.build.orm.Field;
 import builder.util.ClassUtils;
-import builder.util.StringUtils;
 import builder.util.TemplateUtils;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,24 +25,33 @@ public class EntityBuilder extends Builder {
 
     protected boolean isIgnorePrimaryKey=false;
 
-    private List<EntityBuilder> entityBuilders=new LinkedList<>();
+    private final List<EntityBuilder> entityBuilders;
 
     public EntityBuilder(){
         this("/template/basic/EntityTemplate.txt");
     }
 
     public EntityBuilder(String templatePath){
-        super(templatePath);
-    }
-
-    public EntityBuilder(String templatePath,List<EntityBuilder> entityBuilders){
-        super(templatePath);
-        this.entityBuilders=entityBuilders;
+        this(templatePath,new LinkedList<>());
     }
 
     public EntityBuilder(List<EntityBuilder> entityBuilders){
+        this("/template/basic/EntityTemplate.txt",entityBuilders);
+    }
+
+    public EntityBuilder(String templatePath,String cloneTemplatePath){
+        this(templatePath,cloneTemplatePath,new LinkedList<>());
+    }
+
+    public EntityBuilder(String templatePath,List<EntityBuilder> entityBuilders){
+        this(templatePath,"/template/basic/EntityTemplate.txt",entityBuilders);
+    }
+
+    public EntityBuilder(String templatePath,String cloneTemplatePath, List<EntityBuilder> entityBuilders){
+        super(templatePath,cloneTemplatePath);
         this.entityBuilders=entityBuilders;
     }
+
 
     /**
      * 构建实体
@@ -78,19 +86,20 @@ public class EntityBuilder extends Builder {
             if(!ClassUtils.ignoreReference(reference)){ //引用是否需要导入
                 cloneImportsBuilder.append(TemplateUtils.paddingTemplate(cloneImportsTemplate,"{import}", reference));
             }
-            entityBuilders.forEach(value->{
-                value.setEntity(entity);
-                value.setIgnorePrimaryKey(isIgnorePrimaryKey);
-                value.fieldAdd(cloneFieldPaddings,field,cloneImportsBuilder);
-            });
+            for (EntityBuilder entityBuilder : entityBuilders) {
+                entityBuilder.setEntity(entity);
+                entityBuilder.setIgnorePrimaryKey(isIgnorePrimaryKey);
+                entityBuilder.fieldAddExt(cloneFieldPaddings,templateClones,field,cloneImportsBuilder);
+            }
             cloneFieldsBuilder.append(TemplateUtils.paddingTemplate(cloneFieldsTemplate,cloneFieldPaddings));
+            cloneFieldPaddings = new HashMap<>();
         }
-        paddings.put("{cloneFields}", StringUtils.clearLastSpan(cloneFieldsBuilder.toString()));
-        paddings.put("{cloneImports}",cloneImportsBuilder.length()==0?"": StringUtils.clearLastSpan(cloneImportsBuilder.toString()));
+        paddings.put("{cloneFields}", cloneFieldsBuilder.toString());
+        paddings.put("{cloneImports}",cloneImportsBuilder.length()==0?"": cloneImportsBuilder.toString());
         entityBuilders.forEach(value->{
             value.setEntity(entity);
             value.setIgnorePrimaryKey(isIgnorePrimaryKey);
-            value.globalAdd(paddings);
+            value.globalAddExt(paddings);
         });
         return TemplateUtils.paddingTemplate(template.getTemplate(),paddings);
     }
@@ -100,14 +109,12 @@ public class EntityBuilder extends Builder {
      * 2023/11/9 22:08
      * @author pengshuaifeng
      */
-    protected void fieldAdd(Map<String, String> cloneFieldPaddings,Field field,StringBuilder cloneImportsBuilder){}
+    protected void fieldAddExt(Map<String, String> cloneFieldPaddings,Map<String, String> templateClones,Field field,StringBuilder cloneImportsBuilder){}
 
     /**
      * 全局补充扩展
      * 2023/9/19 23:26
      * @author pengshuaifeng
      */
-    protected void globalAdd(Map<String, String> paddings){
-
-    }
+    protected void globalAddExt(Map<String, String> paddings){}
 }

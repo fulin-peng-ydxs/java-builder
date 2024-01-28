@@ -1,4 +1,0 @@
-{
-  "cloneFields": "    //{comment}\n    private {fieldType} {filed};\n",
-  "cloneImports": "import {import};\n"
-}

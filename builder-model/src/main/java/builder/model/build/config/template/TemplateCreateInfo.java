@@ -12,8 +12,10 @@ import java.util.Date;
 public class TemplateCreateInfo {
 
     private Date date=new Date();
+
     private String userName="auto-builder";
 
+    //TODO 可替换成时间工具类
     private final  SimpleDateFormat simpleDateFormat =new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     /**
