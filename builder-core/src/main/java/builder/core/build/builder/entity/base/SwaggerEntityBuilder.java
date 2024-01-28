@@ -11,6 +11,7 @@ import builder.model.build.orm.Field;
  */
 public class SwaggerEntityBuilder extends AnnotationEntityBuilder {
 
+    //TODO 非模版核心构建器，可不用创建template对象
     public SwaggerEntityBuilder(){
         super("/template/basic/SwaggerEntityTemplate.txt","/template/basic/AnnotationEntityTemplate.txt");
     }

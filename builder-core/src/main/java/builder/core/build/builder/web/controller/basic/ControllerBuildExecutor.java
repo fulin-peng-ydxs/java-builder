@@ -8,7 +8,6 @@ import builder.model.build.web.service.Service;
 import builder.util.ClassUtils;
 import builder.util.TemplateUtils;
 import lombok.Getter;
-
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -61,6 +60,7 @@ public class ControllerBuildExecutor extends Builder {
         Field primaryField = entity.getPrimaryField();
         paddings.put("{PrimaryKeyField}",primaryField.getType().getSimpleName());
         paddings.put("{primaryKeyField}", primaryField.getName());
+        paddings.put("{getPrimaryKeyField}", "get"+primaryField.getClassStyleName()+"()");
         //克隆模版填充
         Service serviceInterface = controller.getServiceImpl().getServiceInterface();
         String cloneImportsTemplate = template.getTemplateClones().get("cloneImports");

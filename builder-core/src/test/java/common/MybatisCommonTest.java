@@ -40,6 +40,7 @@ public class MybatisCommonTest {
         //创建构建器
         builderCommon= GeneralMybatisBuilderCommon.builder()
                 .connectionInfo(connectionInfo)
+                .controllerPlusTemplatePath("/template/web/controller/common/case/MybatisPlusCommonControllerGeneralTemplate.txt") //controller模版自定义
                 .build();
     }
 

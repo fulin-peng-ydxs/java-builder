@@ -38,6 +38,7 @@ public class EntityConvertor {
             field.setReference(javaType.getName());
             field.setType(javaType);
             field.setName(ClassUtils.generateStructureName(columnInfo.getName(),"_", ClassStructure.ATTRIBUTES));
+            field.setClassStyleName(ClassUtils.generateStructureName(columnInfo.getName(),"_", ClassStructure.NAME));
             field.setColumnInfo(columnInfo);
             fields.add(field);
             if(columnInfo.isPrimaryKey()){

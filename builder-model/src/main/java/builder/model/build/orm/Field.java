@@ -13,6 +13,8 @@ import lombok.Data;
 public class Field {
     //字段名
     private String name;
+    //字段名（类名）
+    private String classStyleName;
     //引用路径
     private String reference;
     //字段类型

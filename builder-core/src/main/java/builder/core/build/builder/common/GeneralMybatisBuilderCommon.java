@@ -39,8 +39,9 @@ public class GeneralMybatisBuilderCommon {
     private String servicePath;
     private String serviceImplPath;
     private String controllerPath;
-
-    //构建模版 TODO 后续以及需要实现
+    //构建模版
+    private String controllerTemplatePath;
+    private String controllerPlusTemplatePath;
 
     /**
      * 常见的mybatis构建
@@ -148,8 +149,8 @@ public class GeneralMybatisBuilderCommon {
     }
 
     private MybatisControllerBuilderProcessor getMybatisControllerBuilderProcessor(){
-        ControllerBuildExecutor controllerBuildExecutor = new ControllerBuildExecutor(
-                "/template/web/controller/common/MybatisCommonControllerTemplate.txt",
+        ControllerBuildExecutor controllerBuildExecutor = new ControllerBuildExecutor(controllerTemplatePath==null?
+                "/template/web/controller/common/MybatisCommonControllerTemplate.txt":controllerTemplatePath,
                 Stream.of(new SwaggerControllerBuildExecutor(), new JSR303ControllerBuildExecutor()).collect(Collectors.toList()));
         ControllerBuilderProcessor controllerBuilderProcessor = ControllerBuilderProcessor.builder()
                 .rootPath(rootPath)
@@ -164,8 +165,8 @@ public class GeneralMybatisBuilderCommon {
     }
 
     private MybatisControllerBuilderProcessor getMybatisPlusControllerBuilderProcessor(){
-        ControllerBuildExecutor controllerBuildExecutor = new ControllerBuildExecutor(
-                "/template/web/controller/common/MybatisPlusCommonControllerTemplate.txt",
+        ControllerBuildExecutor controllerBuildExecutor = new ControllerBuildExecutor(controllerPlusTemplatePath==null?
+                "/template/web/controller/common/MybatisPlusCommonControllerTemplate.txt":controllerPlusTemplatePath,
                 Stream.of(new SwaggerControllerBuildExecutor(), new JSR303ControllerBuildExecutor()).collect(Collectors.toList()));
         ControllerBuilderProcessor controllerBuilderProcessor = ControllerBuilderProcessor.builder()
                 .rootPath(rootPath)
