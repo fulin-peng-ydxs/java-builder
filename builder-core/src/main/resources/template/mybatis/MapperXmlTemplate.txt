@@ -47,7 +47,7 @@
         </foreach>
     </insert>
 
-    <select id="selectList"  resultType="resultMapper">
+    <select id="selectList"  resultMap="resultMapper">
         SELECT <include refid="selectColumns"/>
         FROM {tableName} t
         <where>
@@ -55,7 +55,7 @@
         </where>
     </select>
 
-    <select id="selectOne"  resultType="resultMapper">
+    <select id="selectOne"  resultMap="resultMapper">
         SELECT <include refid="selectColumns"/>
         FROM {tableName} t
         WHERE t.{primaryKeyColumn}=#{{primaryKeyField}}

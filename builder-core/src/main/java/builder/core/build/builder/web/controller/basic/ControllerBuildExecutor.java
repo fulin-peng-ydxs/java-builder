@@ -82,6 +82,7 @@ public class ControllerBuildExecutor extends Builder {
         Map<String, String> paddings = new HashMap<>();
         paddings.put("{package}", controller.getReference());
         paddings.put("{description}", controller.getDescription());
+        paddings.put("{Controller}", controller.getName());
         Service serviceInterface = controller.getServiceImpl().getServiceInterface();
         paddings.put("{Service}", serviceInterface.getName());
         paddings.put("{service}", ClassUtils.nameToAttribute(serviceInterface.getName()));

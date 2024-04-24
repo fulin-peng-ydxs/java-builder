@@ -41,10 +41,11 @@ public class MybatisServiceImplBuilder extends ServiceImplBuilder {
         Entity entity = serviceImpl.getEntity();
         paddings.put("{Mapper}", mapper.getName());
         paddings.put("{mapper}", ClassUtils.nameToAttribute(mapper.getName()));
-        paddings.put("{ServiceInterface}",mybatisService.getName());
+        paddings.put("{ServiceInterface}",serviceImpl.getServiceInterface().getName());
         Field primaryField = entity.getPrimaryField();
         paddings.put("{PrimaryKeyField}",primaryField.getType().getSimpleName());
         paddings.put("{primaryKeyField}",primaryField.getName());
+        paddings.put("{primaryKeyField_Up}",ClassUtils.attributeToName(primaryField.getName()));
         paddings.put("{primaryKeyFieldName}", ClassUtils.attributeToName(primaryField.getName()));
         //克隆模版填充
         String cloneImportsTemplate = template.getTemplateClones().get("cloneImports");   //获取克隆模版

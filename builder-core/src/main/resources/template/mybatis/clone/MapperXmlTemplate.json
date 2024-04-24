@@ -3,7 +3,7 @@
   "cloneInsertFields": "            #{{field}},\n",
   "cloneInsertBatchFields": "            #{obj.{field}},\n",
   "cloneSelectColumns": "        t.{column},\n",
-  "cloneWhereColumns": "        <if test=\"{field}!=null && {field}!='' \">\n            and t.{column}=#{{field}}\n        </if>\n",
-  "cloneUpdateColumns": "        <if test=\"{field}!=null && {field}!='' \">\n             {column}=#{{field}},\n        </if>\n",
+  "cloneWhereColumns": "        <if test=\"{field}!=null and {field}!='' \">\n            and t.{column}=#{{field}}\n        </if>\n",
+  "cloneUpdateColumns": "        <if test=\"{field}!=null and {field}!='' \">\n             {column}=#{{field}},\n        </if>\n",
   "cloneResults": "        <result column=\"{column}\" property=\"{field}\"/>\n"
 }

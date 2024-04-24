@@ -2,6 +2,7 @@ package {package};
 
 import java.util.*;
 import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
 {cloneImports}
 /**
  * {description}
@@ -11,13 +12,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class {Service} implements {ServiceInterface}{
 
-    @Autowire
+    @Autowired
     private {Mapper} {mapper};
 
     /**保存*/
     @Override
     public int save({Entity} {entity}){
-        {Entity} {entity}Result={mapper}.selectOne({entity}.get{primaryKeyField}());
+        {Entity} {entity}Result={mapper}.selectOne({entity}.get{primaryKeyField_Up}());
         if({entity}Result==null){
             return {mapper}.insert({entity});
         }else{
@@ -28,7 +29,7 @@ public class {Service} implements {ServiceInterface}{
     /**批量保存*/
     @Override
     public int saveBatch(List<{Entity}> {entity}s){
-        return {mapper}.insertBatch({entity}s)
+        return {mapper}.insertBatch({entity}s);
     }
 
     /**查询*/

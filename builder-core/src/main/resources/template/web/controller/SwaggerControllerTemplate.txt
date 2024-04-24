@@ -2,6 +2,7 @@ package {package};
 
 import java.util.*;
 import org.springframework.stereotype.Controller;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,7 +23,7 @@ import io.swagger.annotations.ApiParam;
 @RequestMapping("/{Entity}")
 public class {Controller}{
 
-    @Autowire
+    @Autowired
     private {Service} {service};
 
     /**保存*/
@@ -75,7 +76,7 @@ public class {Controller}{
     /**删除*/
     @ApiOperation(value="删除",notes = "删除{entityDescription}")
     @RequestMapping(value = "/remove/{{primaryKeyField}}",method = RequestMethod.DELETE)
-    public int deleteById(@ApiParam(value = "{entityDescription}Id",required = true) @PathVariable {PrimaryKeyField} {primaryKeyField}){
+    public Map<String,Object> deleteById(@ApiParam(value = "{entityDescription}Id",required = true) @PathVariable {PrimaryKeyField} {primaryKeyField}){
         Map<String,Object> result=new HashMap<>();
         result.put("total",{service}.remove({primaryKeyField}));
         result.put("status",true);

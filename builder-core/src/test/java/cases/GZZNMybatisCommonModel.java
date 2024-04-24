@@ -57,4 +57,10 @@ public class GZZNMybatisCommonModel {
     public void mybatisPlusEntity(){
         builderCommon.mybatisPlusBuild(MybatisContent.ENTITY);
     }
+
+    @Test
+    public void mybatisService(){
+        builderCommon.mybatisWebBuild(WebContent.ALL);
+    }
+
 }
