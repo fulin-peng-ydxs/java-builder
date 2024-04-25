@@ -9,6 +9,8 @@ import builder.model.resolve.database.ColumnInfo;
 import builder.util.ClassUtils;
 import builder.util.StringUtils;
 import builder.util.TemplateUtils;
+
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -75,7 +77,9 @@ public class MapperBuilder {
         String cloneInsertBatchFieldsTemplate = templateClones.get("cloneInsertBatchFields");
         String cloneSelectColumnsTemplate = templateClones.get("cloneSelectColumns");
         String cloneWhereColumnsTemplate = templateClones.get("cloneWhereColumns");
+        String cloneWhereColumnsNoSpanTemplate = templateClones.get("cloneWhereColumnsNoSpan");
         String cloneUpdateColumnsTemplate= templateClones.get("cloneUpdateColumns");
+        String cloneUpdateColumnsNoSpanTemplate= templateClones.get("cloneUpdateColumnsNoSpan");
         String cloneResultsTemplate = templateClones.get("cloneResults"); //获取克隆模版
         StringBuilder insertColumns = new StringBuilder();
         StringBuilder insertFields = new StringBuilder();
@@ -96,9 +100,17 @@ public class MapperBuilder {
             insertFields.append(TemplateUtils.paddingTemplate(cloneInsertFieldsTemplate,clonePaddings));
             insertBatchFields.append(TemplateUtils.paddingTemplate(cloneInsertBatchFieldsTemplate,clonePaddings));
             selectColumns.append(TemplateUtils.paddingTemplate(cloneSelectColumnsTemplate,clonePaddings));
-            whereColumns.append(TemplateUtils.paddingTemplate(cloneWhereColumnsTemplate,clonePaddings));
+            if(ClassUtils.typeEquals(Date.class,field.getType())){
+                whereColumns.append(TemplateUtils.paddingTemplate(cloneWhereColumnsNoSpanTemplate,clonePaddings));
+            }else{
+                whereColumns.append(TemplateUtils.paddingTemplate(cloneWhereColumnsTemplate,clonePaddings));
+            }
             if(!field.getName().equals(primaryField.getName())){
-                updateColumns.append(TemplateUtils.paddingTemplate(cloneUpdateColumnsTemplate,clonePaddings));
+                if(ClassUtils.typeEquals(Date.class,field.getType())){
+                    updateColumns.append(TemplateUtils.paddingTemplate(cloneUpdateColumnsNoSpanTemplate,clonePaddings));
+                }else{
+                    updateColumns.append(TemplateUtils.paddingTemplate(cloneUpdateColumnsTemplate,clonePaddings));
+                }
                 results.append(TemplateUtils.paddingTemplate(cloneResultsTemplate,clonePaddings));
             }
         }

@@ -56,7 +56,7 @@ public class CollectionUtils {
     */
     public static <T,B> List<B> doGetAnyList(Class<T> target,Class<B> targetParam,List<B> source){
         try {
-            if (target.isAssignableFrom(List.class))
+            if (ClassUtils.typeEquals(List.class,target))
                 throw new RuntimeException("类型不匹配");
             if(source!=null)
                 return source;
@@ -77,7 +77,7 @@ public class CollectionUtils {
     */
     public static <A,B,C> Map<A,B> doGetAnyMap(Class<C> target,Class<A> targetKey,Class<B> targetValue,Map<A,B> source){
         try {
-            if (target.isAssignableFrom(Map.class))
+            if (ClassUtils.typeEquals(Map.class,target))
                 throw new RuntimeException("类型不匹配");
             if(source!=null)
                 return source;

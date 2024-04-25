@@ -115,4 +115,15 @@ public class ClassUtils {
         }
         return reference;
     }
+
+    /**
+     * 类型是否一致
+     * @param clazz1 同类或子类
+     * @param clazz2 同类或父类
+     * 2023/12/24 23:20
+     * @author pengshuaifeng
+     */
+    public static boolean typeEquals(Class<?> clazz1,Class<?> clazz2){
+        return clazz1 == clazz2 || clazz2.isAssignableFrom(clazz1);
+    }
 }
