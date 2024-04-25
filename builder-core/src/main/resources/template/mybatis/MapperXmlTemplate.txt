@@ -4,7 +4,9 @@
 
     <!--SQL-->
     <sql id="insertColumns">
+        (
 {cloneInsertColumns}
+        )
     </sql>
     <sql id="insertFields">
         (
@@ -35,12 +37,12 @@
     <!--CURD-->
 
     <insert id="insert">
-        INSERT INTO {tableName} t <include refid="insertColumns"/>
+        INSERT INTO {tableName}  <include refid="insertColumns"/>
         VALUES <include refid="insertFields"/>
     </insert>
 
     <insert id="insertBatch">
-        INSERT INTO {tableName} t <include refid="insertColumns"/>
+        INSERT INTO {tableName}  <include refid="insertColumns"/>
         VALUES
         <foreach item="obj" collection="items"  separator=","  >
             <include refid="insertBatchFields"/>
