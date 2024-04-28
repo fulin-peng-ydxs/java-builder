@@ -38,7 +38,7 @@ public class AnnotationEntityBuilder extends EntityBuilder {
     @Override
     protected void fieldAddExt(Map<String, String> cloneFieldPaddings,Map<String, String> templateClones ,Field field, StringBuilder cloneImportsBuilder) {
         String annotationsValue = cloneFieldPaddings.get("{Annotations}");
-        String value = defaultFieldAddExecute(annotationsValue,templateClones, field, cloneImportsBuilder);
+        String value = fieldAddExecute(annotationsValue,templateClones, field, cloneImportsBuilder);
         if(value==null && annotationsValue==null){  //都为null,使用空代替
             value=TemplateUtils.templateNullValue;
         }else if(value != null && annotationsValue!=null){ //都不为null，如果是空，则覆盖，如果不是空，则追加
@@ -56,7 +56,7 @@ public class AnnotationEntityBuilder extends EntityBuilder {
      * 2024/1/25 22:43
      * @author pengshuaifeng
      */
-    protected String defaultFieldAddExecute(String cloneFieldPadding,Map<String, String> templateClones ,Field field, StringBuilder cloneImportsBuilder){
+    protected String fieldAddExecute(String cloneFieldPadding,Map<String, String> templateClones ,Field field, StringBuilder cloneImportsBuilder){
         StringBuilder valueBuilder = new StringBuilder();
         String annotationTemplateClone = templateClones.get("cloneFieldAnnotations");
         //时间字段补充  //TODO 目前时间仅支持Date类型

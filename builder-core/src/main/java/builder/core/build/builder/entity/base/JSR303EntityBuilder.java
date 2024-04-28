@@ -3,6 +3,7 @@ package builder.core.build.builder.entity.base;
 
 import builder.model.build.config.BuildGlobalConfig;
 import builder.model.build.orm.Field;
+import builder.model.resolve.database.ColumnInfo;
 import builder.util.TemplateUtils;
 
 /**
@@ -22,9 +23,10 @@ public class JSR303EntityBuilder extends AnnotationEntityBuilder {
         if (!BuildGlobalConfig.templateEntity.isJsr303Enable()) { //TODO 建议在统一调用里去做处理
             return;
         }
-        if(!field.getColumnInfo().isNull()){
+        ColumnInfo columnInfo = field.getColumnInfo();
+        if(!columnInfo.isNull() && !columnInfo.isPrimaryKey()){
             annotationBuilder.append(annotationTemplateClone.replace("{Annotation}",
-                    "@NotNull(message=\""+field.getColumnInfo().getDescription()+"不能为空\")"));
+                    "@NotNull(message=\""+ columnInfo.getDescription()+"不能为空\")"));
             String cloneImports = template.getTemplateClones().get("cloneImports");
             if (!importsBuilder.toString().contains("javax.validation.constraints.NotNull")) {
                 importsBuilder.append(TemplateUtils.paddingTemplate(cloneImports,"{import}","javax.validation.constraints.NotNull"));
