@@ -90,11 +90,10 @@ public class ClassUtils {
      * @param path 原路径
      */
     public static String generateReferencePath(String path){
-        //如果以java开头，则需要移除
-        if(path.startsWith(File.separator+"java")){
-            path= StringUtils.substring(path,File.separator+"java",true);
-        }else if(path.startsWith("java")){
-            path= StringUtils.substring(path,"java",true);;
+        if(path.contains("java")){ //截取java后面的路径
+            String java = File.separator + "java";
+            String substringValue=path.contains(java)?java:"java";
+            path=StringUtils.substring(path, substringValue,null,false,true);
         }
         path= StringUtils.clearChar(path,File.separatorChar,true);
         return path.replace(File.separator, ".");

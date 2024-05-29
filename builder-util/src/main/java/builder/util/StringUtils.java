@@ -285,7 +285,7 @@ public class StringUtils {
                 if (isClearSpacing)
                     lineTemp = lineTemp.trim();
                 if(isClearBlankLines){
-                    if (!(lineTemp.trim().length()>0))
+                    if (lineTemp.trim().isEmpty())
                         continue; //去除空行
                 }
                 builderLine.append(lineTemp);
