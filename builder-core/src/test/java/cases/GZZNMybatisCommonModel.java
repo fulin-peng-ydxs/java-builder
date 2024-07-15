@@ -9,6 +9,7 @@ import builder.model.resolve.database.jdbc.DataBaseInfo;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Properties;
 
@@ -22,11 +23,17 @@ public class GZZNMybatisCommonModel {
 
     private GeneralMybatisBuilderCommon builderCommon;
 
+    public Properties loadProperties(String path) throws IOException {
+        Properties properties = new Properties();
+        properties.load(GZZNMybatisCommonModel.class.getResourceAsStream(path));
+        return properties;
+    }
+
     @Before
     public void before() throws Exception {
         //设置数据库信息
-        Properties properties = new Properties();
-        properties.load(GZZNMybatisCommonModel.class.getResourceAsStream("/BuilderConfig.properties"));
+        Properties properties=loadProperties("/BuilderDmConfig.properties");
+//        Properties properties=loadProperties("/BuilderConfig.properties");
         ConnectionInfo connectionInfo =ConnectionInfo.builder()
                 .url(properties.get("jdbc.url").toString())
                 .userName(properties.get("jdbc.userName").toString())
@@ -59,8 +66,13 @@ public class GZZNMybatisCommonModel {
     }
 
     @Test
-    public void mybatisService(){
+    public void mybatisController(){
         builderCommon.mybatisWebBuild(WebContent.ALL);
+    }
+
+    @Test
+    public void mybatisService(){
+        builderCommon.mybatisWebBuild(WebContent.SERVICE);
     }
 
 }

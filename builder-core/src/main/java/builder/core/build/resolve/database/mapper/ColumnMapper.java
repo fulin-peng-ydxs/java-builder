@@ -1,6 +1,9 @@
 package builder.core.build.resolve.database.mapper;
 
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * BuildBean信息映射
  *
@@ -9,14 +12,15 @@ package builder.core.build.resolve.database.mapper;
  */
 public class ColumnMapper {
 
-    private static final String  defaultTowMapperKey="YES";
+    private static final List<String> y2NMappers= Arrays.asList("YES","Y");
+    private static final List<String> primaryKeyMappers= Arrays.asList("PRI","YES");
 
     /**非空映射
      * 2022/9/5 0005-17:59
      * @author pengfulin
     */
     public static boolean mapperNullType(String mapperKey){
-        return mapperKey.equalsIgnoreCase(defaultTowMapperKey);
+        return y2NMappers.contains(mapperKey.toUpperCase());
     }
 
     /**主键映射
@@ -24,6 +28,6 @@ public class ColumnMapper {
      * @author pengfulin
     */
     public static boolean mapperPrimaryKey(String mapperKey){
-        return mapperKey.equalsIgnoreCase("PRI");
+        return primaryKeyMappers.contains(mapperKey.toUpperCase());
     }
 }

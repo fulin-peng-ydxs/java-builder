@@ -119,7 +119,7 @@ public class MybatisBuilderProcessor {
 
     public void build(MybatisContent mybatisContent){
         if(connectionInfo!=null){
-            setBuildData(new DataBaseResolver(connectionInfo));
+            setBuildData(DataBaseResolver.getDataBaseResolver(connectionInfo));
         }else throw new RuntimeException("没有构建源");
         buildExecute(mybatisContent);
     }

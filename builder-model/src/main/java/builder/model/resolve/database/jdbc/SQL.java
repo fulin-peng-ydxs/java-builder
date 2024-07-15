@@ -12,6 +12,38 @@ public enum SQL {
             "from information_schema.columns  " + "where table_name = ? and table_schema= ? order by ordinal_position",
 
             "select table_name tableName  from information_schema.`TABLES` where table_schema= ?"
+    ),
+
+    DM("SELECT \n" +
+            "     col.column_name columnName,col.table_name tableName ,col.data_type dataType, col.data_length fieldLength,\n" +
+            "      col.nullable isNull,\n" +
+            "    (CASE WHEN pk.column_name IS NOT NULL THEN 'YES' ELSE 'NO' END) AS isPrimaryKey,\n" +
+            "    comm.comments AS fieldComment\n" +
+            "FROM \n" +
+            "    dba_tab_columns col\n" +
+            "LEFT JOIN \n" +
+            "    (SELECT cols.column_name\n" +
+            "     FROM dba_constraints cons, dba_cons_columns cols\n" +
+            "     WHERE cons.constraint_type = 'P'\n" +
+            "       AND cons.constraint_name = cols.constraint_name\n" +
+            "       AND cons.table_name = cols.table_name\n" +
+            "       AND cons.table_name = ?) pk\n" +
+            "ON \n" +
+            "    col.column_name = pk.column_name\n" +
+            "LEFT JOIN \n" +
+            "    (SELECT comm.column_name, comm.comments\n" +
+            "     FROM dba_col_comments comm\n" +
+            "     WHERE comm.table_name = ?) comm\n" +
+            "ON \n" +
+            "    col.column_name = comm.column_name\n" +
+            "WHERE \n" +
+            "    col.table_name = ? and  col.owner=?\n" +
+            "ORDER BY \n" +
+            "    col.column_id",
+
+    "SELECT owner, tableName\n" +
+            "FROM dba_tables\n" +
+            "where owner=?"
     );
 
     public final String fieldSql;
@@ -28,7 +60,9 @@ public enum SQL {
     public static SQL getSQL(String url){
         if(url.startsWith("jdbc:mysql")){
             return MYSQL;
+        }else if(url.startsWith("jdbc:dm")){
+            return DM;
         }
-        return null;
+        throw new RuntimeException("没有可支持的SQL对象："+url);
     }
 }

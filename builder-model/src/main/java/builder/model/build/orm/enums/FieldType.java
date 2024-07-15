@@ -26,6 +26,7 @@ public enum FieldType {
 
 
     public static FieldType supportType(String dataBaseType){
+        dataBaseType = dataBaseType.toLowerCase();
         if (STRING.dataBaseTypes.contains(dataBaseType))
             return STRING;
         else if(DATE.dataBaseTypes.contains(dataBaseType))

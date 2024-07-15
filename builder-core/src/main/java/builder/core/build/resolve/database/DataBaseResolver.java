@@ -23,7 +23,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class DataBaseResolver {
+public abstract class DataBaseResolver {
 
     //数据库连接信息
     protected ConnectionInfo connectionInfo;
@@ -55,32 +55,21 @@ public class DataBaseResolver {
      * 2023/9/3 12:55
      * @author pengshuaifeng
      */
-    public List<TableInfo>  resultSetsConvertTables(Collection<String> tableNames, String databaseName, SQL sql, Connection connection)
-            throws SQLException {
+    public List<TableInfo>  resultSetsConvertTables(Collection<String> tableNames, String databaseName, SQL sql, Connection connection) {
         String fieldSql=sql.fieldSql;
         String tableSQL=sql.tableSQL;
-        PreparedStatement preStatementTables=null;
-        PreparedStatement preStatementTable=null;
         LinkedList<TableInfo> tableInfos = new LinkedList<>();
         try{
             List<ResultSet> resultSets = new LinkedList<>();
             if(tableNames==null){ //全量查询
-                preStatementTables= connection.prepareStatement(tableSQL);
-                ResultSet resultTables= preStatementTables.executeQuery();
-                preStatementTables.setString(1, databaseName);
+                ResultSet resultTables= getTableResultSet(tableSQL,connection,databaseName);
                 while (resultTables.next()) {
-                    preStatementTable = connection.prepareStatement(fieldSql);
-                    String table= resultTables.getString("tableName");
-                    preStatementTable.setString(1, table);
-                    preStatementTable.setString(2,databaseName);
-                    resultSets.add(preStatementTable.executeQuery());
+                    String tableName= resultTables.getString("tableName");
+                    resultSets.add(getColumnResultSet(fieldSql,connection,databaseName,tableName));
                 }
             }else{ //按需查询
                 for (String tableName : tableNames) {
-                    preStatementTable = connection.prepareStatement(fieldSql);
-                    preStatementTable.setString(1,tableName);
-                    preStatementTable.setString(2,databaseName);
-                    resultSets.add(preStatementTable.executeQuery());
+                    resultSets.add(getColumnResultSet(fieldSql,connection,databaseName,tableName));
                 }
             }
             for (ResultSet resultSet : resultSets) {
@@ -90,16 +79,24 @@ public class DataBaseResolver {
         }catch (Exception e) {
             throw  new RuntimeException("获取数据库结果集异常",e);
         }
-        finally {
-            if(preStatementTables !=null&&
-                    !preStatementTables.isClosed()){
-                preStatementTables.close();
-            }
-            if(preStatementTable !=null&&
-                    !preStatementTable.isClosed()){
-                preStatementTable.close();
-            }
-        }
+    }
+
+    /**
+     * 解释列的sql
+     * 2024/7/15 0015 18:10
+     * @author fulin-peng
+     */
+    public abstract ResultSet getColumnResultSet(String sql,Connection connection,String dataBaseName,String tableName) throws SQLException;
+
+    /**
+     * 解释表的sql
+     * 2024/7/15 0015 18:10
+     * @author fulin-peng
+     */
+    public  ResultSet getTableResultSet(String sql,Connection connection,String dataBaseName) throws SQLException{
+        PreparedStatement preStatementTables= connection.prepareStatement(sql);
+        preStatementTables.setString(1, dataBaseName);
+        return preStatementTables.executeQuery();
     }
 
 
@@ -149,7 +146,8 @@ public class DataBaseResolver {
             int length= fieldLengthString == null ? 0 : Integer.parseInt(fieldLengthString);
             String comment = resultSet.getString("fieldComment");
             boolean isNull= ColumnMapper.mapperNullType(resultSet.getString("isNull"));
-            boolean isPrimaryKey = ColumnMapper.mapperPrimaryKey(resultSet.getString("isPrimaryKey"));
+            boolean isPrimaryKey = ColumnMapper.mapperPrimaryKey(resultSet.getString("isPrimaryKey")) ||
+            columnInfo.getName().equalsIgnoreCase("id") || columnInfo.getName().equalsIgnoreCase("sid");
             columnInfo.setLength(length);
             columnInfo.setDescription(StringUtils.isNotEmpty(comment)?comment:fieldName);
             columnInfo.setNull(isNull);
@@ -174,5 +172,22 @@ public class DataBaseResolver {
         } catch (Exception e) {
             throw new RuntimeException("获取数据库连接异常",e);
         }
+    }
+    
+    
+    /**
+     * 获取适配的数据库解析器
+     * 2024/7/15 0015 18:39 
+     * @author fulin-peng
+     */
+    //TODO 待优化成缓存
+    public static DataBaseResolver getDataBaseResolver(ConnectionInfo connectionInfo){
+        SQL sql = SQL.getSQL(connectionInfo.getUrl());
+        if (sql== SQL.MYSQL) {
+            return new MysqlDataBaseResolver(connectionInfo);
+        }else if(sql==SQL.DM){
+            return new DmDataBaseResolver(connectionInfo);
+        }
+        throw new RuntimeException("没有获取适配的数据库解析器："+sql);
     }
 }

@@ -28,12 +28,21 @@
             <artifactId>lombok</artifactId>
             <version>${lombok-version}</version>
         </dependency>
+
         <!--mysql数据库驱动-->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>${mysql-version}</version>
         </dependency>
+
+        <!--dm数据库驱动-->
+        <dependency>
+            <groupId>com.dm</groupId>
+            <artifactId>dm8-jdbc</artifactId>
+            <version>1.8.20220609</version>
+        </dependency>
+
         <!--json解析-->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
