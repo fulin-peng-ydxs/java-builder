@@ -50,7 +50,7 @@ public class {Controller}{
     public Map<String,Object> find(@RequestBody {Entity} {entity},@RequestParam("page") int page,@RequestParam("pageSize") int pageSize){
         Map<String,Object> result=new HashMap<>();
         LambdaQueryWrapper<{Entity}> queryWrapper = new LambdaQueryWrapper<>(new {Entity}());
-        IPage<User> iPage = new Page<>(page,pageSize);
+        IPage<{Entity}> iPage = new Page<>(page,pageSize);
         iPage={service}.page(iPage,queryWrapper);
         result.put("total",iPage.getTotal());
         result.put("body",iPage.getRecords());

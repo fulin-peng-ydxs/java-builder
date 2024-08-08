@@ -1,21 +1,25 @@
 package builder.core.build.builder.mybatis;
 
 import builder.core.build.builder.entity.EntityBuilder;
-import builder.core.build.builder.entity.base.EntityConvertor;
+import builder.core.build.builder.entity.base.conf.EntityConvertor;
 import builder.core.build.builder.mybatis.mapper.MapperBuilder;
 import builder.core.build.resolve.database.DataBaseResolver;
 import builder.core.build.response.FileResponder;
 import builder.core.build.response.Responder;
+import builder.model.build.config.BuildGlobalConfig;
 import builder.model.build.config.content.MybatisContent;
-import builder.model.build.orm.Entity;
+import builder.model.build.orm.entity.Entity;
 import builder.model.build.orm.mybatis.Mapper;
 import builder.model.resolve.database.TableInfo;
 import builder.model.resolve.database.jdbc.ConnectionInfo;
 import builder.util.ClassUtils;
+import builder.util.FileUtils;
 import builder.util.StringUtils;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
+
 import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
@@ -24,6 +28,7 @@ import java.util.List;
  * author: pengshuaifeng
  * 2023/9/3
  */
+@Slf4j
 @Setter
 @Getter
 @Builder
@@ -136,9 +141,9 @@ public class MybatisBuilderProcessor {
 
     private void setBuildData(List<TableInfo> tableInfos){
         for (TableInfo tableInfo : tableInfos) {
-            Entity entity = convertEntity(tableInfo,entityPath);
+            Entity entity = convertEntity(tableInfo,FileUtils.pathSeparator(rootPath,entityPath));
             entities.add(entity);
-            Mapper mapper = convertMapper(entity, mapperPath);
+            Mapper mapper = convertMapper(entity,FileUtils.pathSeparator(rootPath,mapperPath));
             mappers.add(mapper);
         }
     }
@@ -151,13 +156,20 @@ public class MybatisBuilderProcessor {
      */
     private void buildExecute(MybatisContent mybatisContent){
         if(mybatisContent == MybatisContent.ALL){
-            for (Entity entity : entities) {
-                buildEntity(entity);
-            }
-            for (Mapper mapper : mappers) {
-                buildMapper(mapper);
-                buildMapperXml(mapper);
-            }
+            if(BuildGlobalConfig.templateEntity.isBuildEnable()){
+                for (Entity entity : entities) {
+                    buildEntity(entity);
+                }
+            }else log.debug("entity构建器不参与构建：templateEntity.isBuildEnable()={}",false);
+
+            if(BuildGlobalConfig.templateMapper.isBuildEnable()){
+                for (Mapper mapper : mappers) {
+                    if(BuildGlobalConfig.templateMapper.isMapperEnable())
+                        buildMapper(mapper);
+                    if(BuildGlobalConfig.templateMapper.isMapperXmlEnable())
+                        buildMapperXml(mapper);
+                }
+            } log.debug("mapper构建器不参与构建：templateMapper.isBuildEnable()={}",false);
         } else if (mybatisContent == MybatisContent.ENTITY) {
             for (Entity entity : entities) {
                 buildEntity(entity);

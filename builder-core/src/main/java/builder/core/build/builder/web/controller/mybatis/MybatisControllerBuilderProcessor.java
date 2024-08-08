@@ -18,6 +18,7 @@ import lombok.Setter;
 public class MybatisControllerBuilderProcessor {
 
     private ControllerBuilderProcessor controllerBuilderProcessor;
+
     private MybatisServiceBuilderProcessor serviceBuilderProcessor;
 
     private boolean ignoreInitControllerExecutor;
@@ -58,7 +59,6 @@ public class MybatisControllerBuilderProcessor {
      */
     public void build() {
         serviceBuilderProcessor.build();
-        controllerBuilderProcessor.setControllers(controllerBuilderProcessor.generateControllers(serviceBuilderProcessor.getServiceBuilderProcessor().getServiceImpls()));
-        controllerBuilderProcessor.build();
+        controllerBuilderProcessor.buildByService(serviceBuilderProcessor.getServiceBuilderProcessor().getServiceImpls());
     }
 }

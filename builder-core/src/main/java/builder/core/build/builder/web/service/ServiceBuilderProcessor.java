@@ -4,19 +4,22 @@ import builder.core.build.builder.web.service.baic.ServiceImplBuilder;
 import builder.core.build.builder.web.service.baic.ServiceInterfaceBuilder;
 import builder.core.build.response.FileResponder;
 import builder.core.build.response.Responder;
+import builder.model.build.config.BuildGlobalConfig;
 import builder.model.build.config.template.Template;
+import builder.model.build.orm.entity.Entity;
 import builder.model.build.web.service.Service;
-import builder.model.build.orm.Entity;
 import builder.util.ClassUtils;
 import builder.util.CollectionUtils;
+import builder.util.FileUtils;
 import builder.util.StringUtils;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -24,14 +27,15 @@ import java.util.Map;
  * author: pengshuaifeng
  * 2023/9/12
  */
+@Slf4j
 @Setter
 @Getter
 @Builder
 public class ServiceBuilderProcessor {
 
     //数据源
-    private List<Service> serviceImpls;
-    private List<Service> serviceInterfaces;
+    private Collection<Service> serviceImpls;
+    private Collection<Service> serviceInterfaces;
     //构建器
     private ServiceImplBuilder serviceImplBuilder;
     private ServiceInterfaceBuilder serviceInterfaceBuilder;
@@ -47,7 +51,7 @@ public class ServiceBuilderProcessor {
      * 2023/9/23 10:58
      * @author pengshuaifeng
      */
-    ServiceBuilderProcessor(List<Service> serviceInterfaces, List<Service> serviceImpls, ServiceImplBuilder serviceImplBuilder, ServiceInterfaceBuilder serviceInterfaceBuilder, String rootPath, String serviceImplPath, String serviceInterfacePath, Responder responder) {
+    ServiceBuilderProcessor(Collection<Service> serviceInterfaces, Collection<Service> serviceImpls, ServiceImplBuilder serviceImplBuilder, ServiceInterfaceBuilder serviceInterfaceBuilder, String rootPath, String serviceImplPath, String serviceInterfacePath, Responder responder) {
         this.serviceImpls=serviceImpls;
         this.serviceInterfaces=serviceInterfaces;
         this.serviceImplBuilder=serviceImplBuilder;
@@ -97,10 +101,20 @@ public class ServiceBuilderProcessor {
      * @author pengshuaifeng
      */
     public void build(){
+        if(!BuildGlobalConfig.templateWeb.isServiceEnable()){
+            log.debug("“服务”构建器不参与构建：isServiceEnable={}", false);
+            return;
+        }
         if(CollectionUtils.isNotEmpty(serviceImpls)  && CollectionUtils.isNotEmpty(serviceInterfaces)){
             serviceImpls.forEach(this::buildServiceImpl);
             serviceInterfaces.forEach(this::buildServiceInterface);
         }else throw new RuntimeException("没有构建源");
+    }
+
+    public void build(Collection<Service> serviceInterfaces,Collection<Service> serviceImpls){
+        this.serviceImpls=serviceImpls;
+        this.serviceInterfaces=serviceInterfaces;
+        build();
     }
 
     /**
@@ -142,7 +156,7 @@ public class ServiceBuilderProcessor {
         Service service = new Service();
         service.setName(entity.getName()+"Service");
         service.setDescription(entity.getName()+"服务");
-        return generateBaseService(service, ClassUtils.generateReferencePath(serviceInterfacePath),entity);
+        return generateBaseService(service, ClassUtils.generateReferencePath(FileUtils.pathSeparator(rootPath,serviceInterfacePath)),entity);
     }
     
     /**
@@ -155,7 +169,7 @@ public class ServiceBuilderProcessor {
         service.setName(entity.getName()+"ServiceImpl");
         service.setDescription(entity.getName()+"服务实现");
         service.setServiceInterface(serviceInterface);
-        return generateBaseService(service, ClassUtils.generateReferencePath(serviceImplPath),entity);
+        return generateBaseService(service, ClassUtils.generateReferencePath(FileUtils.pathSeparator(rootPath,serviceImplPath)) ,entity);
     }
 
     private Service generateBaseService(Service service,String referencePath,Entity entity){

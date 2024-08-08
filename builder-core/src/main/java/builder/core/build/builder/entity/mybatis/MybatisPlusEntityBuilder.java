@@ -1,7 +1,7 @@
 package builder.core.build.builder.entity.mybatis;
 
 import builder.core.build.builder.entity.EntityBuilder;
-import builder.model.build.orm.Field;
+import builder.model.build.orm.entity.Field;
 import java.util.Map;
 /**
  * mybatisPlus-实体构建器

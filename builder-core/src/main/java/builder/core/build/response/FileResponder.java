@@ -2,7 +2,8 @@ package builder.core.build.response;
 
 
 import builder.util.FileUtils;
-import builder.util.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
@@ -13,6 +14,8 @@ import java.nio.charset.StandardCharsets;
  * 2023/9/2
  */
 public class FileResponder extends Responder{
+
+    private static final Logger log = LoggerFactory.getLogger(FileResponder.class);
 
     public FileResponder(){
         rootPath = FileUtils.getSystemHomePath()+File.separator+"JavaBuilds";
@@ -32,20 +35,9 @@ public class FileResponder extends Responder{
      */
     public void execute(Object fileContent,String fileName,String path){
         byte[] bytes = fileContent.toString().getBytes(StandardCharsets.UTF_8);
-        //TODO 替换成日志输出
-        String outPath = path == null ? rootPath : pathSeparator(rootPath,path);
-        System.out.println("输出文件："+outPath+"："+fileName);
+        String outPath = path == null ? rootPath : FileUtils.pathSeparator(rootPath,path);
+        log.info("输出文件：{}：{}",outPath,fileName);
         FileUtils.flush(bytes,fileName, outPath);
-    }
-
-
-    public String pathSeparator(String rootPath,String path){
-        String separator = File.separator;
-        if(rootPath.endsWith(separator) && path.startsWith(separator))
-            return rootPath+ StringUtils.substring(path,separator,null,false,true);
-        else if(!rootPath.endsWith(separator) && !path.startsWith(separator))
-            return rootPath + File.separator + path;
-        else return rootPath+path;
     }
 
 }

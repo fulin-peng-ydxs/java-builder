@@ -33,7 +33,7 @@ public class ServiceTest {
                 .DriverClass(Driver.class)
                 .dataBaseInfo(new DataBaseInfo("jpa", Collections.singletonList("user"))).build();
         //设置全局构建信息
-        BuildGlobalConfig.templateCreateInfo  //模版创建信息
+        BuildGlobalConfig.templateInfo  //模版创建信息
                 .setUserName("pengfulin"); //创建用户
         //设置公共构建器
         serviceBuilderProcessor = ServiceBuilderProcessor.builder()

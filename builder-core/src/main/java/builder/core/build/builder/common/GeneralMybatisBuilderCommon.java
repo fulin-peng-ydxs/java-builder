@@ -1,8 +1,7 @@
 package builder.core.build.builder.common;
 
 import builder.core.build.builder.entity.EntityBuilder;
-import builder.core.build.builder.entity.base.JSR303EntityBuilder;
-import builder.core.build.builder.entity.base.SwaggerEntityBuilder;
+import builder.core.build.builder.entity.base.conf.DefaultEntityBuilder;
 import builder.core.build.builder.entity.mybatis.MybatisPlusEntityBuilder;
 import builder.core.build.builder.mybatis.MybatisBuilderProcessor;
 import builder.core.build.builder.mybatis.plus.MybatisPlusBuilderProcessor;
@@ -13,6 +12,7 @@ import builder.core.build.builder.web.controller.basic.SwaggerControllerBuildExe
 import builder.core.build.builder.web.controller.mybatis.MybatisControllerBuilderProcessor;
 import builder.core.build.builder.web.service.ServiceBuilderProcessor;
 import builder.core.build.builder.web.service.mybatis.MybatisServiceBuilderProcessor;
+import builder.model.build.config.BuildGlobalConfig;
 import builder.model.build.config.content.MybatisContent;
 import builder.model.build.config.content.WebContent;
 import builder.model.resolve.database.jdbc.ConnectionInfo;
@@ -78,7 +78,7 @@ public class GeneralMybatisBuilderCommon {
 
     private MybatisBuilderProcessor getMybatisBuilderProcessor(String templatePath){
         EntityBuilder entityBuilder = new EntityBuilder(templatePath,"/template/basic/AnnotationEntityTemplate.txt",
-                Stream.of(new SwaggerEntityBuilder(), new JSR303EntityBuilder()).collect(Collectors.toList()));
+                Stream.of(DefaultEntityBuilder.swagger, DefaultEntityBuilder.jsr303).collect(Collectors.toList()));
         return MybatisBuilderProcessor.builder()
                 .connectionInfo(connectionInfo)
                 .entityBuilder(entityBuilder)
@@ -121,6 +121,13 @@ public class GeneralMybatisBuilderCommon {
      * @author pengshuaifeng
      */
     public void mybatisPlusWebBuild(WebContent webContent){
+        if (webContent== WebContent.ONLY_CONTROLLER || webContent== WebContent.ONLY_SERVICE){
+            //关闭实体和映射相关的构建
+            BuildGlobalConfig.templateEntity.setBuildEnable(false);
+            BuildGlobalConfig.templateMapper.setBuildEnable(false);
+            if(webContent== WebContent.ONLY_CONTROLLER )  //关闭服务的构建，仅保留控制器的构建
+                BuildGlobalConfig.templateWeb.setServiceEnable(false);
+        }
         if(webContent==WebContent.SERVICE){
             getMybatisPlusServiceBuilderProcessor().build();
         }else{

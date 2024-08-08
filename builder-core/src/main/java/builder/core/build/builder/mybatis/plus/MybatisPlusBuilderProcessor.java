@@ -23,6 +23,7 @@ public class MybatisPlusBuilderProcessor {
     private MybatisContent mybatisContent;
 
     private boolean ignoreInitEntityBuilder;
+
     private boolean ignoreInitMapperBuilder;
 
     /**

@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.beans.factory.annotation.Autowired;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -60,7 +59,7 @@ public class {Controller}{
     public Response find(@ApiParam(value = "请求参数",required = true) @RequestBody PageRequestParam<{Entity}> param){
         log.debug("进入-查询{entityDescription}列表服务：{}",param);
         LambdaQueryWrapper<{Entity}> queryWrapper = new LambdaQueryWrapper<>(param.getBody());
-        IPage<User> page = new Page<>(param.getPage(),param.getPageSize());
+        IPage<{Entity}> page = new Page<>(param.getPage(),param.getPageSize());
         {service}.page(page,queryWrapper);
         GeneralQueryResult generalQueryResult = new GeneralQueryResult(page.getRecords(),page.getTotal());
         log.debug("退出-查询{entityDescription}服务：{}",page.getTotal());
@@ -70,7 +69,7 @@ public class {Controller}{
     @ApiOperation(value="详情",notes = "查看{entityDescription}详情")
     @RequestMapping(value = "/detail/{{primaryKeyField}}",method = RequestMethod.GET)
     public Response detail(@ApiParam(value = "{entityDescription}Id",required = true) @PathVariable {PrimaryKeyField} {primaryKeyField}){
-        log.debug("进入-查询{entityDescription}详情服务：{}",{primaryKeyField);
+        log.debug("进入-查询{entityDescription}详情服务：{}",{primaryKeyField});
         {Entity} {entity} = {service}.getById({primaryKeyField});
         log.debug("退出-查询{entityDescription}详情服务：{}",{entity});
         return Response.success({entity});
@@ -82,6 +81,6 @@ public class {Controller}{
         log.debug("进入-删除{entityDescription}服务：{}",{primaryKeyField});
         boolean result = {service}.removeById({primaryKeyField});
         log.debug("退出-删除{entityDescription}服务：{}",result);
-        return Response.success({result});
+        return Response.success(result);
     }
 }

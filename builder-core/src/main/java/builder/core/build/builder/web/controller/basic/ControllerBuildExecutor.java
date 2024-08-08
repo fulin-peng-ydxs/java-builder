@@ -1,17 +1,15 @@
 package builder.core.build.builder.web.controller.basic;
 
 import builder.core.build.builder.base.Builder;
-import builder.model.build.orm.Entity;
-import builder.model.build.orm.Field;
+import builder.model.build.orm.entity.Entity;
+import builder.model.build.orm.entity.Field;
 import builder.model.build.web.Controller;
 import builder.model.build.web.service.Service;
 import builder.util.ClassUtils;
 import builder.util.TemplateUtils;
 import lombok.Getter;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+
+import java.util.*;
 
 /**
  * 控制器构建执行器
@@ -21,29 +19,29 @@ import java.util.Map;
 @Getter
 public class ControllerBuildExecutor extends Builder {
 
-    private final List<ControllerBuildExecutor> controllerBuildExecutors;
+    private final Collection<ControllerBuildExecutor> controllerBuildExecutors;
 
     public ControllerBuildExecutor(){
         this("/template/web/controller/ControllerTemplate.txt");
     };
 
     public ControllerBuildExecutor(String templatePath){
-        this(templatePath,new LinkedList<>());
+        this(templatePath,Collections.EMPTY_LIST);
     }
 
     public ControllerBuildExecutor(String templatePath,String cloneTemplatePath){
-        this(templatePath,cloneTemplatePath,new LinkedList<>());
+        this(templatePath,cloneTemplatePath,Collections.EMPTY_LIST);
     }
 
-    public ControllerBuildExecutor(List<ControllerBuildExecutor> controllerBuildExecutors){
+    public ControllerBuildExecutor(Collection<ControllerBuildExecutor> controllerBuildExecutors){
        this("/template/web/controller/ControllerTemplate.txt",controllerBuildExecutors);
     }
 
-    public ControllerBuildExecutor(String templatePath,List<ControllerBuildExecutor> controllerBuildExecutors){
+    public ControllerBuildExecutor(String templatePath,Collection<ControllerBuildExecutor> controllerBuildExecutors){
         this(templatePath,"/template/web/controller/ControllerTemplate.txt",controllerBuildExecutors);
     }
 
-    public ControllerBuildExecutor(String templatePath,String cloneTemplatePath, List<ControllerBuildExecutor> controllerBuildExecutors){
+    public ControllerBuildExecutor(String templatePath,String cloneTemplatePath, Collection<ControllerBuildExecutor> controllerBuildExecutors){
         super(templatePath,cloneTemplatePath);
         this.controllerBuildExecutors=controllerBuildExecutors;
     }
@@ -80,7 +78,7 @@ public class ControllerBuildExecutor extends Builder {
      */
     protected Map<String,String> buildBasicPadding(Controller controller){
         Map<String, String> paddings = new HashMap<>();
-        paddings.put("{package}", controller.getReference());
+        paddings.put("{package}", controller.getPackages());
         paddings.put("{description}", controller.getDescription());
         paddings.put("{Controller}", controller.getName());
         Service serviceInterface = controller.getServiceImpl().getServiceInterface();

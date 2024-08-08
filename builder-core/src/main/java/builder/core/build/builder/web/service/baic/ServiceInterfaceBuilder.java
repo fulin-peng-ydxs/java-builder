@@ -3,8 +3,8 @@ package builder.core.build.builder.web.service.baic;
 
 import builder.core.build.builder.base.Builder;
 import builder.core.build.builder.web.service.ServiceBuilderProcessor;
-import builder.model.build.orm.Entity;
-import builder.model.build.orm.Field;
+import builder.model.build.orm.entity.Entity;
+import builder.model.build.orm.entity.Field;
 import builder.model.build.web.service.Service;
 import builder.util.TemplateUtils;
 

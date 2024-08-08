@@ -37,7 +37,6 @@ public class {Controller}{
     @RequestMapping(value = "/save",method = RequestMethod.POST)
     public Map<String,Object> save(@ApiParam(value = "请求体参数",required = true) @RequestBody {Entity} {entity}){
         log.debug("进入-保存{entityDescription}服务：{}",{entity});
-        valid(errors);
         Map<String,Object> result= new HashMap<>();
         result.put("total",{service}.save({entity}));
         result.put("status",true);
@@ -51,7 +50,6 @@ public class {Controller}{
     @RequestMapping(value = "/saveBatch",method = RequestMethod.POST)
     public Map<String,Object> saveBatch(@ApiParam(value = "请求体参数",required = true) @RequestBody List<{Entity}> {entity}s){
         log.debug("进入-批量保存{entityDescription}服务：{}",{entity}s);
-        valid(errors);
         Map<String,Object> result = new HashMap<>();
         result.put("total",{service}.saveBatch({entity}s));
         result.put("status",true);
@@ -63,12 +61,11 @@ public class {Controller}{
     /**查询分页*/
     @ApiOperation(value="查询",notes = "查询{entityDescription}列表（分页查询）")
     @RequestMapping(value = "/find",method = RequestMethod.POST)
-    public Map<String,Object> find(@ApiParam(value = "请求体参数",required = true) @RequestBody {Entity} {entity},@ApiParam(value = "页数",required = true) @RequestParam("page") int page,@ApiParam(value = "页大小",required = true) @RequestParam("pageSize") int pageSize,Errors errors){
+    public Map<String,Object> find(@ApiParam(value = "请求体参数",required = true) @RequestBody {Entity} {entity},@ApiParam(value = "页数",required = true) @RequestParam("page") int page,@ApiParam(value = "页大小",required = true) @RequestParam("pageSize") int pageSize){
         log.debug("进入-查询{entityDescription}列表服务：{}/{}/{}",{entity},page,pageSize);
-        valid(errors);
         Map<String,Object> result = new HashMap<>();
         LambdaQueryWrapper<{Entity}> queryWrapper = new LambdaQueryWrapper<>(new {Entity}());
-        IPage<User> iPage = new Page<>(page,pageSize);
+        IPage<{Entity}> iPage = new Page<>(page,pageSize);
         iPage={service}.page(iPage,queryWrapper);
         result.put("total",iPage.getTotal());
         result.put("body",iPage.getRecords());

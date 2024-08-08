@@ -31,7 +31,7 @@ public class MybatisCommonTest {
                 .DriverClass(Driver.class)
                 .dataBaseInfo(new DataBaseInfo("jpa", Collections.singletonList("user"))).build();
         //设置全局构建信息
-        BuildGlobalConfig.templateCreateInfo
+        BuildGlobalConfig.templateInfo
                 .setUserName("fulin-peng"); //创建用户
         BuildGlobalConfig.templateSuffix="Suffix"; //模板后缀
         BuildGlobalConfig.templatePrefix="Prefix"; //模版前缀

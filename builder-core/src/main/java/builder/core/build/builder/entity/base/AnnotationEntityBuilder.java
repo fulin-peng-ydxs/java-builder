@@ -2,10 +2,12 @@ package builder.core.build.builder.entity.base;
 
 
 import builder.core.build.builder.entity.EntityBuilder;
-import builder.model.build.orm.Field;
+import builder.model.build.orm.entity.Field;
+import builder.util.DateUtils;
 import builder.util.TemplateUtils;
 import lombok.Getter;
 import lombok.Setter;
+
 import java.util.Date;
 import java.util.Map;
 
@@ -20,7 +22,7 @@ import java.util.Map;
 public class AnnotationEntityBuilder extends EntityBuilder {
 
     // 时间格式
-    protected String dateFormat="yyyy-MM-dd HH:mm:ss";
+    protected String dateFormat= DateUtils.defaultFormat;
 
     public AnnotationEntityBuilder(){
         this("/template/basic/AnnotationEntityTemplate.txt");
@@ -52,23 +54,32 @@ public class AnnotationEntityBuilder extends EntityBuilder {
     }
 
     /**
-     * 默认字段补充执行
+     * 字段补充执行
      * 2024/1/25 22:43
      * @author pengshuaifeng
      */
     protected String fieldAddExecute(String cloneFieldPadding,Map<String, String> templateClones ,Field field, StringBuilder cloneImportsBuilder){
         StringBuilder valueBuilder = new StringBuilder();
         String annotationTemplateClone = templateClones.get("cloneFieldAnnotations");
+        fieldAddDefaultExecute(cloneFieldPadding,valueBuilder,annotationTemplateClone,field,cloneImportsBuilder);
+        fieldAddExecute(valueBuilder,annotationTemplateClone,field,cloneImportsBuilder);
+        return valueBuilder.length()==0?null:valueBuilder.toString();
+    }
+
+    /**
+     * 字段补充默认执行
+     * 2024/1/25 22:29
+     * @author pengshuaifeng
+     */
+    protected void fieldAddDefaultExecute(String cloneFieldPadding,StringBuilder annotationBuilder,String annotationTemplateClone ,Field field, StringBuilder importsBuilder){
         //时间字段补充  //TODO 目前时间仅支持Date类型
         if(field.getType()==Date.class){
             if (cloneFieldPadding==null || !cloneFieldPadding.contains("@JsonFormat")) {
-                valueBuilder.append(annotationTemplateClone.replace("{Annotation}",String.format("@JsonFormat(pattern =\"%s\", timezone = \"GMT+8\")",dateFormat)));
+                annotationBuilder.append(annotationTemplateClone.replace("{Annotation}",String.format("@JsonFormat(pattern =\"%s\", timezone = \"GMT+8\")",dateFormat)));
                 String cloneImports = template.getTemplateClones().get("cloneImports");
-                cloneImportsBuilder.append(TemplateUtils.paddingTemplate(cloneImports,"{import}","com.fasterxml.jackson.annotation.JsonFormat"));
+                importsBuilder.append(TemplateUtils.paddingTemplate(cloneImports,"{import}","com.fasterxml.jackson.annotation.JsonFormat"));
             }
         }
-        fieldAddExecute(valueBuilder,annotationTemplateClone,field,cloneImportsBuilder);
-        return valueBuilder.length()==0?null:valueBuilder.toString();
     }
 
     /**

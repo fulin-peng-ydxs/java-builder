@@ -4,17 +4,21 @@ package builder.core.build.builder.web.controller;
 import builder.core.build.builder.web.controller.basic.ControllerBuildExecutor;
 import builder.core.build.response.FileResponder;
 import builder.core.build.response.Responder;
-import builder.model.build.orm.Entity;
+import builder.model.build.config.BuildGlobalConfig;
+import builder.model.build.orm.entity.Entity;
 import builder.model.build.web.Controller;
 import builder.model.build.web.service.Service;
 import builder.util.ClassUtils;
 import builder.util.CollectionUtils;
+import builder.util.FileUtils;
 import builder.util.StringUtils;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -23,13 +27,14 @@ import java.util.List;
  * author: pengshuaifeng
  * 2023/9/24
  */
+@Slf4j
 @Getter
 @Setter
 @Builder
 public class ControllerBuilderProcessor {
 
     //数据源
-    private List<Controller> controllers;
+    private Collection<Controller> controllers;
     //构建器
     private ControllerBuildExecutor controllerBuildExecutor;
     //构建路径
@@ -43,7 +48,7 @@ public class ControllerBuilderProcessor {
      * 2023/9/24 15:22
      * @author pengshuaifeng
      */
-    ControllerBuilderProcessor(List<Controller> controllers, ControllerBuildExecutor controllerBuildExecutor, String rootPath, String executePath, Responder responder){
+    ControllerBuilderProcessor(Collection<Controller> controllers, ControllerBuildExecutor controllerBuildExecutor, String rootPath, String executePath, Responder responder){
         this.controllers=controllers;
         this.controllerBuildExecutor = controllerBuildExecutor;
         this.rootPath=rootPath;
@@ -88,6 +93,19 @@ public class ControllerBuilderProcessor {
      * @author pengshuaifeng
      */
     public void build(){
+        build(controllers);
+    }
+
+    public void buildByService(Collection<Service> serviceImpls){
+        setGeneratedControllers(serviceImpls);
+        build();
+    }
+
+    public void build(Collection<Controller> controllers){
+        if(!BuildGlobalConfig.templateWeb.isControllerEnable()){
+            log.debug("“controller”构建器不参与构建：isControllerEnable={}", false);
+            return;
+        }
         if(CollectionUtils.isNotEmpty(controllers)){
             controllers.forEach(this::buildExecute);
         }else throw new RuntimeException("没有构建源");
@@ -119,13 +137,13 @@ public class ControllerBuilderProcessor {
         controller.setDescription(entity.getName()+"控制器");
         controller.setEntity(entity);
         controller.setServiceImpl(serviceImpl);
-        String referencePath = ClassUtils.generateReferencePath(executePath);
+        String referencePath = ClassUtils.generateReferencePath(FileUtils.pathSeparator(rootPath,executePath)) ;
         controller.setPackages(referencePath);
         controller.setReference(referencePath +"."+controller.getName());
         return controller;
     }
 
-    public List<Controller> generateControllers(List<Service> serviceImpls){
+    public Collection<Controller> generateControllers(Collection<Service> serviceImpls){
         List<Controller> result=new LinkedList<>();
         for (Service serviceImpl : serviceImpls) {
             Controller controller = generateController(serviceImpl);
@@ -134,4 +152,12 @@ public class ControllerBuilderProcessor {
         return result;
     }
 
+    /**
+     * 设置控制器
+     * 2024/8/8 下午12:07
+     * @author fulin-peng
+     */
+    public void setGeneratedControllers(Collection<Service> serviceImpls){
+        this.controllers=generateControllers(serviceImpls);
+    }
 }

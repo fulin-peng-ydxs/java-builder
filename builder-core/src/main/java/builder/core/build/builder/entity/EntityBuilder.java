@@ -1,8 +1,8 @@
 package builder.core.build.builder.entity;
 
 import builder.core.build.builder.base.Builder;
-import builder.model.build.orm.Entity;
-import builder.model.build.orm.Field;
+import builder.model.build.orm.entity.Entity;
+import builder.model.build.orm.entity.Field;
 import builder.util.ClassUtils;
 import builder.util.TemplateUtils;
 import lombok.Getter;

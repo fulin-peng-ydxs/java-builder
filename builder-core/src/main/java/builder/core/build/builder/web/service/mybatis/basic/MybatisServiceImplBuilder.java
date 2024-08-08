@@ -3,8 +3,8 @@ package builder.core.build.builder.web.service.mybatis.basic;
 
 import builder.core.build.builder.web.service.ServiceBuilderProcessor;
 import builder.core.build.builder.web.service.baic.ServiceImplBuilder;
-import builder.model.build.orm.Entity;
-import builder.model.build.orm.Field;
+import builder.model.build.orm.entity.Entity;
+import builder.model.build.orm.entity.Field;
 import builder.model.build.orm.mybatis.Mapper;
 import builder.model.build.web.service.MybatisService;
 import builder.model.build.web.service.Service;

@@ -7,7 +7,7 @@ import builder.core.build.builder.web.service.mybatis.basic.MybatisServiceImplBu
 import builder.core.build.builder.web.service.mybatis.plus.MybatisPlusServiceImplBuilder;
 import builder.core.build.builder.web.service.mybatis.plus.MybatisPlusServiceInterfaceBuilder;
 import builder.model.build.config.content.MybatisContent;
-import builder.model.build.orm.Entity;
+import builder.model.build.orm.entity.Entity;
 import builder.model.build.orm.mybatis.Mapper;
 import builder.model.build.web.service.MybatisService;
 import builder.model.build.web.service.Service;
@@ -16,6 +16,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -84,9 +85,9 @@ public class MybatisServiceBuilderProcessor {
             mybatisBuilderProcessor.build(MybatisContent.ALL);
             mappers = mybatisBuilderProcessor.getMappers();
         }
-        serviceBuilderProcessor.setServiceInterfaces(generateServiceInterface(serviceBuilderProcessor,mappers));
-        serviceBuilderProcessor.setServiceImpls(generateServiceImpls(serviceBuilderProcessor, serviceBuilderProcessor.getServiceInterfaces()));
-        serviceBuilderProcessor.build();
+        Collection<Service> serviceInterfaces = generateServiceInterfaces(serviceBuilderProcessor, mappers);
+        Collection<Service> generateServiceImpls = generateServiceImpls(serviceBuilderProcessor, serviceInterfaces);
+        serviceBuilderProcessor.build(serviceInterfaces,generateServiceImpls);
     }
 
     /**
@@ -94,7 +95,7 @@ public class MybatisServiceBuilderProcessor {
      * 2023/9/23 17:39
      * @author pengshuaifeng
      */
-    public static List<Service> generateServiceImpls(ServiceBuilderProcessor serviceBuilderProcessor, List<Service> serviceInterfaces){
+    public static Collection<Service> generateServiceImpls(ServiceBuilderProcessor serviceBuilderProcessor, Collection<Service> serviceInterfaces){
         List<Service> result=new LinkedList<>();
         for (Service serviceInterface : serviceInterfaces) {
             MybatisService interfaceService = (MybatisService) serviceInterface;
@@ -111,7 +112,7 @@ public class MybatisServiceBuilderProcessor {
      * 2023/9/23 17:39
      * @author pengshuaifeng
      */
-    public static List<Service> generateServiceInterface(ServiceBuilderProcessor serviceBuilderProcessor, List<Mapper> mappers){
+    public static Collection<Service> generateServiceInterfaces(ServiceBuilderProcessor serviceBuilderProcessor,Collection<Mapper> mappers){
         List<Service> result=new LinkedList<>();
         for (Mapper mapper : mappers) {
             Entity entity = mapper.getEntity();
