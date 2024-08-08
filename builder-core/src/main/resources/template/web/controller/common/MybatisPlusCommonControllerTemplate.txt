@@ -33,8 +33,8 @@ public class {Controller}{
     private {Service} {service};
 
     /**保存*/
-    @ApiOperation(value="保存",notes = "保存{entityDescription}")
-    @RequestMapping(value = "/save",method = RequestMethod.POST)
+    @ApiOperation(value="保存",notes = "保存{entityDescription}",produces = "application/json;charset=utf-8")
+    @RequestMapping(value = "/save",method = RequestMethod.POST,produces = "application/json;charset=utf-8")
     public Map<String,Object> save(@ApiParam(value = "请求体参数",required = true) @RequestBody {Entity} {entity}){
         log.debug("进入-保存{entityDescription}服务：{}",{entity});
         Map<String,Object> result= new HashMap<>();
@@ -46,8 +46,8 @@ public class {Controller}{
     }
 
     /**批量保存*/
-    @ApiOperation(value="批量保存",notes = "批量保存{entityDescription}")
-    @RequestMapping(value = "/saveBatch",method = RequestMethod.POST)
+    @ApiOperation(value="批量保存",notes = "批量保存{entityDescription}",produces = "application/json;charset=utf-8")
+    @RequestMapping(value = "/saveBatch",method = RequestMethod.POST,produces = "application/json;charset=utf-8")
     public Map<String,Object> saveBatch(@ApiParam(value = "请求体参数",required = true) @RequestBody List<{Entity}> {entity}s){
         log.debug("进入-批量保存{entityDescription}服务：{}",{entity}s);
         Map<String,Object> result = new HashMap<>();
@@ -59,8 +59,8 @@ public class {Controller}{
     }
 
     /**查询分页*/
-    @ApiOperation(value="查询",notes = "查询{entityDescription}列表（分页查询）")
-    @RequestMapping(value = "/find",method = RequestMethod.POST)
+    @ApiOperation(value="查询",notes = "查询{entityDescription}列表（分页查询）",produces = "application/json;charset=utf-8")
+    @RequestMapping(value = "/find",method = RequestMethod.POST,produces = "application/json;charset=utf-8")
     public Map<String,Object> find(@ApiParam(value = "请求体参数",required = true) @RequestBody {Entity} {entity},@ApiParam(value = "页数",required = true) @RequestParam("page") int page,@ApiParam(value = "页大小",required = true) @RequestParam("pageSize") int pageSize){
         log.debug("进入-查询{entityDescription}列表服务：{}/{}/{}",{entity},page,pageSize);
         Map<String,Object> result = new HashMap<>();
@@ -76,8 +76,8 @@ public class {Controller}{
     }
 
     /**详情*/
-    @ApiOperation(value="详情",notes = "查看{entityDescription}详情")
-    @RequestMapping(value = "/detail/{{primaryKeyField}}",method = RequestMethod.GET)
+    @ApiOperation(value="详情",notes = "查看{entityDescription}详情",produces = "application/json;charset=utf-8")
+    @RequestMapping(value = "/detail/{{primaryKeyField}}",method = RequestMethod.GET,produces = "application/json;charset=utf-8")
     public Map<String,Object> detail(@ApiParam(value = "{entityDescription}Id",required = true) @PathVariable {PrimaryKeyField} {primaryKeyField}){
         log.debug("进入-查询{entityDescription}详情服务：{}",{primaryKeyField});
         Map<String,Object> result= new HashMap<>();
@@ -90,8 +90,8 @@ public class {Controller}{
     }
 
     /**删除*/
-    @ApiOperation(value="删除",notes = "删除{entityDescription}")
-    @RequestMapping(value = "/remove/{{primaryKeyField}}",method = RequestMethod.DELETE)
+    @ApiOperation(value="删除",notes = "删除{entityDescription}",produces = "application/json;charset=utf-8")
+    @RequestMapping(value = "/remove/{{primaryKeyField}}",method = RequestMethod.DELETE,produces = "application/json;charset=utf-8")
     public Map<String,Object> deleteById(@ApiParam(value = "{entityDescription}Id",required = true) @PathVariable {PrimaryKeyField} {primaryKeyField}){
         log.debug("进入-删除{entityDescription}服务：{}",{primaryKeyField});
         Map<String,Object> result= new HashMap<>();

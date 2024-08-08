@@ -23,7 +23,7 @@ public class {Controller}{
     private {Service} {service};
 
     /**保存*/
-    @RequestMapping(value = "/save",method = RequestMethod.POST)
+    @RequestMapping(value = "/save",method = RequestMethod.POST,produces = "application/json;charset=utf-8")
     public Map<String,Object> save(@RequestBody {Entity} {entity}){
         Map<String,Object> result=new HashMap<>();
         result.put("total",{service}.save({entity}));
@@ -33,7 +33,7 @@ public class {Controller}{
     }
 
     /**批量保存*/
-    @RequestMapping(value = "/saveBatch",method = RequestMethod.POST)
+    @RequestMapping(value = "/saveBatch",method = RequestMethod.POST,produces = "application/json;charset=utf-8")
     public Map<String,Object> saveBatch(@RequestBody List<{Entity}> {entity}s){
         Map<String,Object> result=new HashMap<>();
         result.put("total",{service}.saveBatch({entity}s));
@@ -43,7 +43,7 @@ public class {Controller}{
     }
 
     /**查询*/
-    @RequestMapping(value = "/find",method = RequestMethod.POST)
+    @RequestMapping(value = "/find",method = RequestMethod.POST,produces = "application/json;charset=utf-8")
     public Map<String,Object> find(@RequestBody {Entity} {entity}){
         Map<String,Object> result=new HashMap<>();
         List<{Entity}> rows={service}.find({entity});
@@ -55,7 +55,7 @@ public class {Controller}{
     }
 
     /**详情*/
-    @RequestMapping(value = "/detail/{{primaryKeyField}}",method = RequestMethod.GET)
+    @RequestMapping(value = "/detail/{{primaryKeyField}}",method = RequestMethod.GET,produces = "application/json;charset=utf-8")
     public Map<String,Object> detail(@PathVariable {PrimaryKeyField} {primaryKeyField}){
         Map<String,Object> result=new HashMap<>();
         {Entity} {entity}={service}.detail({primaryKeyField});
@@ -66,7 +66,7 @@ public class {Controller}{
     }
 
     /**删除*/
-    @RequestMapping(value = "/remove/{{primaryKeyField}}",method = RequestMethod.DELETE)
+    @RequestMapping(value = "/remove/{{primaryKeyField}}",method = RequestMethod.DELETE,produces = "application/json;charset=utf-8")
     public Map<String,Object> deleteById(@PathVariable {PrimaryKeyField} {primaryKeyField}){
         Map<String,Object> result=new HashMap<>();
         result.put("total",{service}.remove({primaryKeyField}));
