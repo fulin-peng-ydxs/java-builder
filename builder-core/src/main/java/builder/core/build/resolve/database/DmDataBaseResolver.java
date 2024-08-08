@@ -25,6 +25,8 @@ public class DmDataBaseResolver extends DataBaseResolver{
         preStatementTable.setString(2, tableName);
         preStatementTable.setString(3, tableName);
         preStatementTable.setString(4,dataBaseName);
+        preStatementTable.setString(5, tableName);
+        preStatementTable.setString(6,dataBaseName);
         return preStatementTable.executeQuery();
     }
 

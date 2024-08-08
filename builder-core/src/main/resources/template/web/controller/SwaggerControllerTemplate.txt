@@ -17,7 +17,7 @@ import io.swagger.annotations.ApiParam;
  * author: {author}
  * {date}
  */
-@Api(tags = "description")
+@Api(tags = "{description}")
 @Controller
 @ResponseBody
 @RequestMapping("/{Entity}")

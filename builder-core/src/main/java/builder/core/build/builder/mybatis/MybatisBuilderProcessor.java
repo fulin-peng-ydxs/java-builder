@@ -123,7 +123,7 @@ public class MybatisBuilderProcessor {
     }
 
     public void build(MybatisContent mybatisContent){
-        if(connectionInfo!=null){
+        if(connectionInfo!=null){  //TODO 应该抽离出去，由entity主动解析
             setBuildData(DataBaseResolver.getDataBaseResolver(connectionInfo));
         }else throw new RuntimeException("没有构建源");
         buildExecute(mybatisContent);
@@ -241,7 +241,7 @@ public class MybatisBuilderProcessor {
         String referencePath = ClassUtils.generateReferencePath(path);
         mapper.setReference(referencePath +"."+mapper.getName());
         mapper.setPackages(referencePath);
-        mapper.setDescription(entity.getName()+"映射器");
+        mapper.setDescription(entity.getDescription()+"映射器");
         return mapper;
     }
 

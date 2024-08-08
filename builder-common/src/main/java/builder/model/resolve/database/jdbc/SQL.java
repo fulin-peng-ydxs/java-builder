@@ -8,8 +8,11 @@ import lombok.ToString;
 public enum SQL {
 
     MYSQL(
-            "select column_name columnName,table_name tableName,data_type dataType,is_nullable isNull,column_key isPrimaryKey,column_comment fieldComment,character_maximum_length fieldLength " +
-            "from information_schema.columns  " + "where table_name = ? and table_schema= ? order by ordinal_position",
+            "select t.table_name tableName,t.table_comment tableComment,column_name columnName,data_type dataType,is_nullable isNull,column_key isPrimaryKey,column_comment fieldComment,character_maximum_length fieldLength \n" +
+                    "from information_schema.tables t\n" +
+                    "left join information_schema.columns c on c.TABLE_NAME=t.TABLE_NAME \n" +
+                    "where t.table_name = ? and t.table_schema= ? \n" +
+                    "order by ordinal_position",
 
             "select table_name tableName  from information_schema.`TABLES` where table_schema= ?"
     ),
@@ -18,7 +21,8 @@ public enum SQL {
             "     col.column_name columnName,col.table_name tableName ,col.data_type dataType, col.data_length fieldLength,\n" +
             "      col.nullable isNull,\n" +
             "    (CASE WHEN pk.column_name IS NOT NULL THEN 'YES' ELSE 'NO' END) AS isPrimaryKey,\n" +
-            "    comm.comments AS fieldComment\n" +
+            "    comm.comments AS fieldComment,\n" +
+            "    tab_comm.comments AS tableComment\n" +
             "FROM \n" +
             "    dba_tab_columns col\n" +
             "LEFT JOIN \n" +
@@ -36,6 +40,12 @@ public enum SQL {
             "     WHERE comm.table_name = ?) comm\n" +
             "ON \n" +
             "    col.column_name = comm.column_name\n" +
+            "LEFT JOIN \n" +
+            "    (SELECT table_name, comments\n" +
+            "     FROM dba_tab_comments\n" +
+            "     WHERE table_name = ? AND owner = ?) tab_comm\n" +
+            "ON \n" +
+            "    col.table_name = tab_comm.table_name\n"+
             "WHERE \n" +
             "    col.table_name = ? and  col.owner=?\n" +
             "ORDER BY \n" +

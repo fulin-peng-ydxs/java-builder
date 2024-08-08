@@ -134,7 +134,7 @@ public class ControllerBuilderProcessor {
         Controller controller = new Controller();
         Entity entity = serviceImpl.getEntity();
         controller.setName(entity.getName()+"Controller");
-        controller.setDescription(entity.getName()+"控制器");
+        controller.setDescription(entity.getDescription()+"控制器");
         controller.setEntity(entity);
         controller.setServiceImpl(serviceImpl);
         String referencePath = ClassUtils.generateReferencePath(FileUtils.pathSeparator(rootPath,executePath)) ;

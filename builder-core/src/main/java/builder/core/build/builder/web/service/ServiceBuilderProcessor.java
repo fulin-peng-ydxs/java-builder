@@ -155,7 +155,7 @@ public class ServiceBuilderProcessor {
     public Service generateServiceInterface(Entity entity){
         Service service = new Service();
         service.setName(entity.getName()+"Service");
-        service.setDescription(entity.getName()+"服务");
+        service.setDescription(entity.getDescription()+"服务");
         return generateBaseService(service, ClassUtils.generateReferencePath(FileUtils.pathSeparator(rootPath,serviceInterfacePath)),entity);
     }
     
@@ -167,7 +167,7 @@ public class ServiceBuilderProcessor {
     public Service generateServiceImpl(Entity entity,Service serviceInterface){
         Service service = new Service();
         service.setName(entity.getName()+"ServiceImpl");
-        service.setDescription(entity.getName()+"服务实现");
+        service.setDescription(entity.getDescription()+"服务实现");
         service.setServiceInterface(serviceInterface);
         return generateBaseService(service, ClassUtils.generateReferencePath(FileUtils.pathSeparator(rootPath,serviceImplPath)) ,entity);
     }

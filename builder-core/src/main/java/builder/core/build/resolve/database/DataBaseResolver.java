@@ -109,10 +109,14 @@ public abstract class DataBaseResolver {
         try {
             TableInfo tableInfo = new TableInfo();
             String tableName=null;
+            String tableDescription=null;
             LinkedList<ColumnInfo> columnInfos = new LinkedList<>();
             while (resultSet.next()) {
                 if(tableName==null){
                     tableName=resultSet.getString("tableName");
+                }
+                if(tableDescription==null){
+                    tableDescription=resultSet.getString("tableComment");
                 }
                 ColumnInfo columnInfo = getColumnInfo(resultSet);
                 if(columnInfo.isPrimaryKey()){
@@ -122,8 +126,7 @@ public abstract class DataBaseResolver {
             }
             tableInfo.setColumnInfos(columnInfos);
             tableInfo.setName(tableName);
-            //TODO 动态取值
-            tableInfo.setDescription(tableName);
+            tableInfo.setDescription(tableDescription==null?tableName:tableDescription);
             return tableInfo;
         } catch (Exception e) {
             throw new RuntimeException("获取数据表异常",e);

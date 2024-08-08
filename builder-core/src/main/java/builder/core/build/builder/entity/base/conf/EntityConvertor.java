@@ -47,6 +47,7 @@ public class EntityConvertor {
         }
         entity.setTableInfo(tableInfo);
         entity.setFields(fields);
+        entity.setDescription(tableInfo.getDescription());
         return entity;
     }
 

@@ -22,6 +22,8 @@ public class Entity {
     private String reference;
     //包声明
     private String packages;
+    //实体描述
+    private String description;
     //实体表对象
     private TableInfo tableInfo;
 }
