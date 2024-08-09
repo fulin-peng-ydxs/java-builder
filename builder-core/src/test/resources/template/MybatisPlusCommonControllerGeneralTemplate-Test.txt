@@ -36,7 +36,7 @@ public class {Controller}{
 
     @ApiOperation(value="保存",notes = "保存{entityDescription}",produces = "application/json;charset=utf-8")
     @RequestMapping(value = "/save",method = RequestMethod.POST,produces = "application/json;charset=utf-8")
-    public Response save(@ApiParam(value = "请求参数",required = true) @RequestBody {Entity} {entity}){
+    public Response<Long> save(@ApiParam(value = "请求参数",required = true) @RequestBody {Entity} {entity}){
         log.debug("进入-保存{entityDescription}服务：{}",{entity});
         {service}.save({entity});
         {PrimaryKeyField} {primaryKeyField} = {entity}.{getPrimaryKeyField};
@@ -46,7 +46,7 @@ public class {Controller}{
 
     @ApiOperation(value="批量保存",notes = "批量保存{entityDescription}",produces = "application/json;charset=utf-8")
     @RequestMapping(value = "/saveBatch",method = RequestMethod.POST,produces = "application/json;charset=utf-8")
-    public Response saveBatch(@ApiParam(value = "请求参数",required = true) @RequestBody List<{Entity}> {entity}s){
+    public Response<Integer> saveBatch(@ApiParam(value = "请求参数",required = true) @RequestBody List<{Entity}> {entity}s){
         log.debug("进入-批量保存{entityDescription}服务：{}",{entity}s);
         {service}.saveBatch({entity}s);
         log.debug("退出-批量保存{entityDescription}服务：{}",{entity}s.size());
@@ -55,19 +55,19 @@ public class {Controller}{
 
     @ApiOperation(value="查询",notes = "查询{entityDescription}列表",produces = "application/json;charset=utf-8")
     @RequestMapping(value = "/find",method = RequestMethod.POST,produces = "application/json;charset=utf-8")
-    public Response find(@ApiParam(value = "请求参数",required = true) @RequestBody PageRequestParam<{Entity}> param){
+    public Response<GeneralQueryResult<List<{Entity}>>> find(@ApiParam(value = "请求参数",required = true) @RequestBody PageRequestParam<{Entity}> param){
         log.debug("进入-查询{entityDescription}列表服务：{}",param);
         LambdaQueryWrapper<{Entity}> queryWrapper = new LambdaQueryWrapper<>(param.getBody());
         IPage<{Entity}> page = new Page<>(param.getPage(),param.getPageSize());
         {service}.page(page,queryWrapper);
-        GeneralQueryResult generalQueryResult = new GeneralQueryResult(page.getRecords(),page.getTotal());
+        GeneralQueryResult<List<{Entity}>> generalQueryResult = new GeneralQueryResult<>(page.getRecords(),page.getTotal());
         log.debug("退出-查询{entityDescription}服务：{}",page.getTotal());
         return Response.success(generalQueryResult);
     }
 
     @ApiOperation(value="详情",notes = "查看{entityDescription}详情",produces = "application/json;charset=utf-8")
     @RequestMapping(value = "/detail/{{primaryKeyField}}",method = RequestMethod.GET,produces = "application/json;charset=utf-8")
-    public Response detail(@ApiParam(value = "{entityDescription}Id",required = true) @PathVariable {PrimaryKeyField} {primaryKeyField}){
+    public Response<{Entity}> detail(@ApiParam(value = "{entityDescription}Id",required = true) @PathVariable {PrimaryKeyField} {primaryKeyField}){
         log.debug("进入-查询{entityDescription}详情服务：{}",{primaryKeyField});
         {Entity} {entity} = {service}.getById({primaryKeyField});
         log.debug("退出-查询{entityDescription}详情服务：{}",{entity});
@@ -76,10 +76,10 @@ public class {Controller}{
 
     @ApiOperation(value="删除",notes = "删除{entityDescription}",produces = "application/json;charset=utf-8")
     @RequestMapping(value = "/remove/{{primaryKeyField}}",method = RequestMethod.DELETE,produces = "application/json;charset=utf-8")
-    public Response deleteById(@ApiParam(value = "{entityDescription}Id",required = true) @PathVariable {PrimaryKeyField} {primaryKeyField}){
+    public Response<Integer> deleteById(@ApiParam(value = "{entityDescription}Id",required = true) @PathVariable {PrimaryKeyField} {primaryKeyField}){
         log.debug("进入-删除{entityDescription}服务：{}",{primaryKeyField});
         boolean result = {service}.removeById({primaryKeyField});
         log.debug("退出-删除{entityDescription}服务：{}",result);
-        return Response.success(result);
+        return Response.success(result?1:0);
     }
 }
