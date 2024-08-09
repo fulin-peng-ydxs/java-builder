@@ -22,7 +22,7 @@ public class SwaggerEntityBuilder extends AnnotationEntityBuilder {
 
 
     @Override
-    protected void fieldAddExecute(StringBuilder annotationBuilder,String annotationTemplateClone ,Field field, Set<String> cloneImports){
+    protected void fieldAddExecute(String annotationsValue,StringBuilder annotationBuilder,String annotationTemplateClone ,Field field, Set<String> cloneImports){
         if(!BuildGlobalConfig.templateEntity.isSwaggerEnable()){
             log.debug("swagger-实体构建器不参与构建：isSwaggerEnable={}",false);
             return;

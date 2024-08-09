@@ -1,7 +1,7 @@
 package builder.core.build.builder.base;
 
 
-import builder.model.build.config.template.Template;
+import builder.model.build.config.template.basic.Template;
 import builder.util.TemplateUtils;
 import lombok.NoArgsConstructor;
 
@@ -32,6 +32,7 @@ public class Builder {
     }
 
     public static Template generateTemplate(String path,String clonePath){
+        //TODO clone-path应该也能够直接指定， 而不需要依赖对应模板文件
         return new Template(TemplateUtils.getTemplate(path),
                 TemplateUtils.getTemplates(path), TemplateUtils.getCloneTemplates(TemplateUtils.getCloneTemplatePath(clonePath)));
     }

@@ -1,7 +1,7 @@
 package builder.core.build.builder.mybatis.mapper;
 
 import builder.core.build.builder.base.Builder;
-import builder.model.build.config.template.Template;
+import builder.model.build.config.template.basic.Template;
 import builder.model.build.orm.entity.Entity;
 import builder.model.build.orm.entity.Field;
 import builder.model.build.orm.mybatis.Mapper;

@@ -1,4 +1,4 @@
-package builder.model.build.config.template;
+package builder.model.build.config.template.basic;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

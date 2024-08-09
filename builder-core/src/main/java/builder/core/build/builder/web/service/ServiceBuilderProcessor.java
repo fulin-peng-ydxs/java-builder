@@ -5,7 +5,7 @@ import builder.core.build.builder.web.service.baic.ServiceInterfaceBuilder;
 import builder.core.build.response.FileResponder;
 import builder.core.build.response.Responder;
 import builder.model.build.config.BuildGlobalConfig;
-import builder.model.build.config.template.Template;
+import builder.model.build.config.template.basic.Template;
 import builder.model.build.orm.entity.Entity;
 import builder.model.build.web.service.Service;
 import builder.util.ClassUtils;

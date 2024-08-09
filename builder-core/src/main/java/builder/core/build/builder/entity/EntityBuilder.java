@@ -38,7 +38,7 @@ public class EntityBuilder extends Builder {
     }
 
     public EntityBuilder(String templatePath,String cloneTemplatePath){
-        this(templatePath,cloneTemplatePath,new LinkedList<>());
+        this(templatePath,cloneTemplatePath,Collections.EMPTY_LIST);
     }
 
     public EntityBuilder(String templatePath,List<EntityBuilder> entityBuilders){

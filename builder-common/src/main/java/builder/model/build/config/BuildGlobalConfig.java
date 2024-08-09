@@ -1,10 +1,11 @@
 package builder.model.build.config;
 
 
-import builder.model.build.config.template.TemplateEntity;
-import builder.model.build.config.template.TemplateInfo;
-import builder.model.build.config.template.TemplateMapper;
-import builder.model.build.config.template.TemplateWeb;
+import builder.model.build.config.template.basic.TemplateEntity;
+import builder.model.build.config.template.basic.TemplateInfo;
+import builder.model.build.config.template.basic.TemplateMapper;
+import builder.model.build.config.template.basic.TemplateWeb;
+import builder.model.build.config.template.mybatis.MybatisPlusGlobalConfig;
 
 /**
  * 构建全局配置
@@ -31,4 +32,7 @@ public class BuildGlobalConfig {
 
     //web模板配置
     public static TemplateWeb templateWeb=TemplateWeb.defaultInstance;
+
+    //mybatis-plus配置
+    public static MybatisPlusGlobalConfig mybatisPlusConfig=MybatisPlusGlobalConfig.defaultInstance;
 }

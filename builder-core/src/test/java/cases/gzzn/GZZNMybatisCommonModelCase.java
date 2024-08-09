@@ -8,9 +8,12 @@ import builder.model.resolve.database.jdbc.ConnectionInfo;
 import builder.model.resolve.database.jdbc.DataBaseInfo;
 import org.junit.Before;
 import org.junit.Test;
+
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Properties;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * 通用的mybatis构建组件实战案例-广州智能
@@ -43,6 +46,9 @@ public class GZZNMybatisCommonModelCase {
         //设置全局构建信息
         BuildGlobalConfig.templateInfo
                 .setUserName("fulin-peng"); //创建用户
+        BuildGlobalConfig.mybatisPlusConfig
+                .setManualOperationMappingFields(Stream.of("X_84","Y_84").collect(Collectors.toSet()));  //手动绑定映射
+
         //创建构建器
         builderCommon= GeneralMybatisBuilderCommon.builder()
                 .connectionInfo(connectionInfo)

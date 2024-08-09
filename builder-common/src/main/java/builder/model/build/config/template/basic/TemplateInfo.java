@@ -1,4 +1,4 @@
-package builder.model.build.config.template;
+package builder.model.build.config.template.basic;
 
 import builder.util.DateUtils;
 import lombok.Data;
