@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import {entityImport};
 /**
  * {description}
- * author: {author}
+ * @author {author}
  * {date}
  */
 public interface {Mapper} extends BaseMapper<{Entity}> {

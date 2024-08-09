@@ -8,7 +8,7 @@ import io.swagger.annotations.ApiModelProperty;
 {cloneImports}
 /**
  * {description}
- * author: {author}
+ * @author {author}
  * {date}
  */
 @ApiModel("{Entity}")

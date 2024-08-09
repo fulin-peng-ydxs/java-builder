@@ -5,6 +5,8 @@ import builder.model.build.config.BuildGlobalConfig;
 import builder.model.build.orm.entity.Field;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.Set;
+
 /**
  * swagger-实体构建器
  * author: pengshuaifeng
@@ -20,7 +22,7 @@ public class SwaggerEntityBuilder extends AnnotationEntityBuilder {
 
 
     @Override
-    protected void fieldAddExecute(StringBuilder annotationBuilder,String annotationTemplateClone ,Field field, StringBuilder importsBuilder){
+    protected void fieldAddExecute(StringBuilder annotationBuilder,String annotationTemplateClone ,Field field, Set<String> cloneImports){
         if(!BuildGlobalConfig.templateEntity.isSwaggerEnable()){
             log.debug("swagger-实体构建器不参与构建：isSwaggerEnable={}",false);
             return;

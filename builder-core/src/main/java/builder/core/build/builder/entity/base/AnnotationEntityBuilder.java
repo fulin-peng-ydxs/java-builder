@@ -10,6 +10,7 @@ import lombok.Setter;
 
 import java.util.Date;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * 注解-实体构造器
@@ -38,9 +39,9 @@ public class AnnotationEntityBuilder extends EntityBuilder {
 
 
     @Override
-    protected void fieldAddExt(Map<String, String> cloneFieldPaddings,Map<String, String> templateClones ,Field field, StringBuilder cloneImportsBuilder) {
+    protected void fieldAddExt(Map<String, String> cloneFieldPaddings, Map<String, String> templateClones , Field field, Set<String> cloneImports) {
         String annotationsValue = cloneFieldPaddings.get("{Annotations}");
-        String value = fieldAddExecute(annotationsValue,templateClones, field, cloneImportsBuilder);
+        String value = fieldAddExecute(annotationsValue,templateClones, field, cloneImports);
         if(value==null && annotationsValue==null){  //都为null,使用空代替
             value=TemplateUtils.templateNullValue;
         }else if(value != null && annotationsValue!=null){ //都不为null，如果是空，则覆盖，如果不是空，则追加
@@ -58,11 +59,11 @@ public class AnnotationEntityBuilder extends EntityBuilder {
      * 2024/1/25 22:43
      * @author pengshuaifeng
      */
-    protected String fieldAddExecute(String cloneFieldPadding,Map<String, String> templateClones ,Field field, StringBuilder cloneImportsBuilder){
+    protected String fieldAddExecute(String cloneFieldPadding,Map<String, String> templateClones ,Field field, Set<String> cloneImports){
         StringBuilder valueBuilder = new StringBuilder();
         String annotationTemplateClone = templateClones.get("cloneFieldAnnotations");
-        fieldAddDefaultExecute(cloneFieldPadding,valueBuilder,annotationTemplateClone,field,cloneImportsBuilder);
-        fieldAddExecute(valueBuilder,annotationTemplateClone,field,cloneImportsBuilder);
+        fieldAddDefaultExecute(cloneFieldPadding,valueBuilder,annotationTemplateClone,field,cloneImports);
+        fieldAddExecute(valueBuilder,annotationTemplateClone,field,cloneImports);
         return valueBuilder.length()==0?null:valueBuilder.toString();
     }
 
@@ -71,13 +72,13 @@ public class AnnotationEntityBuilder extends EntityBuilder {
      * 2024/1/25 22:29
      * @author pengshuaifeng
      */
-    protected void fieldAddDefaultExecute(String cloneFieldPadding,StringBuilder annotationBuilder,String annotationTemplateClone ,Field field, StringBuilder importsBuilder){
+    protected void fieldAddDefaultExecute(String cloneFieldPadding,StringBuilder annotationBuilder,String annotationTemplateClone ,Field field,Set<String> cloneImports){
         //时间字段补充  //TODO 目前时间仅支持Date类型
         if(field.getType()==Date.class){
             if (cloneFieldPadding==null || !cloneFieldPadding.contains("@JsonFormat")) {
                 annotationBuilder.append(annotationTemplateClone.replace("{Annotation}",String.format("@JsonFormat(pattern =\"%s\", timezone = \"GMT+8\")",dateFormat)));
-                String cloneImports = template.getTemplateClones().get("cloneImports");
-                importsBuilder.append(TemplateUtils.paddingTemplate(cloneImports,"{import}","com.fasterxml.jackson.annotation.JsonFormat"));
+                String cloneImportsTemplate = template.getTemplateClones().get("cloneImports");
+                cloneImports.add(TemplateUtils.paddingTemplate(cloneImportsTemplate,"{import}","com.fasterxml.jackson.annotation.JsonFormat"));
             }
         }
     }
@@ -87,6 +88,6 @@ public class AnnotationEntityBuilder extends EntityBuilder {
      * 2024/1/25 22:29
      * @author pengshuaifeng
      */
-    protected void fieldAddExecute(StringBuilder annotationBuilder,String annotationTemplateClone ,Field field, StringBuilder importsBuilder){}
+    protected void fieldAddExecute(StringBuilder annotationBuilder,String annotationTemplateClone ,Field field, Set<String> cloneImports){}
 
 }

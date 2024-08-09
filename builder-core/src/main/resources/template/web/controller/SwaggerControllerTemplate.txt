@@ -14,7 +14,7 @@ import io.swagger.annotations.ApiParam;
 {cloneImports}
 /**
  * {description}
- * author: {author}
+ * @author {author}
  * {date}
  */
 @Api(tags = "{description}")

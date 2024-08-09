@@ -7,6 +7,8 @@ import builder.model.resolve.database.ColumnInfo;
 import builder.util.TemplateUtils;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.Set;
+
 /**
  * JSR303规范-实体构建器
  * author: pengshuaifeng
@@ -21,7 +23,7 @@ public class JSR303EntityBuilder extends AnnotationEntityBuilder {
     }
 
     @Override
-    protected void fieldAddExecute(StringBuilder annotationBuilder,String annotationTemplateClone ,Field field, StringBuilder importsBuilder){
+    protected void fieldAddExecute(StringBuilder annotationBuilder,String annotationTemplateClone ,Field field, Set<String> cloneImports){
         if (!BuildGlobalConfig.templateEntity.isJsr303Enable()) {
             log.debug("jsr_303-实体构建器不参与构建：isJsr303Enable={}",false);
             return;
@@ -30,9 +32,9 @@ public class JSR303EntityBuilder extends AnnotationEntityBuilder {
         if(!columnInfo.isNull() && !columnInfo.isPrimaryKey()){
             annotationBuilder.append(annotationTemplateClone.replace("{Annotation}",
                     "@NotNull(message=\""+ columnInfo.getDescription()+"不能为空\")"));
-            String cloneImports = template.getTemplateClones().get("cloneImports");
-            if (!importsBuilder.toString().contains("javax.validation.constraints.NotNull")) {
-                importsBuilder.append(TemplateUtils.paddingTemplate(cloneImports,"{import}","javax.validation.constraints.NotNull"));
+            String cloneImportsTemplate = template.getTemplateClones().get("cloneImports");
+            if (!cloneImports.contains("javax.validation.constraints.NotNull")) {
+                cloneImports.add(TemplateUtils.paddingTemplate(cloneImportsTemplate,"{import}","javax.validation.constraints.NotNull"));
             }
         }
     }

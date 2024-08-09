@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 {cloneImports}
 /**
  * {description}
- * author: {author}
+ * @author {author}
  * {date}
  */
 @Service

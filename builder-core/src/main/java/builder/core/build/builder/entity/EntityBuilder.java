@@ -8,10 +8,8 @@ import builder.util.TemplateUtils;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
 /**
  * 实体构建器
  * author: pengshuaifeng
@@ -72,7 +70,7 @@ public class EntityBuilder extends Builder {
         String cloneImportsTemplate = templateClones.get("cloneImports");   //获取克隆模版
         Map<String, String> cloneFieldPaddings = new HashMap<>();//克隆模版内容填充
         StringBuilder cloneFieldsBuilder = new StringBuilder();
-        StringBuilder cloneImportsBuilder = new StringBuilder(); //克隆模版内容构建
+        Set<String> cloneImports=new HashSet<>();//克隆模版内容构建
         List<Field> fields = entity.getFields();
         for (Field field : fields) {
             if (isIgnorePrimaryKey) {  //是否忽略主键字段的处理
@@ -84,18 +82,20 @@ public class EntityBuilder extends Builder {
             cloneFieldPaddings.put("{comment}", field.getColumnInfo().getDescription());
             String reference = field.getReference();
             if(!ClassUtils.ignoreReference(reference)){ //引用是否需要导入
-                cloneImportsBuilder.append(TemplateUtils.paddingTemplate(cloneImportsTemplate,"{import}", reference));
+                cloneImports.add(TemplateUtils.paddingTemplate(cloneImportsTemplate,"{import}", reference));
             }
             for (EntityBuilder entityBuilder : entityBuilders) {
                 entityBuilder.setEntity(entity);
                 entityBuilder.setIgnorePrimaryKey(isIgnorePrimaryKey);
-                entityBuilder.fieldAddExt(cloneFieldPaddings,templateClones,field,cloneImportsBuilder);
+                entityBuilder.fieldAddExt(cloneFieldPaddings,templateClones,field,cloneImports);
             }
             cloneFieldsBuilder.append(TemplateUtils.paddingTemplate(cloneFieldsTemplate,cloneFieldPaddings));
             cloneFieldPaddings = new HashMap<>();
         }
         paddings.put("{cloneFields}", cloneFieldsBuilder.toString());
-        paddings.put("{cloneImports}",cloneImportsBuilder.length()==0?"": cloneImportsBuilder.toString());
+        StringBuilder cloneImportsBuilder = new StringBuilder();
+        cloneImports.forEach(cloneImportsBuilder::append);
+        paddings.put("{cloneImports}",cloneImports.isEmpty()?"":cloneImportsBuilder.toString());
         entityBuilders.forEach(value->{
             value.setEntity(entity);
             value.setIgnorePrimaryKey(isIgnorePrimaryKey);
@@ -109,7 +109,7 @@ public class EntityBuilder extends Builder {
      * 2023/11/9 22:08
      * @author pengshuaifeng
      */
-    protected void fieldAddExt(Map<String, String> cloneFieldPaddings,Map<String, String> templateClones,Field field,StringBuilder cloneImportsBuilder){}
+    protected void fieldAddExt(Map<String, String> cloneFieldPaddings, Map<String, String> templateClones, Field field, Set<String> cloneImports){}
 
     /**
      * 全局补充扩展
