@@ -32,4 +32,14 @@ public abstract class Responder {
      *@param path 输出路径
      */
     public abstract void execute(Object fileContent,String fileName,String path);
+
+    /**
+     *响应文件
+     *2023/9/2 09:07
+     *@author pengshuaifeng
+     *@param fileContent 文件内容
+     *@param fileName 文件名
+     *@param path 绝对路径
+     */
+    public abstract void executeAbsolutely(Object fileContent,String fileName,String path);
 }

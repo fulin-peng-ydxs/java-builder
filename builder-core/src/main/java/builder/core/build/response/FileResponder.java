@@ -34,10 +34,14 @@ public class FileResponder extends Responder{
      *@param path 输出路径
      */
     public void execute(Object fileContent,String fileName,String path){
-        byte[] bytes = fileContent.toString().getBytes(StandardCharsets.UTF_8);
         String outPath = path == null ? rootPath : FileUtils.pathSeparator(rootPath,path);
-        log.info("输出文件：{}：{}",outPath,fileName);
-        FileUtils.flush(bytes,fileName, outPath);
+        executeAbsolutely(fileContent,fileName,outPath);
+    }
+
+    public void executeAbsolutely(Object fileContent,String fileName,String path){
+        byte[] bytes = fileContent.toString().getBytes(StandardCharsets.UTF_8);
+        log.info("输出文件：{}：{}",path,fileName);
+        FileUtils.flush(bytes,fileName, path);
     }
 
 }

@@ -96,7 +96,7 @@ public class MybatisBuilderProcessor {
     public void initBuildPath(){
         entityPath= StringUtils.isNotEmpty(entityPath)?entityPath:"java"+ File.separator+"entity";
         mapperPath= StringUtils.isNotEmpty(mapperPath)?mapperPath:"java"+File.separator+"mapper";
-        mapperXmlPath= StringUtils.isNotEmpty(mapperXmlPath)?mapperXmlPath:"resource"+File.separator+"mapper";
+        mapperXmlPath= StringUtils.isNotEmpty(mapperXmlPath)?mapperXmlPath:"resources"+File.separator+"mapper";
     }
 
     public void initBuilder(){
@@ -169,7 +169,7 @@ public class MybatisBuilderProcessor {
                     if(BuildGlobalConfig.templateMapper.isMapperXmlEnable())
                         buildMapperXml(mapper);
                 }
-            } log.debug("mapper构建器不参与构建：templateMapper.isBuildEnable()={}",false);
+            } else log.debug("mapper构建器不参与构建：templateMapper.isBuildEnable()={}",false);
         } else if (mybatisContent == MybatisContent.ENTITY) {
             for (Entity entity : entities) {
                 buildEntity(entity);
@@ -212,7 +212,11 @@ public class MybatisBuilderProcessor {
      */
     private void buildMapperXml(Mapper mapper){
         String mapperXmlValue = buildMapperXmlValue(mapper);
-        responder.execute(mapperXmlValue,mapper.getName()+".xml",this.mapperXmlPath);
+        if (this.rootPath.contains("java")) {
+            String rootPath=StringUtils.substring(this.rootPath,null,"java",false,true);
+            responder.executeAbsolutely(mapperXmlValue,mapper.getName()+".xml",
+                    FileUtils.pathSeparator(rootPath,this.mapperXmlPath));
+        }else responder.execute(mapperXmlValue,mapper.getName()+".xml",this.mapperXmlPath);
     }
 
 

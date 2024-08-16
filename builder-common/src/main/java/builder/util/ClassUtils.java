@@ -91,9 +91,7 @@ public class ClassUtils {
      */
     public static String generateReferencePath(String path){
         if(path.contains("java")){ //截取java后面的路径
-            String java = File.separator + "java";
-            String substringValue=path.contains(java)?java:"java";
-            path=StringUtils.substring(path, substringValue,null,false,true);
+            path=StringUtils.substring(path, "java",null,false,true);
         }
         path= StringUtils.clearChar(path,File.separatorChar,true);
         return path.replace(File.separator, ".");
