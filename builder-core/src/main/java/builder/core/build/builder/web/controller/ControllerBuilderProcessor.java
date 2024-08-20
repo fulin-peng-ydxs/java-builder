@@ -84,7 +84,7 @@ public class ControllerBuilderProcessor {
     }
 
     public void initBuildExecutor(){
-        controllerBuildExecutor = controllerBuildExecutor ==null?new ControllerBuildExecutor(): controllerBuildExecutor;
+        controllerBuildExecutor = controllerBuildExecutor ==null? ControllerBuildExecutor.INSTANCE: controllerBuildExecutor;
     }
 
     /**

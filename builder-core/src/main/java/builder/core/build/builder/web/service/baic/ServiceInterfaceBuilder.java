@@ -16,6 +16,8 @@ import java.util.Map;
  */
 public class ServiceInterfaceBuilder extends Builder {
 
+    public static final ServiceInterfaceBuilder INSTANCE = new ServiceInterfaceBuilder();
+
     public ServiceInterfaceBuilder(){
         this("/template/web/service/ServiceInterfaceTemplate.txt");
     }

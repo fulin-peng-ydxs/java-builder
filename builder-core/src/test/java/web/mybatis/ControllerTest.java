@@ -1,15 +1,16 @@
 package web.mybatis;
 
 
-import builder.core.build.builder.web.controller.ControllerBuilderProcessor;
-import builder.core.build.builder.web.controller.mybatis.MybatisControllerBuilderProcessor;
-import builder.core.build.builder.web.service.ServiceBuilderProcessor;
-import builder.core.build.builder.web.service.mybatis.MybatisServiceBuilderProcessor;
 import builder.core.build.builder.mybatis.MybatisBuilderProcessor;
 import builder.core.build.builder.mybatis.plus.MybatisPlusBuilderProcessor;
+import builder.core.build.builder.web.controller.ControllerBuilderProcessor;
+import builder.core.build.builder.web.controller.mybatis.MybatisControllerBuilderProcessor;
+import builder.core.build.builder.web.controller.mybatis.plus.MybatisPlusControllerBuildExecutor;
+import builder.core.build.builder.web.service.ServiceBuilderProcessor;
+import builder.core.build.builder.web.service.mybatis.MybatisServiceBuilderProcessor;
 import builder.model.build.config.BuildGlobalConfig;
-import builder.model.resolve.database.jdbc.DataBaseInfo;
 import builder.model.resolve.database.jdbc.ConnectionInfo;
+import builder.model.resolve.database.jdbc.DataBaseInfo;
 import com.mysql.jdbc.Driver;
 import org.junit.After;
 import org.junit.Before;
@@ -92,6 +93,7 @@ public class ControllerTest {
         //service层
         mybatisServiceBuilderProcessor = MybatisServiceBuilderProcessor.builder()
                 .mybatisPlusBuilderProcessor(mybatisPlusBuilderProcessor).serviceBuilderProcessor(serviceBuilderProcessor).build();
+        controllerBuilderProcessor.setControllerBuildExecutor(MybatisPlusControllerBuildExecutor.INSTANCE);
     }
 
 }

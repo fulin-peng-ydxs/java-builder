@@ -82,7 +82,7 @@ public class ServiceBuilderProcessor {
         serviceImplPath= StringUtils.isNotEmpty(serviceImplPath)?serviceImplPath:"java"+ File.separator+"service"+File.separator+"impl";
     }
 
-    public void initBuildResponder(){
+    public void initBuildResponder(){ //TODO 应该加入processor抽象类统一处理响应器初始化
         if(responder==null){
             responder=new FileResponder();
         }
@@ -91,8 +91,8 @@ public class ServiceBuilderProcessor {
     }
 
     public void initBuilder(){
-        serviceInterfaceBuilder=serviceInterfaceBuilder==null?new ServiceInterfaceBuilder():serviceInterfaceBuilder;
-        serviceImplBuilder=serviceImplBuilder==null?new ServiceImplBuilder():serviceImplBuilder;
+        serviceInterfaceBuilder=serviceInterfaceBuilder==null? ServiceInterfaceBuilder.INSTANCE:serviceInterfaceBuilder;
+        serviceImplBuilder=serviceImplBuilder==null? ServiceImplBuilder.INSTANCE:serviceImplBuilder;
     }
 
     /**

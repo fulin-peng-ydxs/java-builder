@@ -10,6 +10,8 @@ import builder.core.build.builder.web.service.baic.ServiceInterfaceBuilder;
  */
 public class MybatisPlusServiceInterfaceBuilder extends ServiceInterfaceBuilder {
 
+    public static final MybatisPlusServiceInterfaceBuilder INSTANCE = new MybatisPlusServiceInterfaceBuilder();
+
     public MybatisPlusServiceInterfaceBuilder(){
         this("/template/web/service/mybatis/plus/MybatisPlusServiceInterface.txt");
     }

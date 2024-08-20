@@ -11,7 +11,11 @@ import builder.core.build.builder.web.controller.basic.JSR303ControllerBuildExec
 import builder.core.build.builder.web.controller.basic.SwaggerControllerBuildExecutor;
 import builder.core.build.builder.web.controller.mybatis.MybatisControllerBuilderProcessor;
 import builder.core.build.builder.web.service.ServiceBuilderProcessor;
+import builder.core.build.builder.web.service.baic.ServiceInterfaceBuilder;
 import builder.core.build.builder.web.service.mybatis.MybatisServiceBuilderProcessor;
+import builder.core.build.builder.web.service.mybatis.basic.MybatisServiceImplBuilder;
+import builder.core.build.builder.web.service.mybatis.plus.MybatisPlusServiceImplBuilder;
+import builder.core.build.builder.web.service.mybatis.plus.MybatisPlusServiceInterfaceBuilder;
 import builder.model.build.config.BuildGlobalConfig;
 import builder.model.build.config.content.MybatisContent;
 import builder.model.build.config.content.WebContent;
@@ -42,6 +46,8 @@ public class GeneralMybatisBuilderCommon {
     //构建模版
     private String controllerTemplatePath;
     private String controllerPlusTemplatePath;
+    private  String serviceImplTemplatePath;
+    private  String serviceInterfaceTemplatePath;
 
     /**
      * 常见的mybatis构建
@@ -140,6 +146,8 @@ public class GeneralMybatisBuilderCommon {
                 .rootPath(rootPath)
                 .serviceImplPath(serviceImplPath)
                 .serviceInterfacePath(servicePath)
+                .serviceImplBuilder(serviceImplTemplatePath!=null?new MybatisServiceImplBuilder(serviceImplTemplatePath):MybatisServiceImplBuilder.INSTANCE)
+                .serviceInterfaceBuilder(serviceInterfaceTemplatePath!=null?new ServiceInterfaceBuilder(serviceInterfaceTemplatePath):ServiceInterfaceBuilder.INSTANCE)
                 .build();
         return MybatisServiceBuilderProcessor.builder()
                 .mybatisBuilderProcessor(getMybatisBuilderProcessor()).serviceBuilderProcessor(serviceBuilderProcessor).build();
@@ -150,6 +158,8 @@ public class GeneralMybatisBuilderCommon {
                 .rootPath(rootPath)
                 .serviceImplPath(serviceImplPath)
                 .serviceInterfacePath(servicePath)
+                .serviceImplBuilder(serviceImplTemplatePath!=null?new MybatisPlusServiceImplBuilder(serviceImplTemplatePath):MybatisPlusServiceImplBuilder.INSTANCE)
+                .serviceInterfaceBuilder(serviceInterfaceTemplatePath!=null?new MybatisPlusServiceInterfaceBuilder(serviceInterfaceTemplatePath):MybatisPlusServiceInterfaceBuilder.INSTANCE)
                 .build();
         return MybatisServiceBuilderProcessor.builder()
                 .mybatisPlusBuilderProcessor(getMybatisPlusBuilderProcessor()).serviceBuilderProcessor(serviceBuilderProcessor).build();
@@ -167,7 +177,6 @@ public class GeneralMybatisBuilderCommon {
         return MybatisControllerBuilderProcessor.builder()
                 .controllerBuilderProcessor(controllerBuilderProcessor)
                 .serviceBuilderProcessor(getMybatisServiceBuilderProcessor())
-                .ignoreInitControllerExecutor(true)
                 .build();
     }
 
@@ -183,7 +192,6 @@ public class GeneralMybatisBuilderCommon {
         return MybatisControllerBuilderProcessor.builder()
                 .controllerBuilderProcessor(controllerBuilderProcessor)
                 .serviceBuilderProcessor(getMybatisPlusServiceBuilderProcessor())
-                .ignoreInitControllerExecutor(true)
                 .build();
     }
 }

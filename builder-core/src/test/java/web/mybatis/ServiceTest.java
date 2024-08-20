@@ -4,6 +4,9 @@ import builder.core.build.builder.web.service.ServiceBuilderProcessor;
 import builder.core.build.builder.web.service.mybatis.MybatisServiceBuilderProcessor;
 import builder.core.build.builder.mybatis.MybatisBuilderProcessor;
 import builder.core.build.builder.mybatis.plus.MybatisPlusBuilderProcessor;
+import builder.core.build.builder.web.service.mybatis.basic.MybatisServiceImplBuilder;
+import builder.core.build.builder.web.service.mybatis.plus.MybatisPlusServiceImplBuilder;
+import builder.core.build.builder.web.service.mybatis.plus.MybatisPlusServiceInterfaceBuilder;
 import builder.model.build.config.BuildGlobalConfig;
 import builder.model.resolve.database.jdbc.DataBaseInfo;
 import builder.model.resolve.database.jdbc.ConnectionInfo;
@@ -54,6 +57,7 @@ public class ServiceTest {
                 .rootPath("/Users/pengshuaifeng/javaBuilder")
                 .build();
         //service层
+        serviceBuilderProcessor.setServiceImplBuilder(MybatisServiceImplBuilder.INSTANCE);
         MybatisServiceBuilderProcessor.builder()
                 .mybatisBuilderProcessor(mybatisBuilderProcessor).serviceBuilderProcessor(serviceBuilderProcessor).build().build(); //执行构建
     }
@@ -72,6 +76,8 @@ public class ServiceTest {
                         .rootPath("/Users/pengshuaifeng/javaBuilder")
                         .build()).build();
         //service层
+        serviceBuilderProcessor.setServiceInterfaceBuilder(MybatisPlusServiceInterfaceBuilder.INSTANCE);
+        serviceBuilderProcessor.setServiceImplBuilder(MybatisPlusServiceImplBuilder.INSTANCE);
         MybatisServiceBuilderProcessor.builder()
                 .mybatisPlusBuilderProcessor(mybatisPlusBuilderProcessor).serviceBuilderProcessor(serviceBuilderProcessor).build().build(); //执行构建
     }

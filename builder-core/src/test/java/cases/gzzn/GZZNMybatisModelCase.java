@@ -4,6 +4,7 @@ import builder.core.build.builder.web.service.ServiceBuilderProcessor;
 import builder.core.build.builder.web.service.mybatis.MybatisServiceBuilderProcessor;
 import builder.core.build.builder.mybatis.MybatisBuilderProcessor;
 import builder.core.build.builder.mybatis.plus.MybatisPlusBuilderProcessor;
+import builder.core.build.builder.web.service.mybatis.plus.MybatisPlusServiceImplBuilder;
 import builder.model.build.config.BuildGlobalConfig;
 import builder.model.resolve.database.jdbc.DataBaseInfo;
 import builder.model.resolve.database.jdbc.ConnectionInfo;
@@ -58,6 +59,7 @@ public class GZZNMybatisModelCase {
                         .mapperXmlPath("\\resources\\business\\mapping\\ext\\process\\notify")
                         .build()).build();
         //service层
+        serviceBuilderProcessor.setServiceImplBuilder(MybatisPlusServiceImplBuilder.INSTANCE);
         MybatisServiceBuilderProcessor.builder()
                 .mybatisPlusBuilderProcessor(mybatisPlusBuilderProcessor).serviceBuilderProcessor(serviceBuilderProcessor).build().build(); //执行构建
     }

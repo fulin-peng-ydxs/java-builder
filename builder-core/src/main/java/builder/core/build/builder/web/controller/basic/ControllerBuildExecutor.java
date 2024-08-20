@@ -19,6 +19,8 @@ import java.util.*;
 @Getter
 public class ControllerBuildExecutor extends Builder {
 
+    public static final ControllerBuildExecutor INSTANCE = new ControllerBuildExecutor();
+
     private final Collection<ControllerBuildExecutor> controllerBuildExecutors;
 
     public ControllerBuildExecutor(){

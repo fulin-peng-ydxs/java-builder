@@ -10,6 +10,8 @@ import builder.core.build.builder.web.controller.basic.ControllerBuildExecutor;
  */
 public class MybatisPlusControllerBuildExecutor extends ControllerBuildExecutor {
 
+    public static final MybatisPlusControllerBuildExecutor INSTANCE = new MybatisPlusControllerBuildExecutor();
+
     public MybatisPlusControllerBuildExecutor(){
         this("/template/web/controller/mybatis/plus/MybatisPlusControllerTemplate.txt");
     }

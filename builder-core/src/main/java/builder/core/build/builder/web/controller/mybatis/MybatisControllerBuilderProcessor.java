@@ -1,7 +1,6 @@
 package builder.core.build.builder.web.controller.mybatis;
 
 import builder.core.build.builder.web.controller.ControllerBuilderProcessor;
-import builder.core.build.builder.web.controller.mybatis.plus.MybatisPlusControllerBuildExecutor;
 import builder.core.build.builder.web.service.mybatis.MybatisServiceBuilderProcessor;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,35 +20,14 @@ public class MybatisControllerBuilderProcessor {
 
     private MybatisServiceBuilderProcessor serviceBuilderProcessor;
 
-    private boolean ignoreInitControllerExecutor;
-
     /**
      * 构建器创建
      * 2023/9/24 16:21
      * @author pengshuaifeng
      */
-    MybatisControllerBuilderProcessor(ControllerBuilderProcessor controllerBuilderProcessor, MybatisServiceBuilderProcessor serviceBuilder,
-                                      boolean ignoreInitControllerExecutor){
+    MybatisControllerBuilderProcessor(ControllerBuilderProcessor controllerBuilderProcessor, MybatisServiceBuilderProcessor serviceBuilder){
         this.controllerBuilderProcessor = controllerBuilderProcessor;
         this.serviceBuilderProcessor=serviceBuilder;
-        this.ignoreInitControllerExecutor=ignoreInitControllerExecutor;
-        init();
-    }
-
-    /**
-     * 构建器初始化
-     * 2023/9/24 16:22
-     * @author pengshuaifeng
-     */
-    private void init(){
-        initBuildExecutor();
-    }
-
-    public void initBuildExecutor(){
-        if(!ignoreInitControllerExecutor){
-            if(serviceBuilderProcessor.getMybatisPlusBuilderProcessor()!=null)  //使用mybatis-plus模型
-                controllerBuilderProcessor.setControllerBuildExecutor(new MybatisPlusControllerBuildExecutor());
-        }
     }
 
     /**

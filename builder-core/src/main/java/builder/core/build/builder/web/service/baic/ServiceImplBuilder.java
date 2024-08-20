@@ -11,6 +11,7 @@ import builder.model.build.web.service.Service;
  */
 public class ServiceImplBuilder extends Builder {
 
+    public static final ServiceImplBuilder INSTANCE = new ServiceImplBuilder();
     public ServiceImplBuilder(){};
 
     public ServiceImplBuilder(String templatePath){

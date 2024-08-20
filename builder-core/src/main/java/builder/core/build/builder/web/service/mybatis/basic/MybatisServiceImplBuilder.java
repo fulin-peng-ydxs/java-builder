@@ -20,6 +20,8 @@ import java.util.Map;
  */
 public class MybatisServiceImplBuilder extends ServiceImplBuilder {
 
+    public static final MybatisServiceImplBuilder INSTANCE = new MybatisServiceImplBuilder();
+
     public MybatisServiceImplBuilder(){
         this("/template/web/service/mybatis/MybatisServiceImpl.txt");
     }

@@ -3,9 +3,6 @@ package builder.core.build.builder.web.service.mybatis;
 import builder.core.build.builder.mybatis.MybatisBuilderProcessor;
 import builder.core.build.builder.mybatis.plus.MybatisPlusBuilderProcessor;
 import builder.core.build.builder.web.service.ServiceBuilderProcessor;
-import builder.core.build.builder.web.service.mybatis.basic.MybatisServiceImplBuilder;
-import builder.core.build.builder.web.service.mybatis.plus.MybatisPlusServiceImplBuilder;
-import builder.core.build.builder.web.service.mybatis.plus.MybatisPlusServiceInterfaceBuilder;
 import builder.model.build.config.content.MybatisContent;
 import builder.model.build.orm.entity.Entity;
 import builder.model.build.orm.mybatis.Mapper;
@@ -34,40 +31,16 @@ public class MybatisServiceBuilderProcessor {
     private MybatisBuilderProcessor mybatisBuilderProcessor;
     private MybatisPlusBuilderProcessor mybatisPlusBuilderProcessor;
 
-    private boolean ignoreInitServiceImplBuilder;
-    private boolean ignoreInitServiceInterfaceBuilder;
-
     /**
      * 构建器创建
      * 2023/9/23 17:54
      * @author pengshuaifeng
      */
     MybatisServiceBuilderProcessor(ServiceBuilderProcessor serviceBuilderProcessor, MybatisBuilderProcessor mybatisBuilderProcessor,
-                                   MybatisPlusBuilderProcessor mybatisPlusBuilderProcessor,boolean ignoreInitServiceImplBuilder,boolean ignoreInitServiceInterfaceBuilder){
+                                   MybatisPlusBuilderProcessor mybatisPlusBuilderProcessor){
         this.serviceBuilderProcessor = serviceBuilderProcessor;
         this.mybatisBuilderProcessor = mybatisBuilderProcessor;
         this.mybatisPlusBuilderProcessor = mybatisPlusBuilderProcessor;
-        this.ignoreInitServiceImplBuilder=ignoreInitServiceImplBuilder;
-        this.ignoreInitServiceInterfaceBuilder=ignoreInitServiceInterfaceBuilder;
-        init();
-    }
-
-    /**
-     * 构建器初始化
-     * 2023/9/23 11:00
-     * @author pengshuaifeng
-     */
-    private void init(){
-        initBuilder();
-    }
-
-    public void initBuilder(){
-        if(mybatisPlusBuilderProcessor !=null){  //使用mybatis-plus模型
-            if(!ignoreInitServiceImplBuilder) serviceBuilderProcessor.setServiceImplBuilder(new MybatisPlusServiceImplBuilder());
-            if(!ignoreInitServiceInterfaceBuilder)serviceBuilderProcessor.setServiceInterfaceBuilder(new MybatisPlusServiceInterfaceBuilder());
-        }else{
-            serviceBuilderProcessor.setServiceImplBuilder(new MybatisServiceImplBuilder());  //使用mybatis模型
-        }
     }
 
 
