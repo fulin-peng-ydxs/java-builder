@@ -10,7 +10,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public abstract class Responder {
+public abstract class Responder {  //TODO 对于一次构建，应该只有一个响应器
 
     //响应根路径
     protected String rootPath;
