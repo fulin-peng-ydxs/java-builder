@@ -15,6 +15,11 @@ public class {Service} extends ServiceImpl<{Mapper},{Entity}> implements {Servic
     public String getHandleUrl() {
         return "";
     }
+
+    @Override
+    public Class<?> getModelType() {
+        return {Entity}.class;
+    }
 }
 
 

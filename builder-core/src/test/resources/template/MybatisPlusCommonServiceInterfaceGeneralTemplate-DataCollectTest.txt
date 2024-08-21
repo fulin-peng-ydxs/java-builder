@@ -8,4 +8,4 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author {author}
  * {date}
  */
-public interface {Service}  extends IService<{Entity}>,DataCollectService<{Entity}> {}
+public interface {Service}  extends IService<{Entity}>,DataCollectService {}
