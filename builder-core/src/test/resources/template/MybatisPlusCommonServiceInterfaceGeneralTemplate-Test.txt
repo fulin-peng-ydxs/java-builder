@@ -1,0 +1,11 @@
+package {package};
+
+import com.gzzn.product.data.collect.service.core.DataCollectService;
+import com.baomidou.mybatisplus.extension.service.IService;
+{cloneImports}
+/**
+ * {description}
+ * @author {author}
+ * {date}
+ */
+public interface {Service}  extends IService<{Entity}>,DataCollectService<{Entity}> {}
