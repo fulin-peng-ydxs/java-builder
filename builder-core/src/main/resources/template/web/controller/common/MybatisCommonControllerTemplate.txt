@@ -31,10 +31,10 @@ public class {Controller}{
     /**保存*/
     @ApiOperation(value="保存",notes = "保存{entityDescription}",produces = "application/json;charset=utf-8")
     @RequestMapping(value = "/save",method = RequestMethod.POST,produces = "application/json;charset=utf-8")
-    public Map<String,Object> save(@ApiParam(value = "请求体参数",required = true) @RequestBody {Entity} {entity}){
+    public Map<String,Object> saveOrUpdate(@ApiParam(value = "请求体参数",required = true) @RequestBody {Entity} {entity}){
         log.debug("进入-保存{entityDescription}服务：{}",{entity});
         Map<String,Object> result= new HashMap<>();
-        result.put("total",{service}.save({entity}));
+        result.put("total",{service}.saveOrUpdate({entity}));
         result.put("status",true);
         result.put("msg","请求成功");
         log.debug("退出-{entityDescription}服务：{}",result);
@@ -44,10 +44,10 @@ public class {Controller}{
     /**批量保存*/
     @ApiOperation(value="批量保存",notes = "批量保存{entityDescription}",produces = "application/json;charset=utf-8")
     @RequestMapping(value = "/saveBatch",method = RequestMethod.POST,produces = "application/json;charset=utf-8")
-    public Map<String,Object> saveBatch(@ApiParam(value = "请求体参数",required = true) @RequestBody List<{Entity}> {entity}s){
+    public Map<String,Object> saveOrUpdateBatch(@ApiParam(value = "请求体参数",required = true) @RequestBody List<{Entity}> {entity}s){
         log.debug("进入-批量保存{entityDescription}服务：{}",{entity}s);
         Map<String,Object> result = new HashMap<>();
-        result.put("total",{service}.saveBatch({entity}s));
+        result.put("total",{service}.saveOrUpdateBatch({entity}s));
         result.put("status",true);
         result.put("msg","请求成功");
         log.debug("退出-批量保存{entityDescription}服务：{}",result);

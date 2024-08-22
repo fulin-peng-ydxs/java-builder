@@ -36,9 +36,9 @@ public class {Controller}{
 
     @ApiOperation(value="保存",notes = "保存{entityDescription}",produces = "application/json;charset=utf-8")
     @RequestMapping(value = "/save",method = RequestMethod.POST,produces = "application/json;charset=utf-8")
-    public Response<Long> save(@ApiParam(value = "请求参数",required = true) @RequestBody {Entity} {entity}){
+    public Response<Long> saveOrUpdate(@ApiParam(value = "请求参数",required = true) @RequestBody {Entity} {entity}){
         log.debug("进入-保存{entityDescription}服务：{}",{entity});
-        {service}.save({entity});
+        {service}.saveOrUpdate({entity});
         {PrimaryKeyField} {primaryKeyField} = {entity}.{getPrimaryKeyField};
         log.debug("退出-{entityDescription}服务：{}",{primaryKeyField});
         return Response.success({primaryKeyField});
@@ -46,9 +46,9 @@ public class {Controller}{
 
     @ApiOperation(value="批量保存",notes = "批量保存{entityDescription}",produces = "application/json;charset=utf-8")
     @RequestMapping(value = "/saveBatch",method = RequestMethod.POST,produces = "application/json;charset=utf-8")
-    public Response<Integer> saveBatch(@ApiParam(value = "请求参数",required = true) @RequestBody List<{Entity}> {entity}s){
+    public Response<Integer> saveOrUpdateBatch(@ApiParam(value = "请求参数",required = true) @RequestBody List<{Entity}> {entity}s){
         log.debug("进入-批量保存{entityDescription}服务：{}",{entity}s);
-        {service}.saveBatch({entity}s);
+        {service}.saveOrUpdateBatch({entity}s);
         log.debug("退出-批量保存{entityDescription}服务：{}",{entity}s.size());
         return Response.success({entity}s.size());
     }
