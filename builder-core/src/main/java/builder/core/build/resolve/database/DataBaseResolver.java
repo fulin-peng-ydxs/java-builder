@@ -146,7 +146,8 @@ public abstract class DataBaseResolver {
             columnInfo.setName(fieldName);
             columnInfo.setType(resultSet.getString("dataType"));
             String fieldLengthString = resultSet.getString("fieldLength");
-            int length= fieldLengthString == null ? 0 : Integer.parseInt(fieldLengthString);
+            int length= fieldLengthString == null ? 0 :
+                    fieldLengthString.length()>=4?0:Integer.parseInt(fieldLengthString);
             String comment = resultSet.getString("fieldComment");
             boolean isNull= ColumnMapper.mapperNullType(resultSet.getString("isNull"));
             boolean isPrimaryKey = ColumnMapper.mapperPrimaryKey(resultSet.getString("isPrimaryKey")) ||
