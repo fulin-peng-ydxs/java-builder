@@ -73,7 +73,10 @@ public abstract class DataBaseResolver {
                 }
             }
             for (ResultSet resultSet : resultSets) {
-                tableInfos.add(getTable(resultSet));
+                TableInfo table = getTable(resultSet);
+                if(table !=null){
+                    tableInfos.add(table);
+                }
             }
             return tableInfos;
         }catch (Exception e) {
@@ -107,11 +110,13 @@ public abstract class DataBaseResolver {
      */
     protected TableInfo getTable(ResultSet resultSet){
         try {
+            if(!resultSet.next())
+                return null;
             TableInfo tableInfo = new TableInfo();
             String tableName=null;
             String tableDescription=null;
             LinkedList<ColumnInfo> columnInfos = new LinkedList<>();
-            while (resultSet.next()) {
+            do{
                 if(tableName==null){
                     tableName=resultSet.getString("tableName");
                 }
@@ -123,7 +128,7 @@ public abstract class DataBaseResolver {
                     tableInfo.setPrimaryColumnInfo(columnInfo);
                 }
                 columnInfos.add(columnInfo);
-            }
+            }while(resultSet.next());
             tableInfo.setColumnInfos(columnInfos);
             tableInfo.setName(tableName);
             tableInfo.setDescription(tableDescription==null?tableName:tableDescription);
