@@ -31,13 +31,13 @@ public enum SQL {
             "     WHERE cons.constraint_type = 'P'\n" +
             "       AND cons.constraint_name = cols.constraint_name\n" +
             "       AND cons.table_name = cols.table_name\n" +
-            "       AND cons.table_name = ?) pk\n" +
+            "       AND cons.table_name = ? AND cols.owner=?) pk\n" +
             "ON \n" +
             "    col.column_name = pk.column_name\n" +
             "LEFT JOIN \n" +
             "    (SELECT comm.column_name, comm.comments\n" +
             "     FROM dba_col_comments comm\n" +
-            "     WHERE comm.table_name = ?) comm\n" +
+            "     WHERE comm.table_name = ? AND comm.owner=?) comm\n" +
             "ON \n" +
             "    col.column_name = comm.column_name\n" +
             "LEFT JOIN \n" +
