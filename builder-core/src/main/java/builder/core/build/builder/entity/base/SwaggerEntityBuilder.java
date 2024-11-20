@@ -29,6 +29,8 @@ public class SwaggerEntityBuilder extends AnnotationEntityBuilder {
         }
         annotationBuilder.append(annotationTemplateClone.replace("{Annotation}",
                 "@ApiModelProperty(value =\""+field.getColumnInfo().getDescription()+"\""+
-                        (field.getColumnInfo().isNull() ? "":",required = true")+")"));
+                        (!BuildGlobalConfig.templateEntity.getIgnoreNotNullMarkFields().contains(field.getName()) &&  !field.getColumnInfo().isNull() ?
+                                ",required = true":"")
+                        +")"));
     }
 }

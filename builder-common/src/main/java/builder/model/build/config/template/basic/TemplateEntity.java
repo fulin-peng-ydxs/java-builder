@@ -3,6 +3,9 @@ package builder.model.build.config.template.basic;
 
 import lombok.Data;
 
+import java.util.Collections;
+import java.util.List;
+
 /**
  * entity模版
  *
@@ -21,5 +24,7 @@ public class TemplateEntity {
     private boolean swaggerEnable=true;
 
     private boolean dictEnable=false;
+
+    private List<String> ignoreNotNullMarkFields= Collections.emptyList();
 
 }

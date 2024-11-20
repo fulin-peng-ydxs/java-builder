@@ -28,7 +28,7 @@ public class JSR303EntityBuilder extends AnnotationEntityBuilder {
             return;
         }
         ColumnInfo columnInfo = field.getColumnInfo();
-        if(!columnInfo.isNull() && !columnInfo.isPrimaryKey()){
+        if(!columnInfo.isNull() && !columnInfo.isPrimaryKey()  && !BuildGlobalConfig.templateEntity.getIgnoreNotNullMarkFields().contains(field.getName())){
             fieldGeneralPadding(annotationBuilder, "@NotNull(message=\""+ columnInfo.getDescription()+"不能为空\")",annotationTemplateClone,
                     "javax.validation.constraints.NotNull",cloneImports);
         }
