@@ -60,8 +60,8 @@ public class GZZNMybatisCommonModelCase {
                 .mapperPath(properties.get("path.mapperPath").toString())
                 .mapperXmlPath(properties.get("path.mapperXmlPath").toString())
                 .controllerPlusTemplatePath("/template/MybatisPlusCommonControllerGeneralTemplate-Test.txt") //controller模版自定义
-                .serviceInterfaceTemplatePath("/template/MybatisPlusCommonServiceInterfaceGeneralTemplate-DataCollectTest.txt")
-                .serviceImplTemplatePath("/template/MybatisPlusCommonServiceImplGeneralTemplate-DataCollectTest.txt")
+//                .serviceInterfaceTemplatePath("/template/MybatisPlusCommonServiceInterfaceGeneralTemplate-DataCollectTest.txt")
+//                .serviceImplTemplatePath("/template/MybatisPlusCommonServiceImplGeneralTemplate-DataCollectTest.txt")
                 .build();
     }
 
