@@ -23,7 +23,9 @@ import java.util.Set;
 public class AnnotationEntityBuilder extends EntityBuilder {
 
     // 时间格式
-    protected String dateFormat= DateUtils.defaultFormat;
+    protected String dateTimeFormat= DateUtils.defaultFormat;
+
+    protected String dateFormat= DateUtils.defaultDateFormat;
 
     public AnnotationEntityBuilder(){
         this("/template/basic/AnnotationEntityTemplate.txt");
@@ -76,7 +78,8 @@ public class AnnotationEntityBuilder extends EntityBuilder {
         //时间字段补充  //TODO 目前时间仅支持Date类型
         if(field.getType()==Date.class){
             if (annotationsValue==null || !annotationsValue.contains("@JsonFormat")) {
-                annotationBuilder.append(annotationTemplateClone.replace("{Annotation}",String.format("@JsonFormat(pattern =\"%s\", timezone = \"GMT+8\")",dateFormat)));
+                annotationBuilder.append(annotationTemplateClone.replace("{Annotation}",String.format("@JsonFormat(pattern =\"%s\", timezone = \"GMT+8\")",
+                        field.getTimeType() == Field.TimeType.DATETIME  ?dateTimeFormat:dateFormat)));
                 String cloneImportsTemplate = template.getTemplateClones().get("cloneImports");
                 cloneImports.add(TemplateUtils.paddingTemplate(cloneImportsTemplate,"{import}","com.fasterxml.jackson.annotation.JsonFormat"));
             }

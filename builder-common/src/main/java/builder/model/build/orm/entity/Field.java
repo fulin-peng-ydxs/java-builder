@@ -21,4 +21,12 @@ public class Field {
     private Class<?> type;
     //列信息
     private ColumnInfo columnInfo;
+
+    //时间类型
+    private TimeType timeType;
+
+    public  enum TimeType{
+        DATE,
+        DATETIME
+    }
 }

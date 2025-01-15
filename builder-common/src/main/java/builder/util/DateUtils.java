@@ -22,6 +22,7 @@ import java.util.Date;
 public class DateUtils {
 
     public static final String defaultFormat="yyyy-MM-dd HH:mm:ss";
+    public static final String defaultDateFormat="yyyy-MM-dd";
 
     //默认DateFormat
     public static final DateFormat format = new SimpleDateFormat(defaultFormat);

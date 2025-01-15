@@ -149,7 +149,8 @@ public abstract class DataBaseResolver {
             ColumnInfo columnInfo = new ColumnInfo();
             String fieldName = resultSet.getString("columnName");
             columnInfo.setName(fieldName);
-            columnInfo.setType(resultSet.getString("dataType"));
+            String dataType = resultSet.getString("dataType");
+            columnInfo.setType(dataType);
             String fieldLengthString = resultSet.getString("fieldLength");
             int length= fieldLengthString == null ? 0 :
                     fieldLengthString.length()>=4?0:Integer.parseInt(fieldLengthString);

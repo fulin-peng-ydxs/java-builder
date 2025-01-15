@@ -10,6 +10,7 @@ import builder.model.resolve.database.ColumnInfo;
 import builder.model.resolve.database.TableInfo;
 import builder.util.ClassUtils;
 
+import java.sql.Date;
 import java.util.LinkedList;
 
 /**
@@ -43,6 +44,10 @@ public class EntityConvertor {
             fields.add(field);
             if(columnInfo.isPrimaryKey()){
                 entity.setPrimaryField(field);
+            }
+            if(field.getType()== Date.class){
+                boolean onlyDate = FieldType.isOnlyDate(columnInfo.getType());
+                field.setTimeType(onlyDate ? Field.TimeType.DATE : Field.TimeType.DATETIME);
             }
         }
         entity.setTableInfo(tableInfo);

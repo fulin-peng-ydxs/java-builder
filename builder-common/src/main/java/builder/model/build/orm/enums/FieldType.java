@@ -37,4 +37,8 @@ public enum FieldType {
             return BIG_INT;
         else return STRING;
     }
+
+    public static boolean isOnlyDate(String dataBaseType){
+        return "date".equalsIgnoreCase(dataBaseType);
+    }
 }
