@@ -9,8 +9,7 @@ import builder.model.build.orm.enums.FieldType;
 import builder.model.resolve.database.ColumnInfo;
 import builder.model.resolve.database.TableInfo;
 import builder.util.ClassUtils;
-
-import java.sql.Date;
+import java.util.Date;
 import java.util.LinkedList;
 
 /**
